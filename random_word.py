@@ -1,7 +1,7 @@
 import random
 
 
-class RandomWord:
+class random_word:
     def __init__(self):
         word_file = open('words.txt', "r")
         words = word_file.readlines()
