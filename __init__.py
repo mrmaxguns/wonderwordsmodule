@@ -1,1 +1,1 @@
-from random_word import
+from random_word import random_word
