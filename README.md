@@ -2,7 +2,10 @@
 Wonderwords is a python library for dealing with getting words in the english language.
 
 ## Installation
-Wonderwords is still in progress.
+Currently only on Test Pypi: https://test.pypi.org/project/wonderwords-mrmaxguns/#description
+```shell script
+pip install -i https://test.pypi.org/simple/ wonderwords-mrmaxguns
+```
 
 ## Usage
 ```python
