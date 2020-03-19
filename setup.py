@@ -8,6 +8,7 @@ setuptools.setup(
     version="0.0.1",
     author="Maxim Rebguns",
     author_email="mrmaxguns@gmail.com",
+    include_package_data = True,
     description="A simple package for words in the english language",
     long_description=long_description,
     long_description_content_type="text/markdown",
