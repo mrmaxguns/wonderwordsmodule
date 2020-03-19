@@ -1,5 +1,6 @@
 # Wonderwords
 [![GitHub license](https://img.shields.io/github/license/mrmaxguns/wonderwordsmodule)](https://github.com/mrmaxguns/wonderwordsmodule/blob/master/LICENSE)
+[![GitHub stars](https://img.shields.io/github/stars/mrmaxguns/wonderwordsmodule)](https://github.com/mrmaxguns/wonderwordsmodule/stargazers)
 
 Wonderwords is a python library for dealing with getting words in the english language.
 
