@@ -22,6 +22,22 @@ class random_sentence:
         self.adjective = strip_newline(adjectives)
 
     def bare_bone_sentence(self):
-        thenoun = random.choice(self.noun)
-        theverb = random.choice(self.verb)
-        return 'The %s %ss' % (thenoun, theverb)
+        the_noun = random.choice(self.noun)
+        the_verb = random.choice(self.verb)
+
+        if the_verb[-1] == 'h' and (the_verb[-2] == 's' or the_verb[-2] == 'c'):
+            return 'The %s %ses.' % (the_noun, the_verb)
+
+        elif the_verb[-1] == 'y':
+            the_verb_list = list(the_verb)
+            del the_verb_list[-1]
+            the_new_verb = ''.join(the_verb_list)
+            return 'The %s %sies.' % (the_noun, the_new_verb)
+
+        elif the_verb[-1] == 's' and the_verb[-2] == 's':
+            return 'The %s %ses.' % (the_noun, the_verb)
+
+        else:
+            return 'The %s %ss.' % (the_noun, the_verb)
+
+print(random_sentence().bare_bone_sentence())
