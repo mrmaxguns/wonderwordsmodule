@@ -1,7 +1,7 @@
 # Wonderwords
-Wonderwords is a python library for dealing with getting words in the english language.
-
 [![GitHub license](https://img.shields.io/github/license/mrmaxguns/wonderwordsmodule)](https://github.com/mrmaxguns/wonderwordsmodule/blob/master/LICENSE)
+
+Wonderwords is a python library for dealing with getting words in the english language.
 
 ## Installation
 Currently only on Test Pypi: https://test.pypi.org/project/wonderwords-mrmaxguns/#description
