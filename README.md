@@ -12,7 +12,7 @@ pip install -i https://test.pypi.org/simple/ wonderwords-mrmaxguns
 
 ## Usage
 ```python
-from wonderwords import random_word
+from wonderwords.getword import random_word
 
 ww = random_word()
 
