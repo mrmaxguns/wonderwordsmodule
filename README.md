@@ -17,12 +17,12 @@ pip install -i https://test.pypi.org/simple/ wonderwords-mrmaxguns
 ## Usage example
 
 ```python
-from wonderwords.getword import random_word
+from wonderwords import random_word
 
-ww = random_word()
+ww = random_word.random_word()
 
 #Get a random word
-random_word = ww.word()
+a_random_word = ww.word()
 
 #Get a list of 5 random words
 list_of_words = ww.words_list(5)
