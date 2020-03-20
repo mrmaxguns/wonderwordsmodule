@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="wonderwords_mrmaxguns",
-    version="0.1.1",
+    version="0.1.2",
     author="Maxim Rebguns",
     author_email="mrmaxguns@gmail.com",
     include_package_data=True,
@@ -21,5 +21,4 @@ setuptools.setup(
         "Operating System :: OS Independent",
     ],
     python_requires='>=3.6',
-    install_requires=['random'],
 )
