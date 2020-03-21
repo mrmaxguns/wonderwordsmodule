@@ -54,49 +54,52 @@ class random_word:
         self.dict_words_list = strip_newline(words)
 
     # Word function chooses a random word from the dict_words_list
-    def word(self, include_parts_of_speech='all'):
+    def word(self, include_parts_of_speech=''):
         list_of_words_to_choose_from = []
+        something_chosen = False
 
         if 'noun' in include_parts_of_speech:
             list_of_words_to_choose_from.extend(self.noun)
+            something_chosen = True
         if 'verb' in include_parts_of_speech:
             list_of_words_to_choose_from.extend(self.verb)
+            something_chosen = True
         if 'adjective' in include_parts_of_speech:
             list_of_words_to_choose_from.extend(self.adjective)
-        else:
-            return random.choice(self.dict_words_list)
+            something_chosen = True
+        if not something_chosen:
+            list_of_words_to_choose_from = self.noun + self.verb + self.adjective
+
+        return random.choice(list_of_words_to_choose_from)
 
     # Words_list function chooses a certain amount of random word and returns them as a list
-    def words_list(self, amount, part_of_speech=None):
-        if part_of_speech == 'noun':
-            list_of_choice = self.noun
-        elif part_of_speech == 'verb':
-            list_of_choice = self.verb
-        elif part_of_speech == 'adjective':
-            list_of_choice = self.adjective
-        else:
-            list_of_choice = self.dict_words_list
-
+    def words_list(self, amount, include_parts_of_speech=''):
         list_of_words = []
-        for w in range(amount):
-            list_of_words.append(random.choice(list_of_choice))
+        for every_word in range(amount):
+            list_of_words.append(self.word(include_parts_of_speech))
 
         return list_of_words
 
     # Starts with chooses a random word from the words that start with a certain letter
-    def starts_with(self, letter, part_of_speech=None):
-        if part_of_speech == 'noun':
-            list_of_choice = self.noun
-        elif part_of_speech == 'verb':
-            list_of_choice = self.verb
-        elif part_of_speech == 'adjective':
-            list_of_choice = self.adjective
-        else:
-            list_of_choice = self.dict_words_list
+    def starts_with(self, letter, include_parts_of_speech=''):
+        list_of_words_to_choose_from = []
+        something_chosen = False
+
+        if 'noun' in include_parts_of_speech:
+            list_of_words_to_choose_from.extend(self.noun)
+            something_chosen = True
+        if 'verb' in include_parts_of_speech:
+            list_of_words_to_choose_from.extend(self.verb)
+            something_chosen = True
+        if 'adjective' in include_parts_of_speech:
+            list_of_words_to_choose_from.extend(self.adjective)
+            something_chosen = True
+        if not something_chosen:
+            list_of_words_to_choose_from = self.noun + self.verb + self.adjective
 
         list_of_words_that_start_with_letter = []
 
-        for i in list_of_choice:
+        for i in list_of_words_to_choose_from:
             if i[0] == letter:
                 list_of_words_that_start_with_letter.append(i)
 

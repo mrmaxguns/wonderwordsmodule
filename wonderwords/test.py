@@ -1,14 +1,12 @@
-import random
-try:
-    import importlib.resources as pkg_resources
-except ImportError:
-    import importlib_resources as pkg_resources
+a = True
+b = False
+c = True
 
-test = pkg_resources.open_text('wonderwords', 'words.txt').readlines()
-
-# Strip all newlines from the words
-words_newline_stripped = []
-for w in test:
-    words_newline_stripped.append(w.rstrip())
-
-print(random.choice(words_newline_stripped))
+if b:
+    print('a')
+if b:
+    print('b')
+if b:
+    print('c')
+else:
+    print('bob')
