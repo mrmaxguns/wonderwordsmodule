@@ -22,8 +22,8 @@ Please make sure to check out our full documentation at https://github.com/mrmax
 ## Requirements
 Wonderwords requires:
 * At least python 3.6
-* The random package (usually installed with python)
-* The importlib_resources OR importlib.resources package
+* The [random](https://docs.python.org/3/library/random.html) package (usually installed with python)
+* [importlib_resources](https://pypi.org/project/importlib-resources/) **OR** [importlib.resources](https://pypi.org/project/importlib/)
 
 
 ***
