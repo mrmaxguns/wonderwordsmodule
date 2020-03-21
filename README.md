@@ -1,5 +1,5 @@
 # Welcome To Wonderwords
-Newest version: v1.0.0
+Latest version: v1.0.2
 
 Welcome to the readme. Here you can find basic info about what wonderwords is about.
 
