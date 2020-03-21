@@ -6,7 +6,7 @@ Welcome to the readme. Here you can find basic info about what wonderwords is ab
 Wonderwords is an open source project and python package that helps python developers add random words and sentences to their programs.
 Wonderwords has multiple functions which return random words, lists of random words and even random sentences.
 Please make sure to check out our full documentation at https://github.com/mrmaxguns/wonderwordsmodule/wiki/Wonderwords-Documentation.
-**Wonderwords is still in the experimental stage so please notify us of any errors that you come across.**
+
 
 ***
 ## Table of Contents
