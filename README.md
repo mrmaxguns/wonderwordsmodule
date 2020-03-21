@@ -13,6 +13,7 @@ Please make sure to check out our full documentation at https://github.com/mrmax
 * [Requirements](#Requirements)
 * [Installation](#Installation)
 * [Importing Wonderwords](#Import)
+* [Basic Usage](#Usage)
 * [License](#License)
 * [Contribution](#Contribution)
 * [Usage documentation and sub-modules](#Documentation)
@@ -47,6 +48,9 @@ Please make sure you have installed wonderwords before importing it. To import w
 import wonderwords
 ```
 If an error occurs make sure you have installed wonderwords and that you do not have a python program also called wonderwords in the working directory.
+
+***
+## Usage
 
 ***
 ## License
