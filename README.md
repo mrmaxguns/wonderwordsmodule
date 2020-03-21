@@ -1,4 +1,6 @@
 # Welcome To Wonderwords
+Newest version: v1.0.0
+
 Welcome to the readme. Here you can find basic info about what wonderwords is about.
 
 Wonderwords is an open source project and python package that helps python developers add random words and sentences to their programs.
@@ -21,7 +23,7 @@ Please make sure to check out our full documentation at https://github.com/mrmax
 Wonderwords requires:
 * At least python 3.6
 * The random package (usually installed with python)
-* The importlib_resources package
+* The importlib_resources OR importlib.resources package
 
 
 ***
