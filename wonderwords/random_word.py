@@ -54,13 +54,15 @@ class random_word:
         self.dict_words_list = strip_newline(words)
 
     # Word function chooses a random word from the dict_words_list
-    def word(self, part_of_speech=None):
-        if part_of_speech == 'noun':
-            return random.choice(self.noun)
-        elif part_of_speech == 'verb':
-            return random.choice(self.verb)
-        elif part_of_speech == 'adjective':
-            return random.choice(self.adjective)
+    def word(self, include_parts_of_speech='all'):
+        list_of_words_to_choose_from = []
+
+        if 'noun' in include_parts_of_speech:
+            list_of_words_to_choose_from.extend(self.noun)
+        if 'verb' in include_parts_of_speech:
+            list_of_words_to_choose_from.extend(self.verb)
+        if 'adjective' in include_parts_of_speech:
+            list_of_words_to_choose_from.extend(self.adjective)
         else:
             return random.choice(self.dict_words_list)
 
