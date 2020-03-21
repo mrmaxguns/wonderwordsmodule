@@ -5,8 +5,11 @@ import random
 class random_word:
     # Initialize some important variables
     def __init__(self):
+        from importlib_resources import files
+        word_file_path = files('wonderwords').joinpath('words.txt')
+
         # Open and read the file containing the words
-        word_file = open('words.txt', "r")
+        word_file = open(word_file_path, "r")
         words = word_file.readlines()
 
         # Strip all newlines from the words

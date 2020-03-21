@@ -3,9 +3,14 @@ import random
 
 class random_sentence:
     def __init__(self):
-        noun_file = open('nounlist.txt', 'r')
-        adjective_file = open('adjectivelist.txt', 'r')
-        verb_file = open('verblist.txt', 'r')
+        from importlib_resources import files
+        noun_file_path = files('wonderwords').joinpath('nounlist.txt')
+        adjective_file_path = files('wonderwords').joinpath('adjectivelist.txt')
+        verb_file_path = files('wonderwords').joinpath('verblist.txt')
+
+        noun_file = open(noun_file_path, 'r')
+        adjective_file = open(adjective_file_path, 'r')
+        verb_file = open(verb_file_path, 'r')
 
         nouns = noun_file.readlines()
         adjectives = adjective_file.readlines()
@@ -39,5 +44,3 @@ class random_sentence:
 
         else:
             return 'The %s %ss.' % (the_noun, the_verb)
-
-print(random_sentence().bare_bone_sentence())
