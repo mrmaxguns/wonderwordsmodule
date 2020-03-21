@@ -35,34 +35,66 @@ class random_word:
         except ImportError:
             import importlib_resources as pkg_resources
 
-        # Read words.txt
+        # Read the files
+        nouns = pkg_resources.open_text('wonderwords', 'nounlist.txt').readlines()
+        adjectives = pkg_resources.open_text('wonderwords', 'adjectivelist.txt').readlines()
+        verbs = pkg_resources.open_text('wonderwords', 'verblist.txt').readlines()
         words = pkg_resources.open_text('wonderwords', 'words.txt').readlines()
 
-        # Strip all newlines from the words
-        words_newline_stripped = []
-        for w in words:
-            words_newline_stripped.append(w.rstrip())
+        # Strip newlines
+        def strip_newline(file):
+            words_newline_stripped = []
+            for w in file:
+                words_newline_stripped.append(w.rstrip())
+            return words_newline_stripped
 
-        # Store the list of words in dict_words_list
-        self.dict_words_list = words_newline_stripped
+        self.noun = strip_newline(nouns)
+        self.verb = strip_newline(verbs)
+        self.adjective = strip_newline(adjectives)
+        self.dict_words_list = strip_newline(words)
 
     # Word function chooses a random word from the dict_words_list
-    def word(self):
-        return random.choice(self.dict_words_list)
+    def word(self, part_of_speech=None):
+        if part_of_speech == 'noun':
+            return random.choice(self.noun)
+        elif part_of_speech == 'verb':
+            return random.choice(self.verb)
+        elif part_of_speech == 'adjective':
+            return random.choice(self.adjective)
+        else:
+            return random.choice(self.dict_words_list)
 
     # Words_list function chooses a certain amount of random word and returns them as a list
-    def words_list(self, amount):
+    def words_list(self, amount, part_of_speech=None):
+        if part_of_speech == 'noun':
+            list_of_choice = self.noun
+        elif part_of_speech == 'verb':
+            list_of_choice = self.verb
+        elif part_of_speech == 'adjective':
+            list_of_choice = self.adjective
+        else:
+            list_of_choice = self.dict_words_list
+
         list_of_words = []
         for w in range(amount):
-            list_of_words.append(random.choice(self.dict_words_list))
+            list_of_words.append(random.choice(list_of_choice))
 
         return list_of_words
 
     # Starts with chooses a random word from the words that start with a certain letter
-    def starts_with(self, letter):
+    def starts_with(self, letter, part_of_speech=None):
+        if part_of_speech == 'noun':
+            list_of_choice = self.noun
+        elif part_of_speech == 'verb':
+            list_of_choice = self.verb
+        elif part_of_speech == 'adjective':
+            list_of_choice = self.adjective
+        else:
+            list_of_choice = self.dict_words_list
+
         list_of_words_that_start_with_letter = []
 
-        for i in self.dict_words_list:
+        for i in list_of_choice:
             if i[0] == letter:
                 list_of_words_that_start_with_letter.append(i)
 
