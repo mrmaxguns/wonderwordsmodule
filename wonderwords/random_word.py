@@ -5,12 +5,14 @@ import random
 class random_word:
     # Initialize some important variables
     def __init__(self):
-        from importlib_resources import files
-        word_file_path = files('wonderwords').joinpath('words.txt')
+        # Import importlib (will help gather resources)
+        try:
+            import importlib.resources as pkg_resources
+        except ImportError:
+            import importlib_resources as pkg_resources
 
-        # Open and read the file containing the words
-        word_file = open(word_file_path, "r")
-        words = word_file.readlines()
+        # Read words.txt
+        words = pkg_resources.open_text('wonderwords', 'words.txt').readlines()
 
         # Strip all newlines from the words
         words_newline_stripped = []

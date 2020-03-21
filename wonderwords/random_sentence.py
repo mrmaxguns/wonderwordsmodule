@@ -1,21 +1,20 @@
 import random
 
-
+# The main class containing all the data
 class random_sentence:
     def __init__(self):
-        from importlib_resources import files
-        noun_file_path = files('wonderwords').joinpath('nounlist.txt')
-        adjective_file_path = files('wonderwords').joinpath('adjectivelist.txt')
-        verb_file_path = files('wonderwords').joinpath('verblist.txt')
+        # Import importlib (will help gather resources)
+        try:
+            import importlib.resources as pkg_resources
+        except ImportError:
+            import importlib_resources as pkg_resources
 
-        noun_file = open(noun_file_path, 'r')
-        adjective_file = open(adjective_file_path, 'r')
-        verb_file = open(verb_file_path, 'r')
+        # Read the files
+        nouns = pkg_resources.open_text('wonderwords', 'nounlist.txt').readlines()
+        adjectives = pkg_resources.open_text('wonderwords', 'adjectivelist.txt').readlines()
+        verbs = pkg_resources.open_text('wonderwords', 'verbslist.txt').readlines()
 
-        nouns = noun_file.readlines()
-        adjectives = adjective_file.readlines()
-        verbs = verb_file.readlines()
-
+        # Strip newlines
         def strip_newline(words):
             words_newline_stripped = []
             for w in words:
@@ -26,10 +25,12 @@ class random_sentence:
         self.verb = strip_newline(verbs)
         self.adjective = strip_newline(adjectives)
 
+    # Randomly generate bare bone sentences
     def bare_bone_sentence(self):
         the_noun = random.choice(self.noun)
         the_verb = random.choice(self.verb)
 
+        # Check for exceptions in english
         if the_verb[-1] == 'h' and (the_verb[-2] == 's' or the_verb[-2] == 'c'):
             return 'The %s %ses.' % (the_noun, the_verb)
 
