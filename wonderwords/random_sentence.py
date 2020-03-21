@@ -36,7 +36,7 @@ class random_sentence:
         # Read the files
         nouns = pkg_resources.open_text('wonderwords', 'nounlist.txt').readlines()
         adjectives = pkg_resources.open_text('wonderwords', 'adjectivelist.txt').readlines()
-        verbs = pkg_resources.open_text('wonderwords', 'verbslist.txt').readlines()
+        verbs = pkg_resources.open_text('wonderwords', 'verblist.txt').readlines()
 
         # Strip newlines
         def strip_newline(words):
