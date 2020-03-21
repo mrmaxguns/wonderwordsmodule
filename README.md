@@ -51,6 +51,26 @@ If an error occurs make sure you have installed wonderwords and that you do not 
 
 ***
 ## Usage
+For full usage instructions please visit the [documentation](https://github.com/mrmaxguns/wonderwordsmodule/wiki/Wonderwords-Documentation).
+```python
+from wonderwords import random_word
+from wonderwords import random_sentence
+
+rw = random_word.random_word()
+rs = random_sentence.random_sentence()
+
+# Get a random word
+rw.word()
+
+# Get a list of 5 random words
+rw.words_list(5)
+
+# Get a word that starts with c
+rw.starts_with('c')
+
+# Get a random bare-bone sentence
+rs.bare_bone_sentence()
+```
 
 ***
 ## License
