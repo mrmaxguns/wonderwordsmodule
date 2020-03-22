@@ -24,7 +24,7 @@ SOFTWARE.
 
 import random
 
-# The main class containing all the data
+# The main class containing all the data and functions
 class random_sentence:
     def __init__(self):
         # Import importlib (will help gather resources)
@@ -45,6 +45,7 @@ class random_sentence:
                 words_newline_stripped.append(w.rstrip())
             return words_newline_stripped
 
+        # Variables store lists of words
         self.noun = strip_newline(nouns)
         self.verb = strip_newline(verbs)
         self.adjective = strip_newline(adjectives)
