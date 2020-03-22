@@ -3,6 +3,7 @@
 [![GitHub forks](https://img.shields.io/github/forks/mrmaxguns/wonderwordsmodule)](https://github.com/mrmaxguns/wonderwordsmodule/network)
 [![GitHub stars](https://img.shields.io/github/stars/mrmaxguns/wonderwordsmodule)](https://github.com/mrmaxguns/wonderwordsmodule/stargazers)
 [![GitHub license](https://img.shields.io/github/license/mrmaxguns/wonderwordsmodule)](https://github.com/mrmaxguns/wonderwordsmodule/blob/master/LICENSE)
+![GitHub release (latest by date)](https://img.shields.io/github/v/release/mrmaxguns/wonderwordsmodule)
 
 Latest version: v1.0.3
 
