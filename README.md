@@ -70,6 +70,9 @@ rw.starts_with('c')
 
 # Get a random bare-bone sentence
 rs.bare_bone_sentence()
+
+# Get a random bare-bone sentence with a direct object
+rs.simple_sentence()
 ```
 
 ***
