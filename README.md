@@ -73,6 +73,12 @@ rs.bare_bone_sentence()
 
 # Get a random bare-bone sentence with a direct object
 rs.simple_sentence()
+
+# Get a random bare-bone sentence with an adjective
+rs.bare_bone_with_adjective()
+
+# Get a random sentence with a subject, predicate, direct object and adjective
+rs.sentence()
 ```
 
 ***
