@@ -1,4 +1,9 @@
 # Welcome To Wonderwords
+[![GitHub issues](https://img.shields.io/github/issues/mrmaxguns/wonderwordsmodule)](https://github.com/mrmaxguns/wonderwordsmodule/issues)
+[![GitHub forks](https://img.shields.io/github/forks/mrmaxguns/wonderwordsmodule)](https://github.com/mrmaxguns/wonderwordsmodule/network)
+[![GitHub stars](https://img.shields.io/github/stars/mrmaxguns/wonderwordsmodule)](https://github.com/mrmaxguns/wonderwordsmodule/stargazers)
+[![GitHub license](https://img.shields.io/github/license/mrmaxguns/wonderwordsmodule)](https://github.com/mrmaxguns/wonderwordsmodule/blob/master/LICENSE)
+
 Latest version: v1.0.3
 
 Welcome to the readme. Here you can find basic info about what wonderwords is about.
