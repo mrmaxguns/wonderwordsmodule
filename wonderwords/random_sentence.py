@@ -69,3 +69,55 @@ class random_sentence:
 
         else:
             return 'The %s %ss.' % (the_noun, the_verb)
+
+    def simple_sentence(self):
+        the_direct_object = random.choice(self.noun)
+
+        the_bare_bone_sentence = self.bare_bone_sentence()
+        the_bare_bone_list = list(the_bare_bone_sentence)
+        del the_bare_bone_list[-1]
+        the_simple_sentence = ''.join(the_bare_bone_list)
+        return '%s %s.' % (the_simple_sentence, the_direct_object)
+
+    def bare_bone_with_adjective(self):
+        the_noun = random.choice(self.noun)
+        the_verb = random.choice(self.verb)
+        the_adjective = random.choice(self.adjective)
+
+        # Check for exceptions in english
+        if the_verb[-1] == 'h' and (the_verb[-2] == 's' or the_verb[-2] == 'c'):
+            return 'The %s %s %ses.' % (the_adjective, the_noun, the_verb)
+
+        elif the_verb[-1] == 'y':
+            the_verb_list = list(the_verb)
+            del the_verb_list[-1]
+            the_new_verb = ''.join(the_verb_list)
+            return 'The %s %s %sies.' % (the_adjective, the_noun, the_new_verb)
+
+        elif the_verb[-1] == 's' and the_verb[-2] == 's':
+            return 'The %s %s %ses.' % (the_adjective, the_noun, the_verb)
+
+        else:
+            return 'The %s %s %ss.' % (the_adjective, the_noun, the_verb)
+
+    def sentence(self):
+        the_noun = random.choice(self.noun)
+        the_verb = random.choice(self.verb)
+        the_adjective = random.choice(self.adjective)
+        the_direct_object = random.choice(self.noun)
+
+        # Check for exceptions in english
+        if the_verb[-1] == 'h' and (the_verb[-2] == 's' or the_verb[-2] == 'c'):
+            return 'The %s %s %ses %s.' % (the_adjective, the_noun, the_verb, the_direct_object)
+
+        elif the_verb[-1] == 'y':
+            the_verb_list = list(the_verb)
+            del the_verb_list[-1]
+            the_new_verb = ''.join(the_verb_list)
+            return 'The %s %s %sies %s.' % (the_adjective, the_noun, the_new_verb, the_direct_object)
+
+        elif the_verb[-1] == 's' and the_verb[-2] == 's':
+            return 'The %s %s %ses %s.' % (the_adjective, the_noun, the_verb, the_direct_object)
+
+        else:
+            return 'The %s %s %ss %s.' % (the_adjective, the_noun, the_verb, the_direct_object)
