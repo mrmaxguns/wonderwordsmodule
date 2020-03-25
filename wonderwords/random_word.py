@@ -54,8 +54,27 @@ class random_word:
         self.verb = strip_newline(verbs)
         self.adjective = strip_newline(adjectives)
 
+    def check_for_errors(self, word_min_length, word_max_length):
+        standard_error_message = '\nPlease visit our documentation for more info:\n' \
+                                 'https://github.com/mrmaxguns/wonderwordsmodule/wiki/Wonderwords-Documentation'
+
+        # Check for any mistakes in parameters
+        if not isinstance(word_min_length, int):
+            raise TypeError('word_min_length must be int' + standard_error_message)
+
+        if not isinstance(word_max_length, int):
+            raise TypeError('word_max_length must be int' + standard_error_message)
+
+        if word_min_length > word_max_length:
+            raise Exception('word_min_length cannot be greater than word_max_length' + standard_error_message)
+
+        if word_min_length < 0 or word_max_length < 0:
+            raise Exception('word_max_length and/or word_min_length cannot be negative' + standard_error_message)
+
     # Word function chooses a random word from the lists
     def word(self, include_parts_of_speech='', word_min_length=0, word_max_length=0):
+        self.check_for_errors(word_min_length, word_max_length)
+
         # create a function that filters words based on their length
         def filter_by_length(words_list, word_min_length_, word_max_length_):
             if word_min_length_ != 0:
@@ -96,6 +115,7 @@ class random_word:
 
     # Words_list function chooses a certain amount of random word and returns them as a list
     def words_list(self, amount, include_parts_of_speech='', word_min_length=0, word_max_length=0):
+        self.check_for_errors(word_min_length, word_max_length)
         list_of_words = []
 
         # Loop through the amount of words passed as a parameter
@@ -108,6 +128,8 @@ class random_word:
 
     # Starts with chooses a random word from the words that start with a certain letter
     def starts_with(self, letter, include_parts_of_speech='', word_min_length=0, word_max_length=0):
+        self.check_for_errors(word_min_length, word_max_length)
+
         # create a function that filters words based on their length
         def filter_by_length(words_list, word_min_length_, word_max_length_):
             if word_min_length_ != 0:
