@@ -55,55 +55,91 @@ class random_word:
         self.adjective = strip_newline(adjectives)
 
     # Word function chooses a random word from the lists
-    def word(self, include_parts_of_speech=''):
+    def word(self, include_parts_of_speech='', word_min_length=0, word_max_length=0):
+        # create a function that filters words based on their length
+        def filter_by_length(words_list, word_min_length_, word_max_length_):
+            if word_min_length_ != 0:
+                for i in words_list.copy():
+                    if len(i) < word_min_length_:
+                        words_list.remove(i)
+
+            if word_max_length_ != 0:
+                for i in words_list.copy():
+                    if len(i) > word_max_length_:
+                        words_list.remove(i)
+
         # List of words a random word will be picked from
         list_of_words_to_choose_from = []
         something_chosen = False
 
         # Check which parts of speech to include
         if 'noun' in include_parts_of_speech:
+            filter_by_length(self.noun, word_min_length, word_max_length)
             list_of_words_to_choose_from.extend(self.noun)
             something_chosen = True
         if 'verb' in include_parts_of_speech:
+            filter_by_length(self.verb, word_min_length, word_max_length)
             list_of_words_to_choose_from.extend(self.verb)
             something_chosen = True
         if 'adjective' in include_parts_of_speech:
+            filter_by_length(self.adjective, word_min_length, word_max_length)
             list_of_words_to_choose_from.extend(self.adjective)
             something_chosen = True
         if not something_chosen:
+            filter_by_length(self.noun, word_min_length, word_max_length)
+            filter_by_length(self.verb, word_min_length, word_max_length)
+            filter_by_length(self.adjective, word_min_length, word_max_length)
             list_of_words_to_choose_from = self.noun + self.verb + self.adjective
 
         # Return the random word
         return random.choice(list_of_words_to_choose_from)
 
     # Words_list function chooses a certain amount of random word and returns them as a list
-    def words_list(self, amount, include_parts_of_speech=''):
+    def words_list(self, amount, include_parts_of_speech='', word_min_length=0, word_max_length=0):
         list_of_words = []
 
         # Loop through the amount of words passed as a parameter
         for every_word in range(amount):
             # Append a random word to the list
-            list_of_words.append(self.word(include_parts_of_speech))
+            list_of_words.append(self.word(include_parts_of_speech, word_min_length, word_max_length))
 
         # Return the list
         return list_of_words
 
     # Starts with chooses a random word from the words that start with a certain letter
-    def starts_with(self, letter, include_parts_of_speech=''):
+    def starts_with(self, letter, include_parts_of_speech='', word_min_length=0, word_max_length=0):
+        # create a function that filters words based on their length
+        def filter_by_length(words_list, word_min_length_, word_max_length_):
+            if word_min_length_ != 0:
+                for i in words_list.copy():
+                    if len(i) < word_min_length_:
+                        words_list.remove(i)
+
+            if word_max_length_ != 0:
+                for i in words_list.copy():
+                    if len(i) > word_max_length_:
+                        words_list.remove(i)
+
         list_of_words_to_choose_from = []
         something_chosen = False
 
         # Include certain parts of speech
         if 'noun' in include_parts_of_speech:
+            filter_by_length(self.noun, word_min_length, word_max_length)
             list_of_words_to_choose_from.extend(self.noun)
             something_chosen = True
         if 'verb' in include_parts_of_speech:
+            filter_by_length(self.verb, word_min_length, word_max_length)
             list_of_words_to_choose_from.extend(self.verb)
             something_chosen = True
         if 'adjective' in include_parts_of_speech:
+            filter_by_length(self.adjective, word_min_length, word_max_length)
             list_of_words_to_choose_from.extend(self.adjective)
             something_chosen = True
         if not something_chosen:
+            filter_by_length(self.noun, word_min_length, word_max_length)
+            filter_by_length(self.verb, word_min_length, word_max_length)
+            filter_by_length(self.adjective, word_min_length, word_max_length)
             list_of_words_to_choose_from = self.noun + self.verb + self.adjective
 
         list_of_words_that_start_with_letter = []
