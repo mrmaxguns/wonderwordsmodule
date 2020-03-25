@@ -5,7 +5,7 @@
 [![GitHub license](https://img.shields.io/github/license/mrmaxguns/wonderwordsmodule)](https://github.com/mrmaxguns/wonderwordsmodule/blob/master/LICENSE)
 ![GitHub release (latest by date)](https://img.shields.io/github/v/release/mrmaxguns/wonderwordsmodule)
 
-Latest version: v1.0.4
+Latest version: v1.0.5
 
 Welcome to the readme. Here you can find basic info about what wonderwords is about.
 
