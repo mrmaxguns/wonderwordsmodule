@@ -4,12 +4,12 @@ with open("README.md", "r") as fh:
     long_description = fh.read()
 
 setuptools.setup(
-    name="wonderwords_mrmaxguns",
+    name="wonderwords",
     version="1.0.5",
     author="Maxim Rebguns",
     author_email="mrmaxguns@gmail.com",
     include_package_data=True,
-    description="A simple package for words in the english language",
+    description="A simple package for random words and sentences in the english language",
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/mrmaxguns/wonderwordsmodule",
