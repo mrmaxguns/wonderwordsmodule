@@ -65,7 +65,7 @@ class random_word:
         if not isinstance(word_max_length, int):
             raise TypeError('word_max_length must be int' + standard_error_message)
 
-        if word_min_length > word_max_length:
+        if word_min_length > word_max_length and word_max_length != 0:
             raise Exception('word_min_length cannot be greater than word_max_length' + standard_error_message)
 
         if word_min_length < 0 or word_max_length < 0:
