@@ -92,7 +92,7 @@ rs.sentence()
 
 ***
 ## Contribution
-If you want to contribute to this project, please contact @mrmaxguns (https://www.github.com/mrmaxguns). If you have any ideas or problems, we suggest you open an issue or contact us. We value support from the community, so please speak up.
+If you want to contribute to this project, please check out [CONTRIBUTING.md](https://github.com/mrmaxguns/wonderwordsmodule/blob/master/CONTRIBUTING.md). Please email [mrmaxguns@gmail.com](mailto:mrmaxguns@gmail.com) for any questions regarding contribution.
 
 ***
 ## Documentation
