@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="wonderwords",
-    version="1.1.6b2",
+    version="1.1.7",
     author="Maxim Rebguns",
     author_email="mrmaxguns@gmail.com",
     include_package_data=True,
