@@ -1,0 +1,10 @@
+.installed.cfg
+bin
+develop-eggs
+dist/
+eggs
+parts
+*.egg-info
+lib
+lib64
+.idea/
