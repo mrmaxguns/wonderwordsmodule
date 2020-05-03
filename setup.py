@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="wonderwords",
-    version="1.0.6",
+    version="1.1.6",
     author="Maxim Rebguns",
     author_email="mrmaxguns@gmail.com",
     include_package_data=True,
@@ -21,4 +21,9 @@ setuptools.setup(
         "Operating System :: OS Independent",
     ],
     python_requires='>=3.6',
+    entry_points = {
+        'console_scripts': [
+            'wonderwords = wonderwords.cmdline:main'
+        ]
+    }
 )

@@ -4,7 +4,7 @@
 [![GitHub stars](https://img.shields.io/github/stars/mrmaxguns/wonderwordsmodule)](https://github.com/mrmaxguns/wonderwordsmodule/stargazers)
 [![GitHub license](https://img.shields.io/github/license/mrmaxguns/wonderwordsmodule)](https://github.com/mrmaxguns/wonderwordsmodule/blob/master/LICENSE)
 
-Latest version: v1.0.6
+Latest version: v1.1.6
 
 Welcome to the readme. Here you can find basic info about what wonderwords is about.
 
@@ -36,7 +36,7 @@ Wonderwords requires:
 ## Installation
 **Please make sure you have met all of the requirements before installing the package**
 
-Since wonderwords is still experimental, you can only download this package from [Test Pypi](https://test.pypi.org). 
+Since wonderwords is still experimental, you can only download this package from [Test Pypi](https://test.pypi.org).
 
 All the installation files can be found at https://test.pypi.org/wonderwords-mrmaxguns/.
 
