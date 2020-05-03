@@ -134,3 +134,6 @@ def main():
     else:
         print(f"The mode '{args['Mode']}' is invalid\nPlease choose a valid mode or type 'wonderwords -h' for help")
         quit()
+
+if __name__ == '__main__':
+    main()
