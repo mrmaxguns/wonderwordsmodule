@@ -1,4 +1,8 @@
 import argparse
+import sys
+
+sys.path.insert(1, '../wonderwords')
+
 import random_word
 import random_sentence
 
