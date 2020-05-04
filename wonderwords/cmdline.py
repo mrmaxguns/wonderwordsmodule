@@ -93,7 +93,7 @@ def main():
         if args['sw'] is None:
             print(random_word_class.word(include_parts_of_speech=pos_str, word_min_length=len_min, word_max_length=len_max))
         else:
-            if len('sw') != 1:
+            if len(args['sw']) != 1:
                 print('Please choose ONE letter for the -sw parameter')
                 quit()
             else:

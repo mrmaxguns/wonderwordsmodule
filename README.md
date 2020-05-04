@@ -4,7 +4,7 @@
 [![GitHub stars](https://img.shields.io/github/stars/mrmaxguns/wonderwordsmodule)](https://github.com/mrmaxguns/wonderwordsmodule/stargazers)
 [![GitHub license](https://img.shields.io/github/license/mrmaxguns/wonderwordsmodule)](https://github.com/mrmaxguns/wonderwordsmodule/blob/master/LICENSE)
 
-Latest version: v1.1.8
+Latest version: v1.1.9
 
 Welcome to the readme. Here you can find basic info about what wonderwords is about.
 
@@ -48,7 +48,7 @@ pip install wonderwords
 
 To install the latest version (if above fails):
 ```
-pip install wonderwords==1.1.7
+pip install wonderwords==1.1.9
 ```
 
 Please contact @mrmaxguns if you have trouble installing wonderwords.
