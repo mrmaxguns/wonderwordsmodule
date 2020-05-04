@@ -9,7 +9,7 @@ setuptools.setup(
     author="Maxim Rebguns",
     author_email="mrmaxguns@gmail.com",
     include_package_data=True,
-    description="A simple package for random words and sentences in the english language",
+    description="A python package for random words and sentences in the english language (random word and sentence generator)",
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/mrmaxguns/wonderwordsmodule",
