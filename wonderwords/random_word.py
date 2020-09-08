@@ -108,7 +108,7 @@ class RandomWord:
             raise NoWordsToChoseFrom(
                 f"There aren't enough words to choose from. Cannot generate {str(amount)} word(s)"
             )
-        else:
+        elif return_less_if_necessary:
             return choose_from
 
         words = []
