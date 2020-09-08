@@ -1,4 +1,4 @@
-'''
+"""
 MIT License
 
 Copyright (c) 2020 mrmaxguns
@@ -20,156 +20,141 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
-'''
+"""
 
-# Import the random module
 import random
+from . import assets
+
+try:
+    import importlib.resources as pkg_resources
+except ImportError:
+    # Try backported to PY<37 `importlib_resources`.
+    import importlib_resources as pkg_resources
 
 
-# Class random_word is the class that contains all the random word functions
-class random_word:
-    # Initialize some important variables
-    def __init__(self):
-        # Import importlib (will help gather the text files containing the words)
-        try:
-            import importlib.resources as pkg_resources
-        except ImportError:
-            # For older versions of python:
-            import importlib_resources as pkg_resources
+class NoWordsToChoseFrom(Exception):
+    pass
 
-        # Read the files
-        nouns = pkg_resources.open_text('wonderwords', 'nounlist.txt').readlines()
-        adjectives = pkg_resources.open_text('wonderwords', 'adjectivelist.txt').readlines()
-        verbs = pkg_resources.open_text('wonderwords', 'verblist.txt').readlines()
 
-        # Strip newlines from all the files
-        def strip_newline(file):
-            words_newline_stripped = []
-            for w in file:
-                words_newline_stripped.append(w.rstrip())
-            return words_newline_stripped
+class RandomWord:
+    def __init__(self, nouns=None, verbs=None, adjectives=None):
+        self.nouns = self._read_words("nounlist.txt") or nouns
+        self.verbs = self._read_words("verblist.txt" or verbs)
+        self.adjectives = self._read_words("adjectivelist.txt" or adjectives)
+        self.parts_of_speech = {
+            "nouns": self.nouns,
+            "verbs": self.verbs,
+            "adjectives": self.adjectives,
+        }
 
-        # Create variables that contain lists of all the words
-        self.noun = strip_newline(nouns)
-        self.verb = strip_newline(verbs)
-        self.adjective = strip_newline(adjectives)
+    def filter(
+        self,
+        starts_with="",
+        ends_with="",
+        include_parts_of_speech=None,
+        word_min_length=None,
+        word_max_length=None,
+    ):
+        word_min_length, word_max_length = self._validate_lengths(
+            word_min_length, word_max_length
+        )
+        include_parts_of_speech = include_parts_of_speech or [
+            "nouns",
+            "verbs",
+            "adjectives",
+        ]
 
-    def check_for_errors(self, word_min_length, word_max_length):
-        standard_error_message = '\nPlease visit our documentation for more info:\n' \
-                                 'https://github.com/mrmaxguns/wonderwordsmodule/wiki/Wonderwords-Documentation'
+        # filter parts of speech
+        words = []
+        for part_of_speech in include_parts_of_speech:
+            try:
+                words.extend(self.parts_of_speech[part_of_speech])
+            except KeyError:
+                raise ValueError(f"{part_of_speech} is an invalid part of speech")
 
-        # Check for any mistakes in parameters
-        if not isinstance(word_min_length, int):
-            raise TypeError('word_min_length must be int' + standard_error_message)
+        for word in words[:]:
+            if not word.startswith(starts_with):
+                words.remove(word)
+            elif not word.endswith(ends_with):
+                words.remove(word)
 
-        if not isinstance(word_max_length, int):
-            raise TypeError('word_max_length must be int' + standard_error_message)
+        for word in words[:]:
+            if word_min_length is not None and len(word) < word_min_length:
+                words.remove(word)
+            elif word_max_length is not None and len(word) > word_max_length:
+                words.remove(word)
 
-        if word_min_length > word_max_length and word_max_length != 0:
-            raise Exception('word_min_length cannot be greater than word_max_length' + standard_error_message)
+        return list(set(words))
 
-        if word_min_length < 0 or word_max_length < 0:
-            raise Exception('word_max_length and/or word_min_length cannot be negative' + standard_error_message)
+    def random_words(
+        self,
+        amount=1,
+        starts_with="",
+        ends_with="",
+        include_parts_of_speech=None,
+        word_min_length=None,
+        word_max_length=None,
+        return_less_if_necessary=False,
+    ):
+        choose_from = self.filter(
+            starts_with=starts_with,
+            ends_with=ends_with,
+            include_parts_of_speech=include_parts_of_speech,
+            word_min_length=word_min_length,
+            word_max_length=word_max_length,
+        )
 
-    # Word function chooses a random word from the lists
-    def word(self, include_parts_of_speech='', word_min_length=0, word_max_length=0):
-        self.check_for_errors(word_min_length, word_max_length)
+        if not return_less_if_necessary and len(choose_from) < amount:
+            raise NoWordsToChoseFrom(
+                f"There aren't enough words to choose from. Cannot generate {str(amount)} word(s)"
+            )
 
-        # create a function that filters words based on their length
-        def filter_by_length(words_list, word_min_length_, word_max_length_):
-            if word_min_length_ != 0:
-                for i in words_list.copy():
-                    if len(i) < word_min_length_:
-                        words_list.remove(i)
+        words = []
+        for _ in range(amount):
+            new_word = random.choice(choose_from)
+            choose_from.remove(new_word)
+            words.append(new_word)
 
-            if word_max_length_ != 0:
-                for i in words_list.copy():
-                    if len(i) > word_max_length_:
-                        words_list.remove(i)
+        return words
 
-        # List of words a random word will be picked from
-        list_of_words_to_choose_from = []
-        something_chosen = False
+    def word(
+        self,
+        starts_with="",
+        ends_with="",
+        include_parts_of_speech=None,
+        word_min_length=None,
+        word_max_length=None,
+    ):
+        return self.random_words(
+            amount=1,
+            starts_with=starts_with,
+            ends_with=ends_with,
+            include_parts_of_speech=include_parts_of_speech,
+            word_min_length=word_min_length,
+            word_max_length=word_max_length,
+        )
 
-        # Check which parts of speech to include
-        if 'noun' in include_parts_of_speech:
-            filter_by_length(self.noun, word_min_length, word_max_length)
-            list_of_words_to_choose_from.extend(self.noun)
-            something_chosen = True
-        if 'verb' in include_parts_of_speech:
-            filter_by_length(self.verb, word_min_length, word_max_length)
-            list_of_words_to_choose_from.extend(self.verb)
-            something_chosen = True
-        if 'adjective' in include_parts_of_speech:
-            filter_by_length(self.adjective, word_min_length, word_max_length)
-            list_of_words_to_choose_from.extend(self.adjective)
-            something_chosen = True
-        if not something_chosen:
-            filter_by_length(self.noun, word_min_length, word_max_length)
-            filter_by_length(self.verb, word_min_length, word_max_length)
-            filter_by_length(self.adjective, word_min_length, word_max_length)
-            list_of_words_to_choose_from = self.noun + self.verb + self.adjective
+    def _read_words(self, word_file):
+        words = pkg_resources.open_text(assets, word_file).readlines()
+        return [word.rstrip() for word in words]
 
-        # Return the random word
-        return random.choice(list_of_words_to_choose_from)
+    def _validate_lengths(self, word_min_length, word_max_length):
+        if not isinstance(word_min_length, (int, type(None))):
+            raise TypeError("word_min_length must be type int or None")
 
-    # Words_list function chooses a certain amount of random word and returns them as a list
-    def words_list(self, amount, include_parts_of_speech='', word_min_length=0, word_max_length=0):
-        self.check_for_errors(word_min_length, word_max_length)
-        list_of_words = []
+        if not isinstance(word_max_length, (int, type(None))):
+            raise TypeError("word_max_length must be type int or None")
 
-        # Loop through the amount of words passed as a parameter
-        for every_word in range(amount):
-            # Append a random word to the list
-            list_of_words.append(self.word(include_parts_of_speech, word_min_length, word_max_length))
+        if word_min_length is not None and word_max_length is not None:
+            if word_min_length > word_max_length and word_max_length != 0:
+                raise ValueError(
+                    "word_min_length cannot be greater than word_max_length"
+                )
 
-        # Return the list
-        return list_of_words
+        if word_min_length is not None and word_min_length < 0:
+            word_min_length = None
 
-    # Starts with chooses a random word from the words that start with a certain letter
-    def starts_with(self, letter, include_parts_of_speech='', word_min_length=0, word_max_length=0):
-        self.check_for_errors(word_min_length, word_max_length)
+        if word_max_length is not None and word_max_length < 0:
+            word_max_length = None
 
-        # create a function that filters words based on their length
-        def filter_by_length(words_list, word_min_length_, word_max_length_):
-            if word_min_length_ != 0:
-                for i in words_list.copy():
-                    if len(i) < word_min_length_:
-                        words_list.remove(i)
-
-            if word_max_length_ != 0:
-                for i in words_list.copy():
-                    if len(i) > word_max_length_:
-                        words_list.remove(i)
-
-        list_of_words_to_choose_from = []
-        something_chosen = False
-
-        # Include certain parts of speech
-        if 'noun' in include_parts_of_speech:
-            filter_by_length(self.noun, word_min_length, word_max_length)
-            list_of_words_to_choose_from.extend(self.noun)
-            something_chosen = True
-        if 'verb' in include_parts_of_speech:
-            filter_by_length(self.verb, word_min_length, word_max_length)
-            list_of_words_to_choose_from.extend(self.verb)
-            something_chosen = True
-        if 'adjective' in include_parts_of_speech:
-            filter_by_length(self.adjective, word_min_length, word_max_length)
-            list_of_words_to_choose_from.extend(self.adjective)
-            something_chosen = True
-        if not something_chosen:
-            filter_by_length(self.noun, word_min_length, word_max_length)
-            filter_by_length(self.verb, word_min_length, word_max_length)
-            filter_by_length(self.adjective, word_min_length, word_max_length)
-            list_of_words_to_choose_from = self.noun + self.verb + self.adjective
-
-        list_of_words_that_start_with_letter = []
-
-        # Choose only those words which start with the passed letter
-        for i in list_of_words_to_choose_from:
-            if i[0] == letter:
-                list_of_words_that_start_with_letter.append(i)
-
-        # Return the word
-        return random.choice(list_of_words_that_start_with_letter)
+        return (word_min_length, word_max_length)
