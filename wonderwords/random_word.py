@@ -38,9 +38,9 @@ class NoWordsToChoseFrom(Exception):
 
 class RandomWord:
     def __init__(self, nouns=None, verbs=None, adjectives=None):
-        self.nouns = self._read_words("nounlist.txt") or nouns
-        self.verbs = self._read_words("verblist.txt" or verbs)
-        self.adjectives = self._read_words("adjectivelist.txt" or adjectives)
+        self.nouns = self.read_words("nounlist.txt") or nouns
+        self.verbs = self.read_words("verblist.txt" or verbs)
+        self.adjectives = self.read_words("adjectivelist.txt" or adjectives)
         self.parts_of_speech = {
             "nouns": self.nouns,
             "verbs": self.verbs,
@@ -108,6 +108,8 @@ class RandomWord:
             raise NoWordsToChoseFrom(
                 f"There aren't enough words to choose from. Cannot generate {str(amount)} word(s)"
             )
+        else:
+            return choose_from
 
         words = []
         for _ in range(amount):
@@ -132,9 +134,10 @@ class RandomWord:
             include_parts_of_speech=include_parts_of_speech,
             word_min_length=word_min_length,
             word_max_length=word_max_length,
-        )
+        )[0]
 
-    def _read_words(self, word_file):
+    @staticmethod
+    def read_words(word_file):
         words = pkg_resources.open_text(assets, word_file).readlines()
         return [word.rstrip() for word in words]
 
