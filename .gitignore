@@ -8,3 +8,4 @@ parts
 lib
 lib64
 .idea/
+__pycache__/
