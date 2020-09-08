@@ -9,7 +9,14 @@ from .cmdline import WonderwordsCommandLine
 
 def main():
     parser = argparse.ArgumentParser(
-        prog="wonderwords", usage="[USAGE]", description="", epilog=""
+        prog="wonderwords",
+        description="""Generate random words and sentences from the command line.
+        Here is a full list of available commands. To learn more about each
+        command, go to the documentation at https://wonderwords.readthedocs.io
+        """,
+        epilog="""Thanks to all contributors who made this possible.
+        To contribute, go to https://github.com/mrmaxguns/wonderwords
+        """,
     )
 
     #
