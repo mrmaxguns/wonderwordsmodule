@@ -36,6 +36,11 @@ class WonderwordsCommandLine:
         commands = Markdown(AVAILABLE_COMMANDS)
         console.print(commands)
 
+    def version(self):
+        console.print(
+            f"Running wonderwords version {__version__}", style="navy_blue on white"
+        )
+
     def intro(self):
         self.print_title()
         info_text = Text(

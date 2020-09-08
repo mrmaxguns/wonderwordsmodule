@@ -52,6 +52,10 @@ def main():
         help="return a sentence based on the structure chosen",
     )
 
+    parser.add_argument(
+        "-v", "--version", action="store_true", help="Print the version number and exit"
+    )
+
     #
     # Settings and modifiers
     #
@@ -113,7 +117,9 @@ def main():
 
 
 def get_mode(arguments):
-    if arguments.word:
+    if arguments.version:
+        MODE = "version"
+    elif arguments.word:
         MODE = "word"
     elif arguments.filter:
         MODE = "filter"
@@ -129,6 +135,10 @@ def get_mode(arguments):
 
 def handle_mode(mode, arguments):
     command_line = WonderwordsCommandLine()
+
+    if mode == "version":
+        command_line.version()
+        quit()
 
     if mode == "word" or mode == "filter" or mode == "list":
         word_parser = RandomWord()
