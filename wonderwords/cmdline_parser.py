@@ -112,10 +112,10 @@ def main():
 
     parser.add_argument(
         "-d",
-        "--delimeter",
+        "--delimiter",
         default=", ",
         type=str,
-        help="Specify the delimeter to put between a list of words, default is ', '",
+        help="Specify the delimiter to put between a list of words, default is ', '",
     )
 
     args = parser.parse_args()

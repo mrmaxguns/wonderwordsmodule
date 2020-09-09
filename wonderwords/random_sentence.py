@@ -1,28 +1,9 @@
 """
-MIT License
-
-Copyright (c) 2020 mrmaxguns
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+Generate structured sentences in which every word is random.
 """
 
 import random
+from typing import Optional, List
 
 from .random_word import RandomWord
 
@@ -35,13 +16,49 @@ except ImportError:
 
 # The main class containing all the data and functions
 class RandomSentence:
-    def __init__(self):
-        self.noun = RandomWord.read_words("nounlist.txt")
-        self.verb = RandomWord.read_words("verblist.txt")
-        self.adjective = RandomWord.read_words("adjectivelist.txt")
+    """The RandomSentence provides an easy interface to generate structured
+    sentences where each word is randomly generated.
+
+    Example::
+
+        >>> s = RandomSentence(nouns=["car", "cat", "mouse"], verbs=["eat"])
+        >>> s2 = RandomSentence()
+
+    :param nouns: a list of nouns that will be used to generate random nouns.
+        Defaults to None.
+    :type nouns: list, optional
+    :param verbs: a list of verbs that will be used to generate random verbs.
+        Defaults to None.
+    :type verbs: list, optional
+    :param adjectives: a list of adjectives that will be used to generate random
+        adjectives. Defaults to None.
+    :type adjectives: list, optional
+    """
+
+    def __init__(
+        self,
+        nouns: Optional[List[str]] = None,
+        verbs: Optional[List[str]] = None,
+        adjectives: Optional[List[str]] = None,
+    ):
+        self.noun = nouns or RandomWord.read_words("nounlist.txt")
+        self.verb = verbs or RandomWord.read_words("verblist.txt")
+        self.adjective = adjectives or RandomWord.read_words("adjectivelist.txt")
 
     # Randomly generate bare bone sentences
     def bare_bone_sentence(self):
+        """Generate a bare-bone sentence in the form of
+        ``The [subject (noun)] [predicate (verb)].``. For example:
+        ``The cat runs.``.
+
+        Example::
+
+            >>> s.bare_bone_sentence()
+
+        :return: string in the form of a bare bone sentence where each word is
+            randomly generated
+        :rtype: str
+        """
         the_noun = random.choice(self.noun)
         the_verb = random.choice(self.verb)
 
@@ -62,6 +79,18 @@ class RandomSentence:
             return "The %s %ss." % (the_noun, the_verb)
 
     def simple_sentence(self):
+        """Generate a simple sentence in the form of
+        ``The [subject (noun)] [predicate (verb)] [direct object (noun)].``. For
+        example: ``The cake plays golf``.
+
+        Example::
+
+            >>> s.simple_sentence()
+
+        :return: a string in the form of a simple sentence where each word is
+            randomly generated
+        :rtype: str
+        """
         the_direct_object = random.choice(self.noun)
 
         the_bare_bone_sentence = self.bare_bone_sentence()
@@ -71,6 +100,18 @@ class RandomSentence:
         return "%s %s." % (the_simple_sentence, the_direct_object)
 
     def bare_bone_with_adjective(self):
+        """Generate a bare-bone sentence with an adjective in the form of:
+        ``The [(adjective)] [subject (noun)] [predicate (verb)].``. For example:
+        ``The skinny cat reads.``
+
+        Example::
+
+            >>> s.bare_bone_with_adjective()
+
+        :return: a string in the form of a bare-bone sentence with an adjective
+            where each word is randomly generated
+        :rtype: str
+        """
         the_noun = random.choice(self.noun)
         the_verb = random.choice(self.verb)
         the_adjective = random.choice(self.adjective)
@@ -92,6 +133,18 @@ class RandomSentence:
             return "The %s %s %ss." % (the_adjective, the_noun, the_verb)
 
     def sentence(self):
+        """Generate a simple sentence with an adjective in the form of:
+        ``The [(adjective)] [subject (noun)] [predicate (verb)] [direct object (noun)].``.
+        For example: ``The green orange likes food.``
+
+        Example::
+
+            >>> s.sentence()
+
+        :return: a string in the form of a simple sentence with an adjective
+            where each word is randomly generated
+        :rtype: str
+        """
         the_noun = random.choice(self.noun)
         the_verb = random.choice(self.verb)
         the_adjective = random.choice(self.adjective)
