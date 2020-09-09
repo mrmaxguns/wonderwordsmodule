@@ -21,13 +21,37 @@ Another way to help out is to fork the repository. You can then experiment on th
 3. **Commiting with git**. Go to the homepage of your forked repository. Then navigate to the `Code` tab.
 4. Click on `Clone or download` (the green button in the right side) and copy the url.
 5. Go to your command line, navigate to where you want to clone the repository to, and type `git clone` followed by the copied url:
-  ```
+  ```bash
   $ git clone https://github.com/YOUR-USERNAME/wonderwordsmodule
   ```
 6. Now navigate into the `wonderordsmodule` directory.
 7. Set up the remote by typing the following into the command line:
-  ```
+  ```bash
   $ git remote add upstream https://github.com/mrmaxguns/wonderwordsmodule.git
   ```
-8. Now you have set up the forked repository. You can now create branches, commits, etc. Once you are ready to merge your work to wonderwords, submit a pull request.
+8. To set up a virtual environment, you will use python's venv. To create a virtual environment, use the following command:
+  ```bash
+  $ python3 -m venv venv
+  ```
+9. Now activate the virtual environment:
+  * For cmd.exe (windows):
+    ```
+    venv\Scripts\activate.bat
+    ```
+  * For bash:
+    ```bash
+    source venv/bin/activate
+    ```
+  * For other shells, [here is a full list of commands](https://docs.python.org/3/library/venv.html#creating-virtual-environments)
+10. Install requirements by running:
+  ```bash
+  pip install -r requirements.txt
+  ```
+11. Now you have set up the forked repository and set yourself up. You can now create branches, commits, etc. Once you are ready to merge your work to wonderwords, [run tests](#running-tests) and submit a pull request.
 
+## Running tests
+To run tests, make sure you are in the main `wonderwords` directory. Testing is done with Pytest, which is automatically installed from `requirements.txt`. To run tests, use the following command:
+
+```bash
+pytest tests/
+```

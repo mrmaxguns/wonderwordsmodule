@@ -1,0 +1,607 @@
+# The configurations that used for the recording, feel free to edit them
+config:
+
+  # Specify a command to be executed
+  # like `/bin/bash -l`, `ls`, or any other commands
+  # the default is bash for Linux
+  # or powershell.exe for Windows
+  command: bash -l
+
+  # Specify the current working directory path
+  # the default is the current working directory path
+  cwd: /home/maxim
+
+  # Export additional ENV variables
+  env:
+    recording: true
+
+  # Explicitly set the number of columns
+  # or use `auto` to take the current
+  # number of columns of your shell
+  cols: 100
+
+  # Explicitly set the number of rows
+  # or use `auto` to take the current
+  # number of rows of your shell
+  rows: 24
+
+  # Amount of times to repeat GIF
+  # If value is -1, play once
+  # If value is 0, loop indefinitely
+  # If value is a positive number, loop n times
+  repeat: 0
+
+  # Quality
+  # 1 - 100
+  quality: 100
+
+  # Delay between frames in ms
+  # If the value is `auto` use the actual recording delays
+  frameDelay: auto
+
+  # Maximum delay between frames in ms
+  # Ignored if the `frameDelay` isn't set to `auto`
+  # Set to `auto` to prevent limiting the max idle time
+  maxIdleTime: 2000
+
+  # The surrounding frame box
+  # The `type` can be null, window, floating, or solid`
+  # To hide the title use the value null
+  # Don't forget to add a backgroundColor style with a null as type
+  frameBox:
+    type: floating
+    title: Wonderwords
+    style:
+      border: 0px black solid
+      # boxShadow: none
+      # margin: 0px
+
+  # Add a watermark image to the rendered gif
+  # You need to specify an absolute path for
+  # the image on your machine or a URL, and you can also
+  # add your own CSS styles
+  watermark:
+    imagePath: null
+    style:
+      position: absolute
+      right: 15px
+      bottom: 15px
+      width: 100px
+      opacity: 0.9
+
+  # Cursor style can be one of
+  # `block`, `underline`, or `bar`
+  cursorStyle: block
+
+  # Font family
+  # You can use any font that is installed on your machine
+  # in CSS-like syntax
+  fontFamily: "Monaco, Lucida Console, Ubuntu Mono, Monospace"
+
+  # The size of the font
+  fontSize: 12
+
+  # The height of lines
+  lineHeight: 1
+
+  # The spacing between letters
+  letterSpacing: 0
+
+  # Theme
+  theme:
+    background: "transparent"
+    foreground: "#afafaf"
+    cursor: "#c7c7c7"
+    black: "#232628"
+    red: "#fc4384"
+    green: "#b3e33b"
+    yellow: "#ffa727"
+    blue: "#75dff2"
+    magenta: "#ae89fe"
+    cyan: "#708387"
+    white: "#d5d5d0"
+    brightBlack: "#626566"
+    brightRed: "#ff7fac"
+    brightGreen: "#c8ed71"
+    brightYellow: "#ebdf86"
+    brightBlue: "#75dff2"
+    brightMagenta: "#ae89fe"
+    brightCyan: "#b1c6ca"
+    brightWhite: "#f9f9f4"
+
+# Records, feel free to edit them
+records:
+  - delay: 100
+    content: "\e]0;maxim@maxim-laptop:~\a\e]7;file://maxim-laptop/home/maxim\a\e]0;maxim@maxim-laptop: ~\a\e[01;32mmaxim@maxim-laptop\e[00m:\e[01;34m~\e[00m$ "
+  - delay: 300
+    content: '#'
+  - delay: 140
+    content: ' '
+  - delay: 140
+    content: W
+  - delay: 140
+    content: o
+  - delay: 140
+    content: 'n'
+  - delay: 140
+    content: d
+  - delay: 140
+    content: e
+  - delay: 140
+    content: r
+  - delay: 140
+    content: w
+  - delay: 140
+    content: o
+  - delay: 140
+    content: r
+  - delay: 140
+    content: d
+  - delay: 140
+    content: s
+  - delay: 140
+    content: '!'
+  - delay: 140
+    content: "\r\n"
+  - delay: 100
+    content: "\e]0;maxim@maxim-laptop:~\a\e]7;file://maxim-laptop/home/maxim\a\e]0;maxim@maxim-laptop: ~\a\e[01;32mmaxim@maxim-laptop\e[00m:\e[01;34m~\e[00m$ "
+  - delay: 300
+    content: w
+  - delay: 140
+    content: o
+  - delay: 140
+    content: 'n'
+  - delay: 140
+    content: d
+  - delay: 140
+    content: e
+  - delay: 140
+    content: r
+  - delay: 140
+    content: w
+  - delay: 140
+    content: o
+  - delay: 140
+    content: r
+  - delay: 140
+    content: d
+  - delay: 140
+    content: s
+  - delay: 140
+    content: "\r\n"
+  - delay: 200
+    content: "\e[1;38;5;17;47m╭──────────────────────────────────────────────────────────────────────────────────────────────────╮\e[0m\r\n\e[1;38;5;17;47m│\e[0m\e[1;38;5;17;47m                                                                                                  \e[0m\e[1;38;5;17;47m│\e[0m\r\n\e[1;38;5;17;47m│\e[0m\e[1;38;5;17;47m \e[0m\e[1;38;5;17;47m                                      WONDERWORDS 2.0.0a1                                       \e[0m\e[1;38;5;17;47m \e[0m\e[1;38;5;17;47m│\e[0m\r\n\e[1;38;5;17;47m│\e[0m\e[1;38;5;17;47m                                                                                                  \e[0m\e[1;38;5;17;47m│\e[0m\r\n\e[1;38;5;17;47m╰──────────────────────────────────────────────────────────────────────────────────────────────────╯\e[0m\r\n                                                                                                    \r\n \e[1m                                       No commands given \U0001F61E                                       \e[0m \r\n                                                                                                    \r\n"
+  - delay: 140
+    content: "\r\n                                         \e[1;4mAvailable Commands\e[0m                                         \r\n\r\n\e[1;33m • \e[0m\e[97;40mwonderwords -w\e[0m - generate a random word                                                          \r\n\e[1;33m • \e[0m\e[97;40mwonderwords -f\e[0m - get all words matching a certain criteria                                       \r\n\e[1;33m • \e[0m\e[97;40mwonderwords -l AMOUNT\e[0m - get a list of \e[97;40mAMOUNT\e[0m random words                                        \r\n\e[1;33m • \e[0m\e[97;40mwonderwords -s SENT_TYPE\e[0m - generate a random sentence of a certain type                          \r\n\r\nFor a list of all options, type \e[97;40mwonderwords -h\e[0m. To see a detailed and comprehensive explanation of  \r\nthe commands, visit \e]8;id=1599667951.0427635-512407;https://wonderwords.readthedocs.io\e\\\e[94mthe documentation\e[0m\e]8;;\e\\                                                               \r\n"
+  - delay: 100
+    content: "\e]0;maxim@maxim-laptop:~\a\e]7;file://maxim-laptop/home/maxim\a\e]0;maxim@maxim-laptop: ~\a\e[01;32mmaxim@maxim-laptop\e[00m:\e[01;34m~\e[00m$ "
+  - delay: 1000
+    content: '#'
+  - delay: 140
+    content: ' '
+  - delay: 140
+    content: l
+  - delay: 140
+    content: e
+  - delay: 140
+    content: t
+  - delay: 140
+    content: ''''
+  - delay: 140
+    content: s
+  - delay: 140
+    content: ' '
+  - delay: 140
+    content: g
+  - delay: 140
+    content: e
+  - delay: 140
+    content: 'n'
+  - delay: 140
+    content: e
+  - delay: 140
+    content: r
+  - delay: 140
+    content: a
+  - delay: 140
+    content: t
+  - delay: 140
+    content: e
+  - delay: 140
+    content: ' '
+  - delay: 140
+    content: a
+  - delay: 140
+    content: ' '
+  - delay: 140
+    content: r
+  - delay: 140
+    content: a
+  - delay: 140
+    content: 'n'
+  - delay: 140
+    content: d
+  - delay: 140
+    content: o
+  - delay: 140
+    content: m
+  - delay: 140
+    content: ' '
+  - delay: 140
+    content: w
+  - delay: 140
+    content: o
+  - delay: 140
+    content: r
+  - delay: 140
+    content: d
+  - delay: 140
+    content: "\r\n"
+  - delay: 100
+    content: "\e]0;maxim@maxim-laptop:~\a\e]7;file://maxim-laptop/home/maxim\a\e]0;maxim@maxim-laptop: ~\a\e[01;32mmaxim@maxim-laptop\e[00m:\e[01;34m~\e[00m$ "
+  - delay: 300
+    content: w
+  - delay: 140
+    content: o
+  - delay: 140
+    content: 'n'
+  - delay: 140
+    content: d
+  - delay: 140
+    content: e
+  - delay: 140
+    content: r
+  - delay: 140
+    content: w
+  - delay: 140
+    content: o
+  - delay: 140
+    content: r
+  - delay: 140
+    content: d
+  - delay: 140
+    content: s
+  - delay: 140
+    content: ' '
+  - delay: 140
+    content: '-'
+  - delay: 140
+    content: w
+  - delay: 140
+    content: "\r\n"
+  - delay: 140
+    content: "\e[1;37;48;5;17mplastic\e[0m\r\n"
+  - delay: 140
+    content: "\e]0;maxim@maxim-laptop:~\a\e]7;file://maxim-laptop/home/maxim\a\e]0;maxim@maxim-laptop: ~\a\e[01;32mmaxim@maxim-laptop\e[00m:\e[01;34m~\e[00m$ "
+  - delay: 1000
+    content: '#'
+  - delay: 140
+    content: ' '
+  - delay: 140
+    content: h
+  - delay: 140
+    content: o
+  - delay: 140
+    content: w
+  - delay: 140
+    content: ' '
+  - delay: 140
+    content: a
+  - delay: 140
+    content: b
+  - delay: 140
+    content: o
+  - delay: 140
+    content: u
+  - delay: 140
+    content: t
+  - delay: 140
+    content: ' '
+  - delay: 140
+    content: '5'
+  - delay: 140
+    content: ' '
+  - delay: 140
+    content: w
+  - delay: 140
+    content: o
+  - delay: 140
+    content: r
+  - delay: 140
+    content: d
+  - delay: 140
+    content: s
+  - delay: 140
+    content: '?'
+  - delay: 140
+    content: "\r\n"
+  - delay: 100
+    content: "\e]0;maxim@maxim-laptop:~\a\e]7;file://maxim-laptop/home/maxim\a\e]0;maxim@maxim-laptop: ~\a\e[01;32mmaxim@maxim-laptop\e[00m:\e[01;34m~\e[00m$ "
+  - delay: 300
+    content: w
+  - delay: 140
+    content: o
+  - delay: 140
+    content: 'n'
+  - delay: 140
+    content: d
+  - delay: 140
+    content: e
+  - delay: 140
+    content: r
+  - delay: 140
+    content: w
+  - delay: 140
+    content: o
+  - delay: 140
+    content: r
+  - delay: 140
+    content: d
+  - delay: 140
+    content: s
+  - delay: 140
+    content: ' '
+  - delay: 140
+    content: '-'
+  - delay: 140
+    content: l
+  - delay: 140
+    content: ' '
+  - delay: 140
+    content: '5'
+  - delay: 140
+    content: "\r\n"
+  - delay: 140
+    content: "\e[1;37;48;5;17mspark, hashtag, citron, doctrine, promote\e[0m\r\n"
+  - delay: 100
+    content: "\e]0;maxim@maxim-laptop:~\a\e]7;file://maxim-laptop/home/maxim\a\e]0;maxim@maxim-laptop: ~\a\e[01;32mmaxim@maxim-laptop\e[00m:\e[01;34m~\e[00m$ "
+  - delay: 1000
+    content: '#'
+  - delay: 140
+    content: ' '
+  - delay: 140
+    content: l
+  - delay: 140
+    content: e
+  - delay: 140
+    content: t
+  - delay: 140
+    content: ' '
+  - delay: 140
+    content: u
+  - delay: 140
+    content: s
+  - delay: 140
+    content: ' '
+  - delay: 140
+    content: g
+  - delay: 140
+    content: e
+  - delay: 140
+    content: 'n'
+  - delay: 140
+    content: e
+  - delay: 140
+    content: r
+  - delay: 140
+    content: a
+  - delay: 140
+    content: t
+  - delay: 140
+    content: e
+  - delay: 140
+    content: ' '
+  - delay: 140
+    content: a
+  - delay: 140
+    content: ' '
+  - delay: 140
+    content: r
+  - delay: 140
+    content: a
+  - delay: 140
+    content: 'n'
+  - delay: 140
+    content: d
+  - delay: 140
+    content: o
+  - delay: 140
+    content: m
+  - delay: 140
+    content: ' '
+  - delay: 140
+    content: s
+  - delay: 140
+    content: e
+  - delay: 140
+    content: 'n'
+  - delay: 140
+    content: t
+  - delay: 140
+    content: e
+  - delay: 140
+    content: 'n'
+  - delay: 140
+    content: c
+  - delay: 140
+    content: e
+  - delay: 100
+    content: "\r\n\e]0;maxim@maxim-laptop:~\a\e]7;file://maxim-laptop/home/maxim\a\e]0;maxim@maxim-laptop: ~\a\e[01;32mmaxim@maxim-laptop\e[00m:\e[01;34m~\e[00m$ "
+  - delay: 300
+    content: w
+  - delay: 140
+    content: o
+  - delay: 140
+    content: 'n'
+  - delay: 140
+    content: d
+  - delay: 140
+    content: e
+  - delay: 140
+    content: r
+  - delay: 140
+    content: w
+  - delay: 140
+    content: o
+  - delay: 140
+    content: r
+  - delay: 140
+    content: d
+  - delay: 140
+    content: s
+  - delay: 140
+    content: ' '
+  - delay: 140
+    content: '-'
+  - delay: 140
+    content: s
+  - delay: 140
+    content: ' '
+  - delay: 140
+    content: s
+  - delay: 140
+    content: "\r\n"
+  - delay: 100
+    content: "\e[1;37;48;5;22mThe zany casino unites backpack.\e[0m\r\n"
+  - delay: 100
+    content: "\e]0;maxim@maxim-laptop:~\a\e]7;file://maxim-laptop/home/maxim\a\e]0;maxim@maxim-laptop: ~\a\e[01;32mmaxim@maxim-laptop\e[00m:\e[01;34m~\e[00m$ "
+  - delay: 1000
+    content: '#'
+  - delay: 140
+    content: ' '
+  - delay: 140
+    content: c
+  - delay: 140
+    content: o
+  - delay: 140
+    content: o
+  - delay: 140
+    content: l
+  - delay: 140
+    content: ','
+  - delay: 140
+    content: ' '
+  - delay: 140
+    content: h
+  - delay: 140
+    content: o
+  - delay: 140
+    content: w
+  - delay: 140
+    content: ' '
+  - delay: 140
+    content: a
+  - delay: 140
+    content: b
+  - delay: 140
+    content: o
+  - delay: 140
+    content: u
+  - delay: 140
+    content: t
+  - delay: 140
+    content: ' '
+  - delay: 140
+    content: a
+  - delay: 140
+    content: ' '
+  - delay: 140
+    content: w
+  - delay: 140
+    content: o
+  - delay: 140
+    content: r
+  - delay: 140
+    content: d
+  - delay: 140
+    content: ' '
+  - delay: 140
+    content: t
+  - delay: 140
+    content: h
+  - delay: 140
+    content: a
+  - delay: 140
+    content: t
+  - delay: 140
+    content: ' '
+  - delay: 140
+    content: s
+  - delay: 140
+    content: t
+  - delay: 140
+    content: a
+  - delay: 140
+    content: r
+  - delay: 140
+    content: t
+  - delay: 140
+    content: s
+  - delay: 140
+    content: ' '
+  - delay: 140
+    content: w
+  - delay: 140
+    content: i
+  - delay: 140
+    content: t
+  - delay: 140
+    content: h
+  - delay: 140
+    content: ' '
+  - delay: 140
+    content: a
+  - delay: 140
+    content: '?'
+  - delay: 140
+    content: "\r\n"
+  - delay: 100
+    content: "\e]0;maxim@maxim-laptop:~\a\e]7;file://maxim-laptop/home/maxim\a\e]0;maxim@maxim-laptop: ~\a\e[01;32mmaxim@maxim-laptop\e[00m:\e[01;34m~\e[00m$ "
+  - delay: 300
+    content: w
+  - delay: 140
+    content: o
+  - delay: 140
+    content: 'n'
+  - delay: 140
+    content: d
+  - delay: 140
+    content: e
+  - delay: 140
+    content: r
+  - delay: 140
+    content: w
+  - delay: 140
+    content: o
+  - delay: 140
+    content: r
+  - delay: 140
+    content: d
+  - delay: 140
+    content: s
+  - delay: 140
+    content: ' '
+  - delay: 140
+    content: '-'
+  - delay: 140
+    content: w
+  - delay: 140
+    content: ' '
+  - delay: 140
+    content: '-'
+  - delay: 140
+    content: s
+  - delay: 140
+    content: w
+  - delay: 140
+    content: ' '
+  - delay: 140
+    content: a
+  - delay: 140
+    content: "\r\n"
+  - delay: 140
+    content: "\e[1;37;48;5;17mappreciate\e[0m\r\n"
+  - delay: 140
+    content: "\e]0;maxim@maxim-laptop:~\a\e]7;file://maxim-laptop/home/maxim\a\e]0;maxim@maxim-laptop: ~\a\e[01;32mmaxim@maxim-laptop\e[00m:\e[01;34m~\e[00m$ "
+  - delay: 600
+    content: ' '

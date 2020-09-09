@@ -1,3 +1,6 @@
 include LICENSE
 include README.md
-include getword/*.txt
+include CONTRIBUTING.md
+include CODE_OF_CONDUCT.md
+include PYPI.md
+include wonderwords/assets/*.txt

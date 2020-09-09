@@ -176,7 +176,7 @@ def handle_mode(mode, arguments):
             word_max_length=arguments.word_max_length,
         )
 
-        command_line.words(words, delimeter=arguments.delimeter)
+        command_line.words(words, delimiter=arguments.delimiter)
 
     elif mode == "list":
         try:
@@ -200,7 +200,7 @@ def handle_mode(mode, arguments):
                 return_less_if_necessary=True,
             )
 
-        command_line.words(words, delimeter=arguments.delimeter)
+        command_line.words(words, delimiter=arguments.delimiter)
     elif mode == "sentence":
         if arguments.sentence == "bb":
             command_line.sentence(sent_parser.bare_bone_sentence())

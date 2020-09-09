@@ -1,6 +1,6 @@
 import setuptools
 
-with open("README.md", "r") as fh:
+with open("PYPI.md", "r") as fh:
     long_description = fh.read()
 
 setuptools.setup(
@@ -9,12 +9,12 @@ setuptools.setup(
     author="Maxim Rebguns",
     author_email="mrmaxguns@gmail.com",
     include_package_data=True,
-    description="A python package for random words and sentences in the english language (random word and sentence generator)",
+    description="A python package for random words and sentences in the english language",
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/mrmaxguns/wonderwordsmodule",
     packages=setuptools.find_packages(),
-    package_data={"wonderwords": ["*.txt"]},
+    package_data={"wonderwords": ["assets/*.txt"]},
     classifiers=[
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: MIT License",

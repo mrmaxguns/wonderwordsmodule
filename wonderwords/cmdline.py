@@ -55,8 +55,8 @@ class WonderwordsCommandLine:
         word_text = Text(word, style="bold white on navy_blue")
         console.print(word_text)
 
-    def words(self, words, delimeter):
-        word_text = Text(delimeter.join(words), style="bold white on navy_blue")
+    def words(self, words, delimiter):
+        word_text = Text(delimiter.join(words), style="bold white on navy_blue")
         console.print(word_text)
 
     def sentence(self, sent):
