@@ -14,6 +14,25 @@ except ImportError:
     import importlib_resources as pkg_resources
 
 
+VOWELS = ["a", "e", "i", "o", "u"]
+
+
+def _present_tense(verb):
+    """Convert a verb in the form of "to ____" to the present tense 3rd person
+    form"""
+    verb = verb.strip()
+    lowercase_verb = verb.lower()
+    if lowercase_verb.endswith(("ss", "ch", "x", "tch", "sh", "zz")):
+        verb = verb + "es"
+    elif lowercase_verb.endswith("y") and not verb.endswith(
+        tuple([vowel + "y" for vowel in VOWELS])
+    ):
+        verb = verb[:-1] + "ies"
+    else:
+        verb = verb + "s"
+    return verb
+
+
 # The main class containing all the data and functions
 class RandomSentence:
     """The RandomSentence provides an easy interface to generate structured
@@ -60,23 +79,9 @@ class RandomSentence:
         :rtype: str
         """
         the_noun = random.choice(self.noun)
-        the_verb = random.choice(self.verb)
+        the_verb = _present_tense(random.choice(self.verb))
 
-        # Check for exceptions in english
-        if the_verb[-1] == "h" and (the_verb[-2] == "s" or the_verb[-2] == "c"):
-            return "The %s %ses." % (the_noun, the_verb)
-
-        elif the_verb[-1] == "y":
-            the_verb_list = list(the_verb)
-            del the_verb_list[-1]
-            the_new_verb = "".join(the_verb_list)
-            return "The %s %sies." % (the_noun, the_new_verb)
-
-        elif the_verb[-1] == "s" and the_verb[-2] == "s":
-            return "The %s %ses." % (the_noun, the_verb)
-
-        else:
-            return "The %s %ss." % (the_noun, the_verb)
+        return f"The {the_noun} {the_verb}."
 
     def simple_sentence(self):
         """Generate a simple sentence in the form of
@@ -92,12 +97,9 @@ class RandomSentence:
         :rtype: str
         """
         the_direct_object = random.choice(self.noun)
+        the_bare_bone_sentence = self.bare_bone_sentence()[:-1]
 
-        the_bare_bone_sentence = self.bare_bone_sentence()
-        the_bare_bone_list = list(the_bare_bone_sentence)
-        del the_bare_bone_list[-1]
-        the_simple_sentence = "".join(the_bare_bone_list)
-        return "%s %s." % (the_simple_sentence, the_direct_object)
+        return f"{the_bare_bone_sentence} {the_direct_object}."
 
     def bare_bone_with_adjective(self):
         """Generate a bare-bone sentence with an adjective in the form of:
@@ -113,24 +115,10 @@ class RandomSentence:
         :rtype: str
         """
         the_noun = random.choice(self.noun)
-        the_verb = random.choice(self.verb)
+        the_verb = _present_tense(random.choice(self.verb))
         the_adjective = random.choice(self.adjective)
 
-        # Check for exceptions in english
-        if the_verb[-1] == "h" and (the_verb[-2] == "s" or the_verb[-2] == "c"):
-            return "The %s %s %ses." % (the_adjective, the_noun, the_verb)
-
-        elif the_verb[-1] == "y":
-            the_verb_list = list(the_verb)
-            del the_verb_list[-1]
-            the_new_verb = "".join(the_verb_list)
-            return "The %s %s %sies." % (the_adjective, the_noun, the_new_verb)
-
-        elif the_verb[-1] == "s" and the_verb[-2] == "s":
-            return "The %s %s %ses." % (the_adjective, the_noun, the_verb)
-
-        else:
-            return "The %s %s %ss." % (the_adjective, the_noun, the_verb)
+        return f"The {the_adjective} {the_noun} {the_verb}."
 
     def sentence(self):
         """Generate a simple sentence with an adjective in the form of:
@@ -145,43 +133,7 @@ class RandomSentence:
             where each word is randomly generated
         :rtype: str
         """
-        the_noun = random.choice(self.noun)
-        the_verb = random.choice(self.verb)
-        the_adjective = random.choice(self.adjective)
+        the_bare_bone_with_adjective = self.bare_bone_with_adjective()[:-1]
         the_direct_object = random.choice(self.noun)
 
-        # Check for exceptions in english
-        if the_verb[-1] == "h" and (the_verb[-2] == "s" or the_verb[-2] == "c"):
-            return "The %s %s %ses %s." % (
-                the_adjective,
-                the_noun,
-                the_verb,
-                the_direct_object,
-            )
-
-        elif the_verb[-1] == "y":
-            the_verb_list = list(the_verb)
-            del the_verb_list[-1]
-            the_new_verb = "".join(the_verb_list)
-            return "The %s %s %sies %s." % (
-                the_adjective,
-                the_noun,
-                the_new_verb,
-                the_direct_object,
-            )
-
-        elif the_verb[-1] == "s" and the_verb[-2] == "s":
-            return "The %s %s %ses %s." % (
-                the_adjective,
-                the_noun,
-                the_verb,
-                the_direct_object,
-            )
-
-        else:
-            return "The %s %s %ss %s." % (
-                the_adjective,
-                the_noun,
-                the_verb,
-                the_direct_object,
-            )
+        return f"{the_bare_bone_with_adjective} {the_direct_object}."
