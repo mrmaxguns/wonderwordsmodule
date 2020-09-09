@@ -31,7 +31,7 @@ version is available [on PyPI](https://pypi.org/project/wonderwords).
   * [The Wonderwords CLI](#the-wonderwords-cli)
 * [Versioning](#versioning)
 * [License](#license)
-* [Contributing][#contributing]
+* [Contributing](#contributing)
 
 ## Installation
 
