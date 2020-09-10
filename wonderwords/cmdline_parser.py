@@ -15,7 +15,7 @@ def main():
         command, go to the documentation at https://wonderwords.readthedocs.io
         """,
         epilog="""Thanks to all contributors who made this possible.
-        To contribute, go to https://github.com/mrmaxguns/wonderwords
+        To contribute, go to https://github.com/mrmaxguns/wonderwordsmodule
         """,
     )
 
