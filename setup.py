@@ -14,6 +14,10 @@ setuptools.setup(
     long_description_content_type="text/markdown",
     url="https://github.com/mrmaxguns/wonderwordsmodule",
     packages=setuptools.find_packages(),
+    install_requires=[
+        'importlib_resources == 3.0.0; python_version < "3.7"',
+        "rich == 6.1.1",
+    ],
     package_data={"wonderwords": ["assets/*.txt"]},
     classifiers=[
         "Programming Language :: Python :: 3",

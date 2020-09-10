@@ -4,7 +4,7 @@
 Quickstart
 ==========
 
-Wonderwords is a lightweight, pure python tool that can be used to
+Wonderwords is a lightweight python tool that can be used to
 generate random words and sentences. In this tutorial you will learn the basics
 of Wonderwords and the command line interface. This tutorial is meant for those
 who have never used Wonderwords or those who want to learn more about it.
@@ -208,8 +208,8 @@ be printed to the console::
 All of the filters that you have learned above have their own commands, too::
 
   $ wonderwords -w -sw a -ew e # -sw: starts with, -ew ends with; word that starts with a and ends with e
-  $ wonderwords -p nouns verbs # -p: parts of speech; select only nouns and verbs
-  $ wonderwords -min 3 -max 5 # -min: minimum length, -max maximum length; minimum length 3 and maximum length 5
+  $ wonderwords -w -p nouns verbs # -p: parts of speech; select only nouns and verbs
+  $ wonderwords -w -min 3 -max 5 # -min: minimum length, -max maximum length; minimum length 3 and maximum length 5
 
 Generating filters and lists
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
