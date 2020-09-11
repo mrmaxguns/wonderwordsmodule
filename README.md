@@ -86,6 +86,9 @@ r.word(include_parts_of_speech=["nouns", "adjectives"])
 # generate a random word between the length of 3 and 8 characters
 r.word(word_min_length=3, word_max_length=8)
 
+# generate a random word with a custom regular expression
+r.word(regex=".*a")
+
 # you can combine multiple filtering options
 r.word(starts_with="ru", word_max_length=10, include_parts_of_speech=["verbs"])
 ```

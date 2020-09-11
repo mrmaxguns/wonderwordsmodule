@@ -111,6 +111,16 @@ def main():
     )
 
     parser.add_argument(
+        "-r",
+        "--regex",
+        "--re",
+        "--regular-expression",
+        action="store",
+        type=str,
+        help="specify a python-style regular expression that every word must match",
+    )
+
+    parser.add_argument(
         "-d",
         "--delimiter",
         default=", ",
@@ -161,6 +171,7 @@ def handle_mode(mode, arguments):
                 include_parts_of_speech=arguments.parts_of_speech,
                 word_min_length=arguments.word_min_length,
                 word_max_length=arguments.word_max_length,
+                regex=arguments.regex,
             )
         except NoWordsToChoseFrom:
             command_line.no_word()
@@ -174,6 +185,7 @@ def handle_mode(mode, arguments):
             include_parts_of_speech=arguments.parts_of_speech,
             word_min_length=arguments.word_min_length,
             word_max_length=arguments.word_max_length,
+            regex=arguments.regex,
         )
 
         command_line.words(words, delimiter=arguments.delimiter)
@@ -187,6 +199,7 @@ def handle_mode(mode, arguments):
                 include_parts_of_speech=arguments.parts_of_speech,
                 word_min_length=arguments.word_min_length,
                 word_max_length=arguments.word_max_length,
+                regex=arguments.regex,
             )
         except NoWordsToChoseFrom:
             command_line.no_words()
@@ -198,6 +211,7 @@ def handle_mode(mode, arguments):
                 word_min_length=arguments.word_min_length,
                 word_max_length=arguments.word_max_length,
                 return_less_if_necessary=True,
+                regex=arguments.regex,
             )
 
         command_line.words(words, delimiter=arguments.delimiter)

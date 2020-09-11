@@ -4,6 +4,7 @@ generation of single random words.
 """
 
 import random
+import re
 from typing import Optional, List
 
 from . import assets
@@ -66,6 +67,7 @@ class RandomWord:
         include_parts_of_speech: Optional[List[str]] = None,
         word_min_length: Optional[int] = None,
         word_max_length: Optional[int] = None,
+        regex: Optional[str] = None,
     ):
         """Return all existing words that match the criteria specified by the
         arguments.
@@ -91,6 +93,9 @@ class RandomWord:
         :param word_max_length: the maximum length of each word. Defaults to
             None.
         :type word_max_length: int, optional
+        :param regex: a custom regular expression which each word must fully
+            match (re.fullmatch). Defaults to None.
+        :type regex: str, optional
 
         :return: a list of unique words that match each of the criteria
             specified
@@ -113,17 +118,25 @@ class RandomWord:
             except KeyError:
                 raise ValueError(f"{part_of_speech} is an invalid part of speech")
 
-        for word in words[:]:
-            if not word.startswith(starts_with):
-                words.remove(word)
-            elif not word.endswith(ends_with):
-                words.remove(word)
+        # starts/ends
+        if starts_with != "" or ends_with != "":
+            for word in words[:]:
+                if not word.startswith(starts_with):
+                    words.remove(word)
+                elif not word.endswith(ends_with):
+                    words.remove(word)
 
-        for word in words[:]:
-            if word_min_length is not None and len(word) < word_min_length:
-                words.remove(word)
-            elif word_max_length is not None and len(word) > word_max_length:
-                words.remove(word)
+        # length
+        if word_min_length is not None or word_max_length is not None:
+            for word in words[:]:
+                if word_min_length is not None and len(word) < word_min_length:
+                    words.remove(word)
+                elif word_max_length is not None and len(word) > word_max_length:
+                    words.remove(word)
+
+        # regex
+        if regex is not None:
+            words = [word for word in words if re.fullmatch(regex, word) is not None]
 
         return list(set(words))
 
@@ -135,6 +148,7 @@ class RandomWord:
         include_parts_of_speech: Optional[List[str]] = None,
         word_min_length: Optional[int] = None,
         word_max_length: Optional[int] = None,
+        regex: Optional[str] = None,
         return_less_if_necessary: bool = False,
     ):
         """Generate a list of n random words specified by the ``amount``
@@ -169,6 +183,9 @@ class RandomWord:
         :param word_max_length: the maximum length of each word. Defaults to
             None.
         :type word_max_length: int, optional
+        :param regex: a custom regular expression which each word must fully
+            match (re.fullmatch). Defaults to None.
+        :type regex: str, optional
         :param return_less_if_necessary: if set to True, if there aren't enough
             words to statisfy the amount, instead of raising a
             NoWordsToChoseFrom exception, return all words that did statisfy
@@ -188,6 +205,7 @@ class RandomWord:
             include_parts_of_speech=include_parts_of_speech,
             word_min_length=word_min_length,
             word_max_length=word_max_length,
+            regex=regex,
         )
 
         if not return_less_if_necessary and len(choose_from) < amount:
@@ -213,6 +231,7 @@ class RandomWord:
         include_parts_of_speech: Optional[List[str]] = None,
         word_min_length: Optional[int] = None,
         word_max_length: Optional[int] = None,
+        regex: Optional[str] = None,
     ):
         """Returns a random word that fits the criteria specified by the
         arguments.
@@ -238,6 +257,9 @@ class RandomWord:
         :param word_max_length: the maximum length of the word. Defaults to
             None.
         :type word_max_length: int, optional
+        :param regex: a custom regular expression which each word must fully
+            match (re.fullmatch). Defaults to None.
+        :type regex: str, optional
 
         :raises NoWordsToChoseFrom: if a word fitting the criteria doesn't
             exist
@@ -252,6 +274,7 @@ class RandomWord:
             include_parts_of_speech=include_parts_of_speech,
             word_min_length=word_min_length,
             word_max_length=word_max_length,
+            regex=regex,
         )[0]
 
     @staticmethod

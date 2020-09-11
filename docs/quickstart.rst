@@ -65,7 +65,7 @@ part of speech, you can use the ``include_parts_of_speech`` parameter::
   >>> w.word(include_parts_of_speech=["nouns", "verbs"])
   'cinder'
 
-Finally, we can also filter words by length using the ``word_min_length`` and
+We can also filter words by length using the ``word_min_length`` and
 ``word_max_length`` parameters::
 
   >>> w.word(word_min_length=5)
@@ -74,6 +74,14 @@ Finally, we can also filter words by length using the ``word_min_length`` and
   'dog'
   >>> w.word(word_min_length=9, word_max_length=10)
   'velodrome'
+
+Finally, we can filter words by a custom python
+`regular expression <https://docs.python.org/3/library/re.html>`_::
+
+  >>> w.word(regex="..")
+  'TV'
+  >>> w.word(regex=".*a")
+  'terracotta'
 
 Remember that we can combine multiple filters together, like so::
 

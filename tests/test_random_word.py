@@ -88,6 +88,13 @@ class TestRandomWord:
         data = self.rw.filter(word_min_length=-31, word_max_length=-10)
         assert isinstance(data, list)
 
+    def test_filter_regex(self):
+        """Test the regex functionality of the filter method"""
+        data = self.rw.filter(regex=".*ea")
+        assert sorted(data) == sorted(
+            ["guinea", "sea", "tea", "idea", "plea", "area", "pea"]
+        )
+
     def test_random_words(self):
         """Test the random_words method"""
         data = self.rw.random_words(4)
