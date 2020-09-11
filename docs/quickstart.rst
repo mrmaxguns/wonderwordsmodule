@@ -27,7 +27,7 @@ words::
   >>>
   >>> w = RandomWord()
   >>> w.word()
-  >>> 'sordid'
+  'sordid'
 
 Calling the word class returned a string containing a word. When using
 Wonderwords, it is helpful to create an instance of the ``RandomWord`` class
