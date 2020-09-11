@@ -73,7 +73,7 @@ class RandomWord:
         Example::
 
             >>> # Filter all nouns that start with a:
-            >>> r.filter(starts_with="a", include_parts_of_speech=["noun"])
+            >>> r.filter(starts_with="a", include_parts_of_speech=["nouns"])
 
         :param starts_with: the string each word should start with. Defaults to
             "".
