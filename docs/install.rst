@@ -1,8 +1,19 @@
 
 .. _install:
 
+Install, Uninstall and Upgrade
+==============================
+
+Prerequisites
+-------------
+
+Before proceeding, make sure you have the following items installed:
+
+* `Python <https://python.org>`_ version 3.6 or greater
+* A python package manager, such as `pip <https://pip.pypa.io/en/stable/installing/>`_
+
 Install
-=======
+-------
 
 To install Wonderwords, use your favorite PyPI package manager, such as pip to
 install the package ``wonderwords``:

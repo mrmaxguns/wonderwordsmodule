@@ -26,10 +26,10 @@ the sentence feature is in its early development. To install, head over to the
 place to get started with Wonderwords.
 
 A full reference of all modules (the API documentation) can be found
-:ref:`here <docs>`. 
+:ref:`here <docs>`.
 
-Table of Contents
------------------
+Documentation
+-------------
 
 .. toctree::
    :maxdepth: 2
