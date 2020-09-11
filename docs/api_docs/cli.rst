@@ -10,7 +10,7 @@ command. Usage::
   usage: wonderwords [-h] [-w] [-f] [-l LIST] [-s {bb,ss,bba,s}] [-v]
                      [-sw STARTS_WITH] [-ew ENDS_WITH]
                      [-p {nouns,verbs,adjectives} [{nouns,verbs,adjectives} ...]]
-                     [-min WORD_MIN_LENGTH] [-max WORD_MAX_LENGTH]
+                     [-min WORD_MIN_LENGTH] [-max WORD_MAX_LENGTH] [-r REGEX]
                      [-d DELIMITER]
 
   optional arguments:
@@ -34,6 +34,9 @@ command. Usage::
                           specify the minimum length of the word(s)
     -max WORD_MAX_LENGTH, --word-max-length WORD_MAX_LENGTH
                           specify the maximum length of the word(s)
+    -r REGEX, --regex REGEX, --re REGEX, --regular-expression REGEX
+                          specify a python-style regular expression that every
+                          word must match
     -d DELIMITER, --delimiter DELIMITER
                           Specify the delimiter to put between a list of words,
                           default is ', '
@@ -54,7 +57,7 @@ There are a number of core commands that provide basic functionality:
     * ``ss``: simple sentence (bare bone sentence with a direct object)
     * ``bba``: bare bone sentence with an adjective
     * ``s``: simple sentence with an adjective
-    
+
 * ``-v`` or ``--version``: return the version and exit
 * ``-h`` or ``--help``: show a list of commands
 
@@ -69,6 +72,9 @@ The following commands apply only to ``random-word``, ``filter`` and ``list``:
   one or more from nouns, verbs and adjectives
 * ``-min`` or ``--word-min-length``: the minimum length of each word
 * ``-max`` or ``--word-max-length``: the maximum length of each word
+* ``-r`` or ``--regex`` or ``--re`` or ``--regular-expression``: use a custom
+  python regular expression in order to filter a word. All words that do not
+  fully match the expression will be removed.
 
 The following commands apply only to ``filter`` and ``list``:
 
