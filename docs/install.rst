@@ -1,5 +1,5 @@
 
-.. _install:
+.. _install_uninstall_upgrade:
 
 Install, Uninstall and Upgrade
 ==============================

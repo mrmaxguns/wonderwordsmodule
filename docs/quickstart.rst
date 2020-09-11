@@ -13,7 +13,7 @@ For a full reference of all commands, visit the API documentation.
 .. note::
 
   This tutorial assumes you have already installed Wonderwords. If this is not
-  the case, head over to the :ref:`install` page before proceeding.
+  the case, head over to the :ref:`install_uninstall_upgrade` page before proceeding.
 
 The ``RandomWord`` class
 ------------------------

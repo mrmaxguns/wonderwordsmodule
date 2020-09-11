@@ -22,7 +22,7 @@ The random words can also be further customized::
 
 With Wonderwords you can also generate lists of words and sentences, though
 the sentence feature is in its early development. To install, head over to the
-:ref:`install <install>` page. The :ref:`quickstart <quickstart>` is a great
+:ref:`install <install_uninstall_upgrade>` page. The :ref:`quickstart <quickstart>` is a great
 place to get started with Wonderwords.
 
 A full reference of all modules (the API documentation) can be found
