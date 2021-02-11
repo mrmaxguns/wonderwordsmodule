@@ -5,6 +5,7 @@
 ![PyPI - Downloads](https://img.shields.io/pypi/dm/wonderwords?style=for-the-badge)
 ![Libraries.io SourceRank](https://img.shields.io/librariesio/sourcerank/pypi/wonderwords?style=for-the-badge)
 ![PyPI - License](https://img.shields.io/pypi/l/wonderwords?style=for-the-badge)
+https://github.com/mrmaxguns/wonderwordsmodule/workflows/Python%20package/badge.svg
 
 **Quick links:**
 
