@@ -10,6 +10,9 @@
   <img alt="PyPI - License" src="https://img.shields.io/pypi/l/wonderwords?style=for-the-badge">
 </p>
 <p align="center">
+  <img alt="Python package build" src="https://github.com/mrmaxguns/wonderwordsmodule/workflows/Python%20package/badge.svg">
+</p>
+<p align="center">
   <a href="https://github.com/mrmaxguns/wonderwordsmodule">GitHub repository</a>
   | <a href="https://pypi.org/project/wonderwords">PyPI page</a>
   | <a href="https://wonderwords.readthedocs.io">Official Documentation</a>
