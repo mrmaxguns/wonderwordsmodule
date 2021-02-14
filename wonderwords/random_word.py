@@ -41,6 +41,7 @@ class Defaults(enum.Enum):
     NOUNS = "nounlist.txt"
     VERBS = "verblist.txt"
     ADJECTIVES = "adjectivelist.txt"
+    PROFANITIES = "profanitylist.txt"
 
 
 def _load_default_categories(default_categories):

@@ -35,6 +35,7 @@ version is available [on PyPI](https://pypi.org/project/wonderwords).
 * [Versioning](#versioning)
 * [License](#license)
 * [Contributing](#contributing)
+* [Credits](#credits)
 
 ## Installation
 
@@ -222,3 +223,12 @@ for more details.
 All contributions are welcome and we hope wonderwords will continue growing.
 Start out by reading CONTRIBUTING.md for contributing guidelines and how to get
 started.
+
+# Credits
+
+Wonderwords has been made possible thanks to the following works:
+
+* `profanitylist.txt` from
+  [RobertJGabriel/Google-profanity-words](https://github.com/RobertJGabriel/Google-profanity-words)
+  under the
+  [Apache-2.0 license](https://github.com/RobertJGabriel/Google-profanity-words/blob/master/LICENSE)

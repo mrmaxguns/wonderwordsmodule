@@ -313,7 +313,6 @@ asparagus
 aspect
 asphalt
 aspic
-ass
 assassination
 assault
 assembly
@@ -1189,7 +1188,6 @@ coat
 cob
 cobbler
 cobweb
-cock
 cockpit
 cockroach
 cocktail
@@ -1482,7 +1480,6 @@ craftsman
 cranberry
 crane
 cranky
-crap
 crash
 crate
 cravat
@@ -1618,7 +1615,6 @@ daisy
 dam
 damage
 dame
-damn
 dance
 dancer
 dancing
@@ -1762,7 +1758,6 @@ diaphragm
 diarist
 diary
 dibble
-dick
 dickey
 dictaphone
 dictator
@@ -2274,7 +2269,6 @@ family
 fan
 fang
 fanlight
-fanny
 fanny-pack
 fantasy
 farm
@@ -2521,7 +2515,6 @@ frown
 fruit
 frustration
 fry
-fuck
 fuel
 fugato
 fulfillment
@@ -2881,7 +2874,6 @@ heir
 heirloom
 helicopter
 helium
-hell
 hellcat
 hello
 helmet
@@ -3590,7 +3582,6 @@ lunchmeat
 lunchroom
 lung
 lunge
-lust
 lute
 luxury
 lychee
@@ -4386,7 +4377,6 @@ pear
 pearl
 peasant
 pecan
-pecker
 pedal
 peek
 peen
@@ -4404,7 +4394,6 @@ pendulum
 penguin
 penicillin
 peninsula
-penis
 pennant
 penny
 pension
@@ -4517,7 +4506,6 @@ pipe
 pipeline
 piracy
 pirate
-piss
 pistol
 pit
 pita
@@ -5383,7 +5371,6 @@ settlement
 settler
 severity
 sewer
-sex
 sexuality
 shack
 shackle
@@ -5425,7 +5412,6 @@ shipping
 shipyard
 shirt
 shirtdress
-shit
 shoat
 shock
 shoe
@@ -6234,7 +6220,6 @@ torte
 tortellini
 tortilla
 tortoise
-tosser
 total
 tote
 touch
