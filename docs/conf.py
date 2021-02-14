@@ -54,5 +54,5 @@ html_static_path = ["_static"]
 master_doc = "index"
 
 # Sphinx copybutton configuration
-copybutton_prompt_text = r">>> |\.\.\. |\$ |In \[\d*\]: | {2,5}\.\.\.: | {5,8}: "
+copybutton_prompt_text = r">>> |\.\.\. |\$ |In \[\d*\]: | {2,5}\.\.\.: | {5,8}: "  # noqa: E501
 copybutton_prompt_is_regexp = True

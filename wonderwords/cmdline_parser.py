@@ -1,6 +1,4 @@
 import argparse
-import sys
-import os
 
 from .random_word import RandomWord, NoWordsToChoseFrom
 from .random_sentence import RandomSentence
@@ -60,7 +58,10 @@ def main():
     )
 
     parser.add_argument(
-        "-v", "--version", action="store_true", help="Print the version number and exit"
+        "-v",
+        "--version",
+        action="store_true",
+        help="Print the version number and exit"
     )
 
     #
@@ -91,7 +92,10 @@ def main():
         type=str,
         nargs="+",
         choices=["nouns", "verbs", "adjectives"],
-        help="specify to only include certain parts of speech (by default all parts of speech are included)",
+        help=(
+            "specify to only include certain parts of speech (by default all"
+            " parts of speech are included)"
+        ),
     )
 
     parser.add_argument(
@@ -117,7 +121,10 @@ def main():
         "--regular-expression",
         action="store",
         type=str,
-        help="specify a python-style regular expression that every word must match",
+        help=(
+            "specify a python-style regular expression that every word must"
+            " match"
+        ),
     )
 
     parser.add_argument(
@@ -125,7 +132,10 @@ def main():
         "--delimiter",
         default=", ",
         type=str,
-        help="Specify the delimiter to put between a list of words, default is ', '",
+        help=(
+            "Specify the delimiter to put between a list of words, default is"
+            " ', '"
+        ),
     )
 
     args = parser.parse_args()
@@ -150,7 +160,7 @@ def get_mode(arguments):
     return MODE
 
 
-def handle_mode(mode, arguments):
+def handle_mode(mode, arguments):  # noqa: C901
     command_line = WonderwordsCommandLine()
 
     if mode == "version":

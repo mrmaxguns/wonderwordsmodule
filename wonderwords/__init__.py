@@ -1,3 +1,4 @@
+# flake8: noqa
 from .random_word import RandomWord, NoWordsToChoseFrom, Defaults
 from .random_sentence import RandomSentence
 

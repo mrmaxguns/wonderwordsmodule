@@ -36,7 +36,9 @@ class TestRandomWord:
         parameter that is invalid
         """
         with pytest.raises(ValueError):
-            data = self.rw.filter(include_parts_of_speech=["I am not a part of speech"])
+            self.rw.filter(
+                include_parts_of_speech=["I am not a part of speech"]
+            )
 
     def test_filter_word_min_length(self):
         """Test the filter method with a custom word_min_length parameter"""
@@ -61,25 +63,27 @@ class TestRandomWord:
         """Test the filter method with a custom word_min_length parameter which
         is not of the correct type (int)"""
         with pytest.raises(TypeError):
-            data = self.rw.filter(word_min_length="INVALID")
+            self.rw.filter(word_min_length="INVALID")
 
     def test_filter_word_max_length(self):
         """Test the filter method with a custom word_max_length parameter"""
         data = self.rw.filter(word_max_length=2)
-        assert sorted(data) == sorted(["be", "ox", "go", "do", "ad", "TV", "id", "CD"])
+        assert sorted(data) == sorted(
+            ["be", "ox", "go", "do", "ad", "TV", "id", "CD"]
+        )
 
     def test_filter_word_max_length_invalid(self):
         """Test the filter method with a custom word_max_length parameter which
         is not of the correct type (int)"""
         with pytest.raises(TypeError):
-            data = self.rw.filter(word_max_length=b"Invalid bytes :(")
+            self.rw.filter(word_max_length=b"Invalid bytes :(")
 
     def test_filter_word_lengths_invalid(self):
         """Test the filter method where word_max_length is less than
         word_min_length (invalid)
         """
         with pytest.raises(ValueError):
-            data = self.rw.filter(word_min_length=20, word_max_length=5)
+            self.rw.filter(word_min_length=20, word_max_length=5)
 
     def test_filter_word_lengths_negative(self):
         """Test the filter method where word_min_length and word_max_length
@@ -105,14 +109,18 @@ class TestRandomWord:
         than expected
         """
         with pytest.raises(NoWordsToChoseFrom):
-            data = self.rw.random_words(20, starts_with="ag")
+            self.rw.random_words(20, starts_with="ag")
 
     def test_random_words_not_enough_with_return_less_if_necessary(self):
         """Test the random_words method in which the query returns less results
         than expected but with the parameter return_less_if_necessary set to
         True
         """
-        data = self.rw.random_words(20, starts_with="ag", return_less_if_necessary=True)
+        data = self.rw.random_words(
+            20,
+            starts_with="ag",
+            return_less_if_necessary=True
+        )
         assert sorted(data) == sorted(
             [
                 "age",

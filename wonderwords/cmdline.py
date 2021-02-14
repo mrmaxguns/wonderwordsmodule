@@ -38,7 +38,8 @@ class WonderwordsCommandLine:
 
     def version(self):
         console.print(
-            f"Running wonderwords version {__version__}", style="navy_blue on white"
+            f"Running wonderwords version {__version__}", style="navy_blue on"
+            "white"
         )
 
     def intro(self):
@@ -56,7 +57,9 @@ class WonderwordsCommandLine:
         console.print(word_text)
 
     def words(self, words, delimiter):
-        word_text = Text(delimiter.join(words), style="bold white on navy_blue")
+        word_text = Text(
+            delimiter.join(words), style="bold white on navy_blue"
+        )
         console.print(word_text)
 
     def sentence(self, sent):
@@ -65,12 +68,15 @@ class WonderwordsCommandLine:
 
     def no_word(self):
         console.print(
-            "A word with the parameters specified does not exist! :anguished: ",
+            "A word with the parameters specified does not exist! :anguished:",
             style="white on red",
         )
 
     def no_words(self):
         console.print(
-            "There weren't enough words that matched your request. All words available are listed below :anguished: ",
+            (
+                "There weren't enough words that matched your request. All"
+                " words available are listed below :anguished: "
+            ),
             style="white on red",
         )

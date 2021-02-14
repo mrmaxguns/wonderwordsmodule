@@ -109,7 +109,7 @@ class RandomWord:
         # Kept for backwards compatibility
         self.parts_of_speech = self._categories
 
-    def filter(
+    def filter(  # noqa: C901
         self,
         starts_with: str = "",
         ends_with: str = "",
@@ -128,8 +128,8 @@ class RandomWord:
             >>> r.filter(starts_with="a", include_categories=["noun"])
 
         .. important:: The ``include_parts_of_speech`` argument will soon be
-            deprecated. Use ``include_categories`` which performs the exact same
-            role.
+            deprecated. Use ``include_categories`` which performs the exact
+            same role.
 
         :param starts_with: the string each word should start with. Defaults to
             "".
@@ -192,12 +192,17 @@ class RandomWord:
             for word in words[:]:
                 if word_min_length is not None and len(word) < word_min_length:
                     words.remove(word)
-                elif word_max_length is not None and len(word) > word_max_length:
+                elif (
+                    word_max_length is not None
+                    and len(word) > word_max_length
+                ):
                     words.remove(word)
 
         # regex
         if regex is not None:
-            words = [word for word in words if re.fullmatch(regex, word) is not None]
+            words = [
+                word for word in words if re.fullmatch(regex, word) is not None
+            ]
 
         return list(set(words))
 
@@ -218,7 +223,8 @@ class RandomWord:
 
         Example::
 
-            >>> # Generate a list of 3 adjectives or nouns which start with "at"
+            >>> # Generate a list of 3 adjectives or nouns which start with
+            ...     # "at"
             >>> # and are at least 2 letters long
             >>> r.random_words(
             ...     3,
@@ -276,7 +282,8 @@ class RandomWord:
 
         if not return_less_if_necessary and len(choose_from) < amount:
             raise NoWordsToChoseFrom(
-                f"There aren't enough words to choose from. Cannot generate {str(amount)} word(s)"
+                "There aren't enough words to choose from. Cannot generate "
+                f"{str(amount)} word(s)"
             )
         elif return_less_if_necessary:
             random.shuffle(choose_from)
@@ -357,7 +364,8 @@ class RandomWord:
         return _get_words_from_text_file(word_file)
 
     def _validate_lengths(self, word_min_length, word_max_length):
-        """Validate the values and types of word_min_length and word_max_length"""
+        """Validate the values and types of word_min_length and word_max_length
+        """
         if not isinstance(word_min_length, (int, type(None))):
             raise TypeError("word_min_length must be type int or None")
 
