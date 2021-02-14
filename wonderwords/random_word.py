@@ -5,6 +5,7 @@ generation of single random words.
 
 import random
 import re
+import enum
 from typing import Optional, List
 
 from . import assets
@@ -25,45 +26,93 @@ class NoWordsToChoseFrom(Exception):
     pass
 
 
+class Defaults(enum.Enum):
+    """This enum represents the default word lists. For example, if you want a
+    random word generator with one category labeled 'adj' for adjectives, but
+    want to use the default word list, you can do the following::
+
+        >>> from wonderwords import RandomWord, Defaults
+        >>> w = RandomWord(adj=Defaults.ADJECTIVES)
+        >>> w.word()
+        'red'
+
+    """
+
+    NOUNS = "nounlist.txt"
+    VERBS = "verblist.txt"
+    ADJECTIVES = "adjectivelist.txt"
+
+
+def _load_default_categories(default_categories):
+    """Load all the default word lists"""
+    out = {}
+    for category in default_categories:
+        out[category] = _get_words_from_text_file(category.value)
+    return out
+
+
+def _get_words_from_text_file(word_file):
+    """Read a file found in static/ where each line has a word, and return
+    all words as a list
+    """
+    words = pkg_resources.open_text(assets, word_file).readlines()
+    return [word.rstrip() for word in words]
+
+
+_default_categories = _load_default_categories(Defaults)
+
+
 class RandomWord:
     """The RandomWord class encapsulates multiple methods dealing with the
     generation of random words and lists of random words.
 
     Example::
 
-        >>> r = RandomWord(nouns=["apple", "orange"])
-        >>> r2 = RandomWord()
+        >>> from wonderwords import RandomWord, Defaults
+        >>>
+        >>> r = RandomWord(noun=["apple", "orange"]) # Category 'noun' with
+        ...     # the words 'apple' and 'orange'
+        >>> r2 = RandomWord() # Use the default word lists
+        >>> r3 = RandomWord(noun=Defaults.NOUNS) # Set the category 'noun' to
+        ...     # the default list of nouns
 
-    :param nouns: a list of nouns that will be used to generate random nouns.
-        Defaults to None.
+    .. important:: Wonderwords version `2.0.*`` does not have custom categories.
+        In fact there are only three categories: nouns, verbs, and adjectives.
+        However, wonderwords will remain backwards compatible until version `3`.
+        Please note that the `parts_of_speech` attribute will soon be
+        deprecated, along with other method-specific features.
+
+    :param **kwargs: keyword arguments where each key is a category of words
+        and value is a list of words in that category. You can also use a
+        default list of words by using the `Default` enum instead.
     :type nouns: list, optional
-    :param verbs: a list of verbs that will be used to generate random verbs.
-        Defaults to None.
-    :type verbs: list, optional
-    :param adjectives: a list of adjectives that will be used to generate random
-        adjectives. Defaults to None.
-    :type adjectives: list, optional
     """
 
-    def __init__(
-        self,
-        nouns: Optional[List[str]] = None,
-        verbs: Optional[List[str]] = None,
-        adjectives: Optional[List[str]] = None,
-    ):
-        self.nouns = nouns or self.read_words("nounlist.txt")
-        self.verbs = verbs or self.read_words("verblist.txt")
-        self.adjectives = adjectives or self.read_words("adjectivelist.txt")
-        self.parts_of_speech = {
-            "nouns": self.nouns,
-            "verbs": self.verbs,
-            "adjectives": self.adjectives,
-        }
+    def __init__(self, **kwargs):
+        if kwargs:
+            self._categories = self._custom_categories(kwargs)
+        else:
+            self._categories = self._custom_categories(
+                {
+                    "noun": Defaults.NOUNS,
+                    "verb": Defaults.VERBS,
+                    "adjective": Defaults.ADJECTIVES,
+                    # The following was added for backwards compatibility
+                    # reasons. The plural categories will be deleted in
+                    # wonderwords version 3. See issue #9.
+                    "nouns": Defaults.NOUNS,
+                    "verbs": Defaults.VERBS,
+                    "adjectives": Defaults.ADJECTIVES,
+                }
+            )
+        # Kept for backwards compatibility
+        self.parts_of_speech = self._categories
 
     def filter(
         self,
         starts_with: str = "",
         ends_with: str = "",
+        include_categories: Optional[List[str]] = None,
         include_parts_of_speech: Optional[List[str]] = None,
         word_min_length: Optional[int] = None,
         word_max_length: Optional[int] = None,
@@ -75,17 +124,24 @@ class RandomWord:
         Example::
 
             >>> # Filter all nouns that start with a:
-            >>> r.filter(starts_with="a", include_parts_of_speech=["nouns"])
+            >>> r.filter(starts_with="a", include_categories=["noun"])
+
+        .. important: The `include_parts_of_speech` argument will soon be
+            deprecated. Use `include_categories` which performs the exact same
+            role.
 
         :param starts_with: the string each word should start with. Defaults to
             "".
         :type starts_with: str, optional
         :param ends_with: the string each word should end with. Defaults to "".
         :type ends_with: str, optional
-        :param include_parts_of_speech: a list of strings denoting a part of
+        :param include_categories: a list of strings denoting a part of
             speech. Each word returned will be in the category of at least one
             part of speech. By default, all parts of speech are enabled.
             Defaults to None.
+        :type include_categories: list of strings, optional
+        :param include_parts_of_speech: Same as include_categories, but will
+            soon be deprecated.
         :type include_parts_of_speech: list of strings, optional
         :param word_min_length: the minimum length of each word. Defaults to
             None.
@@ -104,19 +160,23 @@ class RandomWord:
         word_min_length, word_max_length = self._validate_lengths(
             word_min_length, word_max_length
         )
-        include_parts_of_speech = include_parts_of_speech or [
-            "nouns",
-            "verbs",
-            "adjectives",
-        ]
+
+        # include_parts_of_speech will be deprecated in a future release
+        if not include_categories:
+            if include_parts_of_speech:
+                include_categories = include_parts_of_speech
+            else:
+                include_categories = self._categories.keys()
 
         # filter parts of speech
         words = []
-        for part_of_speech in include_parts_of_speech:
+        for category in include_categories:
             try:
-                words.extend(self.parts_of_speech[part_of_speech])
+                words.extend(self._categories[category])
             except KeyError:
-                raise ValueError(f"{part_of_speech} is an invalid part of speech")
+                raise ValueError(
+                    f"'{category}' is an invalid category"
+                ) from None
 
         # starts/ends
         if starts_with != "" or ends_with != "":
@@ -145,6 +205,7 @@ class RandomWord:
         amount: int = 1,
         starts_with: str = "",
         ends_with: str = "",
+        include_categories: Optional[List[str]] = None,
         include_parts_of_speech: Optional[List[str]] = None,
         word_min_length: Optional[int] = None,
         word_max_length: Optional[int] = None,
@@ -172,10 +233,13 @@ class RandomWord:
         :type starts_with: str, optional
         :param ends_with: the string each word should end with. Defaults to "".
         :type ends_with: str, optional
-        :param include_parts_of_speech: a list of strings denoting a part of
+        :param include_categories: a list of strings denoting a part of
             speech. Each word returned will be in the category of at least one
             part of speech. By default, all parts of speech are enabled.
             Defaults to None.
+        :type include_categories: list of strings, optional
+        :param include_parts_of_speech: Same as include_categories, but will
+            soon be deprecated.
         :type include_parts_of_speech: list of strings, optional
         :param word_min_length: the minimum length of each word. Defaults to
             None.
@@ -202,6 +266,7 @@ class RandomWord:
         choose_from = self.filter(
             starts_with=starts_with,
             ends_with=ends_with,
+            include_categories=include_categories,
             include_parts_of_speech=include_parts_of_speech,
             word_min_length=word_min_length,
             word_max_length=word_max_length,
@@ -228,6 +293,7 @@ class RandomWord:
         self,
         starts_with: str = "",
         ends_with: str = "",
+        include_categories: Optional[List[str]] = None,
         include_parts_of_speech: Optional[List[str]] = None,
         word_min_length: Optional[int] = None,
         word_max_length: Optional[int] = None,
@@ -246,10 +312,13 @@ class RandomWord:
         :type starts_with: str, optional
         :param ends_with: the string the word should end with. Defaults to "".
         :type ends_with: str, optional
-        :param include_parts_of_speech: a list of strings denoting a part of
-            speech. The returned will be in the category of at least one
+        ::param include_categories: a list of strings denoting a part of
+            speech. Each word returned will be in the category of at least one
             part of speech. By default, all parts of speech are enabled.
             Defaults to None.
+        :type include_categories: list of strings, optional
+        :param include_parts_of_speech: Same as include_categories, but will
+            soon be deprecated.
         :type include_parts_of_speech: list of strings, optional
         :param word_min_length: the minimum length of the word. Defaults to
             None.
@@ -271,6 +340,7 @@ class RandomWord:
             amount=1,
             starts_with=starts_with,
             ends_with=ends_with,
+            include_categories=include_categories,
             include_parts_of_speech=include_parts_of_speech,
             word_min_length=word_min_length,
             word_max_length=word_max_length,
@@ -279,11 +349,11 @@ class RandomWord:
 
     @staticmethod
     def read_words(word_file):
-        """Read a file found in static/ where each line has a word, and return
-        all words as a list
+        """Will soon be deprecated. This method isn't meant to be public, but
+        will remain for backwards compatibility. Developers: use
+        _get_words_from_text_file internally instead.
         """
-        words = pkg_resources.open_text(assets, word_file).readlines()
-        return [word.rstrip() for word in words]
+        return _get_words_from_text_file(word_file)
 
     def _validate_lengths(self, word_min_length, word_max_length):
         """Validate the values and types of word_min_length and word_max_length"""
@@ -306,3 +376,13 @@ class RandomWord:
             word_max_length = None
 
         return (word_min_length, word_max_length)
+
+    def _custom_categories(self, custom_categories):
+        """Add custom categries of words"""
+        out = {}
+        for name, words in custom_categories.items():
+            if isinstance(words, Defaults):
+                out[name] = _default_categories[words]
+            else:
+                out[name] = words
+        return out

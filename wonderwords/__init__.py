@@ -1,4 +1,4 @@
-from .random_word import RandomWord
+from .random_word import RandomWord, NoWordsToChoseFrom, Defaults
 from .random_sentence import RandomSentence
 
 __author__ = "Maxim R."
