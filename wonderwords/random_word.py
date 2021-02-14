@@ -77,11 +77,11 @@ class RandomWord:
         >>> r3 = RandomWord(noun=Defaults.NOUNS) # Set the category 'noun' to
         ...     # the default list of nouns
 
-    .. important:: Wonderwords version `2.0.*`` does not have custom categories.
-        In fact there are only three categories: nouns, verbs, and adjectives.
-        However, wonderwords will remain backwards compatible until version `3`.
-        Please note that the `parts_of_speech` attribute will soon be
-        deprecated, along with other method-specific features.
+    .. important:: Wonderwords version ``2.0.*`` does not have custom
+        categories. In fact there are only three categories: nouns, verbs, and
+        adjectives. However, wonderwords will remain backwards compatible until
+        version `3`. Please note that the ``parts_of_speech`` attribute will
+        soon be deprecated, along with other method-specific features.
 
     :param **kwargs: keyword arguments where each key is a category of words
         and value is a list of words in that category. You can also use a
@@ -127,8 +127,8 @@ class RandomWord:
             >>> # Filter all nouns that start with a:
             >>> r.filter(starts_with="a", include_categories=["noun"])
 
-        .. important: The `include_parts_of_speech` argument will soon be
-            deprecated. Use `include_categories` which performs the exact same
+        .. important:: The ``include_parts_of_speech`` argument will soon be
+            deprecated. Use ``include_categories`` which performs the exact same
             role.
 
         :param starts_with: the string each word should start with. Defaults to
