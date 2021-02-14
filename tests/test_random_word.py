@@ -152,8 +152,9 @@ class TestRandomWord:
             name=names,
             food=foods,
         )
+        first_word = gen.word()
         assert (
-            (gen.word() in names or gen.word() in foods)
+            (first_word in names or first_word in foods)
             and (gen.word(include_categories=["food"]) in foods)
         )
 
