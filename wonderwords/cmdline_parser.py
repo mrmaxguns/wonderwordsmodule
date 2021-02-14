@@ -91,7 +91,8 @@ def main():
         action="store",
         type=str,
         nargs="+",
-        choices=["nouns", "verbs", "adjectives"],
+        # The plural forms will be removed in version 3
+        choices=["noun", "verb", "adjective", "nouns", "verbs", "adjectives"],
         help=(
             "specify to only include certain parts of speech (by default all"
             " parts of speech are included)"
@@ -178,7 +179,7 @@ def handle_mode(mode, arguments):  # noqa: C901
             word = word_parser.word(
                 starts_with=arguments.starts_with,
                 ends_with=arguments.ends_with,
-                include_parts_of_speech=arguments.parts_of_speech,
+                include_categories=arguments.parts_of_speech,
                 word_min_length=arguments.word_min_length,
                 word_max_length=arguments.word_max_length,
                 regex=arguments.regex,
@@ -192,7 +193,7 @@ def handle_mode(mode, arguments):  # noqa: C901
         words = word_parser.filter(
             starts_with=arguments.starts_with,
             ends_with=arguments.ends_with,
-            include_parts_of_speech=arguments.parts_of_speech,
+            include_categories=arguments.parts_of_speech,
             word_min_length=arguments.word_min_length,
             word_max_length=arguments.word_max_length,
             regex=arguments.regex,
@@ -206,7 +207,7 @@ def handle_mode(mode, arguments):  # noqa: C901
                 amount=arguments.list,
                 starts_with=arguments.starts_with,
                 ends_with=arguments.ends_with,
-                include_parts_of_speech=arguments.parts_of_speech,
+                include_categories=arguments.parts_of_speech,
                 word_min_length=arguments.word_min_length,
                 word_max_length=arguments.word_max_length,
                 regex=arguments.regex,
@@ -217,7 +218,7 @@ def handle_mode(mode, arguments):  # noqa: C901
                 amount=arguments.list,
                 starts_with=arguments.starts_with,
                 ends_with=arguments.ends_with,
-                include_parts_of_speech=arguments.parts_of_speech,
+                include_categories=arguments.parts_of_speech,
                 word_min_length=arguments.word_min_length,
                 word_max_length=arguments.word_max_length,
                 return_less_if_necessary=True,
