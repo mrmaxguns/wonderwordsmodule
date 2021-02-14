@@ -1,5 +1,4 @@
-from wonderwords import RandomWord
-from wonderwords.random_word import NoWordsToChoseFrom
+from wonderwords import RandomWord, Defaults, NoWordsToChoseFrom
 
 import pytest
 
@@ -24,20 +23,20 @@ class TestRandomWord:
         data = self.rw.filter(ends_with="ala")
         assert sorted(data) == sorted(["impala", "koala"])
 
-    def test_filter_include_parts_of_speech(self):
+    def test_filter_include_categories(self):
         """Test the filter method with a custom include_parts_of_speech
         parameter
         """
-        data = self.rw.filter(include_parts_of_speech=["adjectives"])
+        data = self.rw.filter(include_categories=["adjective"])
         assert len(data) == 910
 
-    def test_filter_include_parts_of_speech_invalid(self):
+    def test_filter_include_categories_invalid(self):
         """Test the filter method with a custom include_parts_of_speech
         parameter that is invalid
         """
         with pytest.raises(ValueError):
             self.rw.filter(
-                include_parts_of_speech=["I am not a part of speech"]
+                include_categories=["I am not a part of speech"]
             )
 
     def test_filter_word_min_length(self):
@@ -144,3 +143,21 @@ class TestRandomWord:
         """Test the word method"""
         data = self.rw.word()
         assert isinstance(data, str)
+
+    def test_custom_category_without_defaults(self):
+        """Test a custom category without using default values"""
+        names = ["Bob", "Billy", "Anne", "Max"]
+        foods = ["soup", "noodles", "cake", "rice"]
+        gen = RandomWord(
+            name=names,
+            food=foods,
+        )
+        assert (
+            (gen.word() in names or gen.word() in foods)
+            and (gen.word(include_categories=["food"]) in foods)
+        )
+
+    def test_custom_category_with_defaults(self):
+        """Test a custom category using default values"""
+        gen = RandomWord(my_verb=Defaults.VERBS)
+        assert gen.word(starts_with="ab") == "abide"

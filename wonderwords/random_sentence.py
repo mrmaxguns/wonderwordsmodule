@@ -5,7 +5,7 @@ Generate structured sentences in which every word is random.
 import random
 from typing import Optional, List
 
-from .random_word import RandomWord
+from .random_word import RandomWord, Defaults
 
 
 VOWELS = ["a", "e", "i", "o", "u"]
@@ -54,7 +54,10 @@ class RandomSentence:
         verbs: Optional[List[str]] = None,
         adjectives: Optional[List[str]] = None,
     ):
-        self.gen = RandomWord()
+        noun = nouns or Defaults.NOUNS
+        verb = verbs or Defaults.VERBS
+        adjective = adjectives or Defaults.ADJECTIVES
+        self.gen = RandomWord(noun=noun, verb=verb, adjective=adjective)
 
     # Randomly generate bare bone sentences
     def bare_bone_sentence(self):
