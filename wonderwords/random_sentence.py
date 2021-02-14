@@ -54,11 +54,7 @@ class RandomSentence:
         verbs: Optional[List[str]] = None,
         adjectives: Optional[List[str]] = None,
     ):
-        self.noun = nouns or RandomWord.read_words("nounlist.txt")
-        self.verb = verbs or RandomWord.read_words("verblist.txt")
-        self.adjective = adjectives or RandomWord.read_words(
-            "adjectivelist.txt"
-        )
+        self.gen = RandomWord()
 
     # Randomly generate bare bone sentences
     def bare_bone_sentence(self):
@@ -74,8 +70,8 @@ class RandomSentence:
             randomly generated
         :rtype: str
         """
-        the_noun = random.choice(self.noun)
-        the_verb = _present_tense(random.choice(self.verb))
+        the_noun = self.gen.word(include_categories=["noun"])
+        the_verb = _present_tense(self.gen.word(include_categories=["verb"]))
 
         return f"The {the_noun} {the_verb}."
 
@@ -92,7 +88,7 @@ class RandomSentence:
             randomly generated
         :rtype: str
         """
-        the_direct_object = random.choice(self.noun)
+        the_direct_object = self.gen.word(include_categories=["noun"])
         the_bare_bone_sentence = self.bare_bone_sentence()[:-1]
 
         return f"{the_bare_bone_sentence} {the_direct_object}."
@@ -110,9 +106,9 @@ class RandomSentence:
             where each word is randomly generated
         :rtype: str
         """
-        the_noun = random.choice(self.noun)
-        the_verb = _present_tense(random.choice(self.verb))
-        the_adjective = random.choice(self.adjective)
+        the_noun = self.gen.word(include_categories=["noun"])
+        the_verb = _present_tense(self.gen.word(include_categories=["verb"]))
+        the_adjective = self.gen.word(include_categories=["adjective"])
 
         return f"The {the_adjective} {the_noun} {the_verb}."
 
@@ -131,6 +127,6 @@ class RandomSentence:
         :rtype: str
         """
         the_bare_bone_with_adjective = self.bare_bone_with_adjective()[:-1]
-        the_direct_object = random.choice(self.noun)
+        the_direct_object = self.gen.word(include_categories=["noun"])
 
         return f"{the_bare_bone_with_adjective} {the_direct_object}."
