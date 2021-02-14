@@ -19,8 +19,8 @@ setuptools.setup(
     packages=setuptools.find_packages(),
     install_requires=[
         'importlib_resources == 5.1.0; python_version < "3.7"',
-        "rich == 9.10.0",
     ],
+    extras_require={"cli": ["rich == 9.10.0"]},
     package_data={"wonderwords": ["assets/*.txt"]},
     classifiers=[
         "Programming Language :: Python :: 3",
