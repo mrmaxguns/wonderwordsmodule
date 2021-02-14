@@ -10,6 +10,22 @@ since version 2.
 ### Added
 
 - Added `CHANGELOG.md`
+- Added custom word categories
+- The Rich library is now an optional dependency
+- Bumped dependency version numbers
+- Added a list of profanities
+- Refactored code
+- Removed profanities by default
+- Added singular forms of categories as default such as "noun" instead of
+  "nouns"
+
+### Changed
+
+- Changed the implementation behind the scenes. Now, word lists are loaded once
+  and reused between instances of the RandomWord class. This is more efficient.
+- `RandomWord.parts_of_speech` will soon be deprecated
+- The `include_parts_of_speech` argument for RandomWord methods will soon be
+  deprecated. The alternative is now `include_categories`.
 
 ## [2.1.0] - 2020-09-11
 
