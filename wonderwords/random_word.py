@@ -36,6 +36,13 @@ class Defaults(enum.Enum):
         >>> w.word()
         'red'
 
+    Options available:
+
+    * ``Defaults.NOUNS``: Represents a list of nouns
+    * ``Defaults.VERBS``: Represents a list of verbs
+    * ``Defaults.ADJECTIVES``: Represents a list of adjectives
+    * ``Defaults.PROFANITIES``: Represents a list of curse words
+
     """
 
     NOUNS = "nounlist.txt"
@@ -77,16 +84,19 @@ class RandomWord:
         >>> r3 = RandomWord(noun=Defaults.NOUNS) # Set the category 'noun' to
         ...     # the default list of nouns
 
-    .. important:: Wonderwords version ``2.0.*`` does not have custom
-        categories. In fact there are only three categories: nouns, verbs, and
-        adjectives. However, wonderwords will remain backwards compatible until
-        version `3`. Please note that the ``parts_of_speech`` attribute will
-        soon be deprecated, along with other method-specific features.
+    .. important::
 
-    :param **kwargs: keyword arguments where each key is a category of words
+       Wonderwords version ``2.0`` does not have custom
+       categories. In fact there are only three categories: nouns, verbs, and
+       adjectives. However, wonderwords will remain backwards compatible until
+       version ``3``. Please note that the ``parts_of_speech`` attribute will
+       soon be deprecated, along with other method-specific features.
+
+    :param \*\*kwargs: keyword arguments where each key is a category of words
         and value is a list of words in that category. You can also use a
         default list of words by using the `Default` enum instead.
     :type nouns: list, optional
+
     """
 
     def __init__(self, **kwargs):
@@ -320,7 +330,7 @@ class RandomWord:
         :type starts_with: str, optional
         :param ends_with: the string the word should end with. Defaults to "".
         :type ends_with: str, optional
-        ::param include_categories: a list of strings denoting a part of
+        :param include_categories: a list of strings denoting a part of
             speech. Each word returned will be in the category of at least one
             part of speech. By default, all parts of speech are enabled.
             Defaults to None.

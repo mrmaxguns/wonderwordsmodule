@@ -37,6 +37,7 @@ Documentation
 
    install
    quickstart
+   advanced
    api_docs/index
 
 Indices and tables

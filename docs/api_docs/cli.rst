@@ -7,11 +7,9 @@ Command Line Interface
 The Wonderwords command line interface can be accessed with the ``wonderwords``
 command. Usage::
 
-  usage: wonderwords [-h] [-w] [-f] [-l LIST] [-s {bb,ss,bba,s}] [-v]
-                     [-sw STARTS_WITH] [-ew ENDS_WITH]
-                     [-p {nouns,verbs,adjectives} [{nouns,verbs,adjectives} ...]]
-                     [-min WORD_MIN_LENGTH] [-max WORD_MAX_LENGTH] [-r REGEX]
-                     [-d DELIMITER]
+  usage: wonderwords [-h] [-w] [-f] [-l LIST] [-s {bb,ss,bba,s}] [-v] [-sw STARTS_WITH] [-ew ENDS_WITH]
+                     [-p {noun,verb,adjective,nouns,verbs,adjectives} [{noun,verb,adjective,nouns,verbs,adjectives} ...]] [-min WORD_MIN_LENGTH]
+                     [-max WORD_MAX_LENGTH] [-r REGEX] [-d DELIMITER]
 
   optional arguments:
     -h, --help            show this help message and exit
@@ -23,23 +21,19 @@ command. Usage::
                           return a sentence based on the structure chosen
     -v, --version         Print the version number and exit
     -sw STARTS_WITH, --starts-with STARTS_WITH
-                          specify what string the random word(s) should start
-                          with
+                          specify what string the random word(s) should start with
     -ew ENDS_WITH, --ends-with ENDS_WITH
                           specify what string the random word(s) should end with
-    -p {nouns,verbs,adjectives} [{nouns,verbs,adjectives} ...], --parts-of-speech {nouns,verbs,adjectives} [{nouns,verbs,adjectives} ...]
-                          specify to only include certain parts of speech (by
-                          default all parts of speech are included)
+    -p {noun,verb,adjective,nouns,verbs,adjectives} [{noun,verb,adjective,nouns,verbs,adjectives} ...], --parts-of-speech {noun,verb,adjective,nouns,verbs,adjectives} [{noun,verb,adjective,nouns,verbs,adjectives} ...]
+                          specify to only include certain parts of speech (by default all parts of speech are included)
     -min WORD_MIN_LENGTH, --word-min-length WORD_MIN_LENGTH
                           specify the minimum length of the word(s)
     -max WORD_MAX_LENGTH, --word-max-length WORD_MAX_LENGTH
                           specify the maximum length of the word(s)
     -r REGEX, --regex REGEX, --re REGEX, --regular-expression REGEX
-                          specify a python-style regular expression that every
-                          word must match
+                          specify a python-style regular expression that every word must match
     -d DELIMITER, --delimiter DELIMITER
-                          Specify the delimiter to put between a list of words,
-                          default is ', '
+                          Specify the delimiter to put between a list of words, default is ', '
 
 Core commands
 -------------

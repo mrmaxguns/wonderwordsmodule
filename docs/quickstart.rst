@@ -32,6 +32,8 @@ words::
 Calling the word class returned a string containing a word. When using
 Wonderwords, it is helpful to create an instance of the ``RandomWord`` class
 in the top-level module of your project and import it when necessary.
+Wonderwords loads word lists only once. If you create a second `RandomWord`
+instance, the word lists won't be loaded twice.
 
 The ``word`` Method
 ^^^^^^^^^^^^^^^^^^^
@@ -39,7 +41,7 @@ The ``word`` Method
 What if we want to generate a word that starts with a certain string, say ``n``?
 Here is where the ``starts_with`` and ``ends_with`` arguments come into play.
 For example, to retrieve a word that starts with ``"n"`` and ends with
-``"ies"``, we can do the following::
+``"es"``, we can do the following::
 
   >>> w.word(starts_with="n", ends_with="es")
   'noodles'
@@ -58,11 +60,11 @@ case a ``NoWordsToChoseFrom`` exception is raised::
 
 We can also narrow down a word by part of speech. By default, nouns, verbs and
 adjectives are all enabled. If you want to generate a word by only a certain
-part of speech, you can use the ``include_parts_of_speech`` parameter::
+part of speech, you can use the ``include_categories`` parameter::
 
-  >>> w.word(include_parts_of_speech=["adjectives"])
+  >>> w.word(include_categories=["adjective"])
   'tough'
-  >>> w.word(include_parts_of_speech=["nouns", "verbs"])
+  >>> w.word(include_categories=["noun", "verb"])
   'cinder'
 
 We can also filter words by length using the ``word_min_length`` and
@@ -88,7 +90,7 @@ Remember that we can combine multiple filters together, like so::
   >>> w.word(
   ...     word_min_length=4,
   ...     starts_with="k",
-  ...     include_parts_of_speech=["verbs"]
+  ...     include_categories=["verb"]
   ... )
   'keep'
 
@@ -117,7 +119,7 @@ fitting the criteria.
 The ``random_words`` method
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-The ``random_words`` methods acts just like the ``filter`` method, except with
+The ``random_words`` method acts just like the ``filter`` method, except with
 two differences:
 
   * You can limit the amount of words fitting the criteria
@@ -125,7 +127,7 @@ two differences:
     exception is raised **unless** ``return_less_if_necessary`` is set to
     ``True``.
 
-This method is useful if we want to get a list of words::
+This method is useful if you want to get a list of words::
 
   >>> w.random_words(3)
   ['prince', 'handover', 'cell']
@@ -168,6 +170,9 @@ programs.
 
 The Wonderwords CLI
 -------------------
+
+.. note:: in the following section, terminal prompts will be denoted by ``$``.
+   Do not copy the ``$`` when copying the code in this section.
 
 Wonderwords also provides a CLI, or *command line interface* which is installed
 along with the python modules. To use the CLI, open your terminal and type
@@ -262,8 +267,9 @@ basics of Wonderwords. More specifically, you learned about:
 What's next?
 ^^^^^^^^^^^^
 
-After you have gotten comfortable using wonderwords, you can use the API
-reference for help on specific classes, and functions. If you want to
-contribute, please read the contribution guidelines. If you have any problems,
-bugs, or feature requests, please open up an issue on the
+After you have gotten comfortable using wonderwords, check out the
+:ref:`advanced` tutorial. You can use the API reference for help on specific
+classes, and functions. If you want to contribute, please read the contribution
+guidelines. If you have any problems, bugs, or feature requests, please open up
+an issue on the
 `Wonderwords GitHub page <https://github.com/mrmaxguns/wonderwordsmodule/>`_.
