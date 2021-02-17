@@ -7,6 +7,8 @@ since version 2.
 
 ## [Unreleased]
 
+## [2.2.0] - 2021-02-17
+
 ### Added
 
 - Added `CHANGELOG.md`.

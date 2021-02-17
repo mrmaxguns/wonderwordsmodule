@@ -5,7 +5,7 @@ with open("PYPI.md", "r") as fh:
 
 setuptools.setup(
     name="wonderwords",
-    version="2.1.0",
+    version="2.2.0",
     author="Maxim Rebguns",
     author_email="mrmaxguns@gmail.com",
     include_package_data=True,
