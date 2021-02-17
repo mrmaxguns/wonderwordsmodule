@@ -17,7 +17,7 @@ Here is a simple example::
 
 The random words can also be further customized::
 
-  >>> generator.word(starts_with="ap", include_parts_of_speech=["adjectives"])
+  >>> generator.word(starts_with="ap", include_categories=["adjective"])
   'apathetic'
 
 With Wonderwords you can also generate lists of words and sentences, though
