@@ -516,7 +516,7 @@ slimy
 cynical
 fluffy
 plausible
-nasty 
+nasty
 tender
 changeable
 smiling
@@ -535,7 +535,7 @@ uppity
 sable
 horrible
 silly
-ad hoc
+ad-hoc
 numerous
 berserk
 wiry
@@ -725,7 +725,7 @@ big
 gamy
 early
 auspicious
-blue-eyed 
+blue-eyed
 discreet
 nappy
 vague
@@ -882,7 +882,7 @@ aromatic
 successful
 zany
 evasive
-wet 
+wet
 naive
 nice
 uttermost
