@@ -10,7 +10,6 @@ abdomen
 ability
 abnormality
 abolishment
-abortion
 abrogation
 absence
 abundance
@@ -3043,7 +3042,6 @@ identification
 identity
 ideology
 idiom
-idiot
 igloo
 ignorance
 ignorant
