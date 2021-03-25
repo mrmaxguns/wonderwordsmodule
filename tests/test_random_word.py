@@ -9,7 +9,7 @@ class TestRandomWord:
     def test_filter_default(self):
         """Test the filter method with default parameters"""
         data = self.rw.filter()
-        assert isinstance(data, list) and len(data) == 8169
+        assert isinstance(data, list) and len(data) == 8167
 
     def test_filter_starts_with(self):
         """Test the filter method with a custom starts_with parameter"""
