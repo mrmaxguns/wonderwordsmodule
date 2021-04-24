@@ -6,7 +6,7 @@ generation of single random words.
 import random
 import re
 import enum
-from typing import Optional, List
+from typing import Union, Optional, List
 
 from . import assets
 
@@ -92,7 +92,7 @@ class RandomWord:
        version ``3``. Please note that the ``parts_of_speech`` attribute will
        soon be deprecated, along with other method-specific features.
 
-    :param \*\*kwargs: keyword arguments where each key is a category of words
+    :param **kwargs: keyword arguments where each key is a category of words
         and value is a list of words in that category. You can also use a
         default list of words by using the `Default` enum instead.
     :type nouns: list, optional
@@ -116,6 +116,7 @@ class RandomWord:
                     "adjectives": Defaults.ADJECTIVES,
                 }
             )
+
         # Kept for backwards compatibility
         self.parts_of_speech = self._categories
 
@@ -179,33 +180,31 @@ class RandomWord:
             else:
                 include_categories = self._categories.keys()
 
-        # filter parts of speech
-        words = []
+        # Filter by part of speech and length. Both of these things
+        # are done at once since categories are specifically ordered
+        # in order to make filtering by length an efficient process.
+        # See issue #14 for details.
+        words = set()
+
         for category in include_categories:
             try:
-                words.extend(self._categories[category])
+                words_in_category = self._categories[category]
             except KeyError:
                 raise ValueError(
                     f"'{category}' is an invalid category"
                 ) from None
 
+            words_to_add = self._get_words_of_length(
+                words_in_category, word_min_length, word_max_length
+            )
+            words.update(words_to_add)
+
         # starts/ends
-        if starts_with != "" or ends_with != "":
-            for word in words[:]:
+        if starts_with or ends_with:
+            for word in words.copy():
                 if not word.startswith(starts_with):
                     words.remove(word)
                 elif not word.endswith(ends_with):
-                    words.remove(word)
-
-        # length
-        if word_min_length is not None or word_max_length is not None:
-            for word in words[:]:
-                if word_min_length is not None and len(word) < word_min_length:
-                    words.remove(word)
-                elif (
-                    word_max_length is not None
-                    and len(word) > word_max_length
-                ):
                     words.remove(word)
 
         # regex
@@ -214,7 +213,7 @@ class RandomWord:
                 word for word in words if re.fullmatch(regex, word) is not None
             ]
 
-        return list(set(words))
+        return list(words)
 
     def random_words(
         self,
@@ -396,12 +395,59 @@ class RandomWord:
 
         return (word_min_length, word_max_length)
 
-    def _custom_categories(self, custom_categories):
+    def _custom_categories(self, custom_categories: Union[Defaults, list]) -> dict:
         """Add custom categries of words"""
         out = {}
         for name, words in custom_categories.items():
             if isinstance(words, Defaults):
-                out[name] = _default_categories[words]
+                word_list = _default_categories[words]
             else:
-                out[name] = words
+                word_list = words
+
+            # All the words in each category are sorted. This is so
+            # that they can be bisected by length later on for more
+            # efficient word length retrieval. See issue #14 for
+            # details.
+            word_list.sort(key=len)
+            out[name] = word_list
+
         return out
+
+    def _get_words_of_length(
+        self,
+        word_list: list,
+        min_length: Optional[int] = None,
+        max_length: Optional[int] = None,
+    ):
+        """Given ``word_list``, get all words that are at least
+        ``min_length`` long and at most ``max_length`` long.
+        """
+
+        if min_length is None:
+            left_index = 0
+        else:
+            left_index = self._bisect_by_length(word_list, min_length)
+
+        if max_length is None:
+            right_index = None
+        else:
+            right_index = self._bisect_by_length(word_list, max_length + 1)
+
+        return word_list[left_index: right_index]
+
+    def _bisect_by_length(self, words: list, target_length: int) -> int:
+        """Given a list of sorted words by length, get the index of the
+        first word that's of the ``target_length``.
+        """
+
+        left = 0
+        right = len(words) - 1
+
+        while left <= right:
+            middle = left + (right - left) // 2
+            if len(words[middle]) < target_length:
+                left = middle + 1
+            else:
+                right = middle - 1
+
+        return left
