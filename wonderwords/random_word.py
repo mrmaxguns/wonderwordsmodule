@@ -129,6 +129,7 @@ class RandomWord:
         word_min_length: Optional[int] = None,
         word_max_length: Optional[int] = None,
         regex: Optional[str] = None,
+        exclude_with_spaces: bool = False,
     ):
         """Return all existing words that match the criteria specified by the
         arguments.
@@ -199,7 +200,8 @@ class RandomWord:
             )
             words.update(words_to_add)
 
-        # starts/ends
+        # TODO: Implement trie data structure to effieciently
+        # deal with this code.
         if starts_with or ends_with:
             for word in words.copy():
                 if not word.startswith(starts_with):
@@ -207,11 +209,21 @@ class RandomWord:
                 elif not word.endswith(ends_with):
                     words.remove(word)
 
-        # regex
+        # Long operations that require looping over every word
+        # (O(n)). Since they are so time-consuming, the arguments
+        # passed to the function are first checked if the user
+        # actually specified any time-consuming arguments. If they
+        # are, only one iteration happens, as opposed to many
+        # for each argument.
+        long_operations = {}
+
         if regex is not None:
-            words = [
-                word for word in words if re.fullmatch(regex, word) is not None
-            ]
+            long_operations["regex"] = regex
+        if exclude_with_spaces:
+            long_operations["exclude_with_spaces"] = None
+
+        if long_operations:
+            words -= self._perform_long_operations(words, long_operations)
 
         return list(words)
 
@@ -226,6 +238,7 @@ class RandomWord:
         word_max_length: Optional[int] = None,
         regex: Optional[str] = None,
         return_less_if_necessary: bool = False,
+        exclude_with_spaces: bool = False,
     ):
         """Generate a list of n random words specified by the ``amount``
         parameter and fit the criteria specified.
@@ -287,6 +300,7 @@ class RandomWord:
             word_min_length=word_min_length,
             word_max_length=word_max_length,
             regex=regex,
+            exclude_with_spaces=exclude_with_spaces,
         )
 
         if not return_less_if_necessary and len(choose_from) < amount:
@@ -315,6 +329,7 @@ class RandomWord:
         word_min_length: Optional[int] = None,
         word_max_length: Optional[int] = None,
         regex: Optional[str] = None,
+        exclude_with_spaces: bool = False,
     ):
         """Returns a random word that fits the criteria specified by the
         arguments.
@@ -362,6 +377,7 @@ class RandomWord:
             word_min_length=word_min_length,
             word_max_length=word_max_length,
             regex=regex,
+            exclude_with_spaces=exclude_with_spaces,
         )[0]
 
     @staticmethod
@@ -451,3 +467,14 @@ class RandomWord:
                 right = middle - 1
 
         return left
+    
+    def _perform_long_operations(self, words: set, long_operations: dict):
+        remove_words = set()
+        for word in words:
+            if "regex" in long_operations:
+                if not re.fullmatch(long_operations["regex"], word):
+                    remove_words.add(word)
+            if "exclude_with_spaces" in long_operations:
+                if " " in word:
+                    remove_words.add(word)
+        return remove_words
