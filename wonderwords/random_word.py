@@ -9,6 +9,7 @@ import enum
 from typing import Union, Optional, List
 
 from . import assets
+from . import _trie
 
 try:
     import importlib.resources as pkg_resources
@@ -92,14 +93,20 @@ class RandomWord:
        version ``3``. Please note that the ``parts_of_speech`` attribute will
        soon be deprecated, along with other method-specific features.
 
-    :param **kwargs: keyword arguments where each key is a category of words
+    :param enhanced_prefixes: whether or not to internally use a trie data
+        structure to speed up ``starts_with`` and ``ends_with``. If enabled,
+        the class takes longer to instantiate, but calls to the generation
+        functions will be significantly (up to 4x) faster when using the
+        ``starts_with`` and ``ends_with`` arguments. Defaults to False.
+    :type enhanced_prefixes: bool, optional
+    :param kwargs: keyword arguments where each key is a category of words
         and value is a list of words in that category. You can also use a
         default list of words by using the `Default` enum instead.
-    :type nouns: list, optional
+    :type kwargs: list, optional
 
     """
 
-    def __init__(self, **kwargs):
+    def __init__(self, enhanced_prefixes: bool = False, **kwargs):
         if kwargs:
             self._categories = self._custom_categories(kwargs)
         else:
@@ -116,6 +123,19 @@ class RandomWord:
                     "adjectives": Defaults.ADJECTIVES,
                 }
             )
+
+        if enhanced_prefixes:
+            # Two tries. One trie data structure is generated from
+            # the words, while the second one is generated from the
+            # words in reverse to deal with starts_with and ends_with
+            # respectively.
+            self._tries = (_trie.Trie(), _trie.Trie())
+            for _, category in self._categories.items():
+                for word in category:
+                    self._tries[0].insert(word)
+                    self._tries[1].insert(word[::-1])
+        else:
+            self._tries = None
 
         # Kept for backwards compatibility
         self.parts_of_speech = self._categories
@@ -191,23 +211,35 @@ class RandomWord:
             try:
                 words_in_category = self._categories[category]
             except KeyError:
-                raise ValueError(
-                    f"'{category}' is an invalid category"
-                ) from None
+                raise ValueError(f"'{category}' is an invalid category") from None
 
             words_to_add = self._get_words_of_length(
                 words_in_category, word_min_length, word_max_length
             )
             words.update(words_to_add)
 
-        # TODO: Implement trie data structure to effieciently
-        # deal with this code.
-        if starts_with or ends_with:
-            for word in words.copy():
-                if not word.startswith(starts_with):
-                    words.remove(word)
-                elif not word.endswith(ends_with):
-                    words.remove(word)
+        if self._tries is not None:
+            if starts_with:
+                words = words & self._tries[0].get_words_that_start_with(starts_with)
+            if ends_with:
+                # Since the ends_with trie is in reverse, the
+                # ends_with variable must also be reversed.
+                # Example (apple):
+                # - Backwards: elppa
+                # - ends_with: el
+                # Currently this is very cluncky, since all words
+                # that match then need to be reversed to their
+                # original forms. Currently, I have no idea how
+                # to improve this. But, even with the extra overhead
+                # of iteration, this system still significantly
+                # shortens the amount of time to filter the words.
+                ends_with = ends_with[::-1]
+                words = words & set(
+                    [
+                        i[::-1]
+                        for i in self._tries[1].get_words_that_start_with(ends_with)
+                    ]
+                )
 
         # Long operations that require looping over every word
         # (O(n)). Since they are so time-consuming, the arguments
@@ -221,6 +253,11 @@ class RandomWord:
             long_operations["regex"] = regex
         if exclude_with_spaces:
             long_operations["exclude_with_spaces"] = None
+        if self._tries is None:
+            if starts_with:
+                long_operations["starts_with"] = starts_with
+            if ends_with:
+                long_operations["ends_with"] = ends_with
 
         if long_operations:
             words -= self._perform_long_operations(words, long_operations)
@@ -389,8 +426,7 @@ class RandomWord:
         return _get_words_from_text_file(word_file)
 
     def _validate_lengths(self, word_min_length, word_max_length):
-        """Validate the values and types of word_min_length and word_max_length
-        """
+        """Validate the values and types of word_min_length and word_max_length"""
         if not isinstance(word_min_length, (int, type(None))):
             raise TypeError("word_min_length must be type int or None")
 
@@ -449,7 +485,7 @@ class RandomWord:
         else:
             right_index = self._bisect_by_length(word_list, max_length + 1)
 
-        return word_list[left_index: right_index]
+        return word_list[left_index:right_index]
 
     def _bisect_by_length(self, words: list, target_length: int) -> int:
         """Given a list of sorted words by length, get the index of the
@@ -467,7 +503,7 @@ class RandomWord:
                 right = middle - 1
 
         return left
-    
+
     def _perform_long_operations(self, words: set, long_operations: dict):
         remove_words = set()
         for word in words:
@@ -476,5 +512,11 @@ class RandomWord:
                     remove_words.add(word)
             if "exclude_with_spaces" in long_operations:
                 if " " in word:
+                    remove_words.add(word)
+            if "starts_with" in long_operations:
+                if not word.startswith(long_operations["starts_with"]):
+                    remove_words.add(word)
+            if "ends_with" in long_operations:
+                if not word.endswith(long_operations["ends_with"]):
                     remove_words.add(word)
         return remove_words
