@@ -1,6 +1,6 @@
 colorama==0.4.4
 commonmark==0.9.1
 importlib-resources==5.1.0
-Pygments==2.7.4
+Pygments==2.15.0
 rich==9.10.0
 typing-extensions==3.7.4.3
