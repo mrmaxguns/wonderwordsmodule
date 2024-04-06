@@ -160,7 +160,7 @@ for example::
   >>> s.bare_bone_sentence() # generate a bare-bone sentence (The [subject] [predicate])
   'The hut frames.'
   >>> s.simple_sentence() # generate a simple sentence
-  'The reprocessing formulates enrollment.'
+  'A reprocessing formulates enrollment.'
   >>> s.sentence() # a sentence with a subject, predicate, adjective and direct object
   'The strong mean shears movement.'
 
