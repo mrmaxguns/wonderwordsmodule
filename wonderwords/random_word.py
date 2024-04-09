@@ -11,11 +11,16 @@ from typing import Union, Optional, List
 from . import assets
 from . import _trie
 
-try:
-    import importlib.resources as pkg_resources
-except ImportError:
-    # Try backported to PY<37 `importlib_resources`.
-    import importlib_resources as pkg_resources
+
+def _obtain_resource(package, resource):
+    try:
+        # Introduced in Python 3.9
+        from importlib.resources import files
+        return files(package).joinpath(resource).open("r")
+    except ImportError:
+        # Required for Python 3.8, but emits a DeprecationWarning on Python 3.11
+        from importlib.resources import open_text
+        return open_text(package, resource)
 
 
 class NoWordsToChoseFrom(Exception):
@@ -64,7 +69,8 @@ def _get_words_from_text_file(word_file):
     """Read a file found in static/ where each line has a word, and return
     all words as a list
     """
-    words = pkg_resources.open_text(assets, word_file).readlines()
+    with _obtain_resource(assets, word_file) as f:
+        words = f.readlines()
     return [word.rstrip() for word in words]
 
 
