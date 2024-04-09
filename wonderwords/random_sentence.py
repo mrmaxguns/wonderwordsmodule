@@ -27,6 +27,15 @@ def _present_tense(verb):
     return verb
 
 
+def _with_article(word):
+    article, = random.choices(["the", "a", ""], weights=[5, 3, 2])
+    if article == "a" and word[0] in VOWELS:
+        article = "an"
+    if article:
+        article += " "
+    return f"{article}{word}"
+
+
 # The main class containing all the data and functions
 class RandomSentence:
     """The RandomSentence provides an easy interface to generate structured
@@ -62,7 +71,7 @@ class RandomSentence:
     # Randomly generate bare bone sentences
     def bare_bone_sentence(self):
         """Generate a bare-bone sentence in the form of
-        ``The [subject (noun)] [predicate (verb)].``. For example:
+        ``[(article)] [subject (noun)] [predicate (verb)].``. For example:
         ``The cat runs.``.
 
         Example::
@@ -73,14 +82,14 @@ class RandomSentence:
             randomly generated
         :rtype: str
         """
-        the_noun = self.gen.word(include_categories=["noun"])
+        the_noun = _with_article(self.gen.word(include_categories=["noun"]))
         the_verb = _present_tense(self.gen.word(include_categories=["verb"]))
 
-        return f"The {the_noun} {the_verb}."
+        return f"{the_noun.capitalize()} {the_verb}."
 
     def simple_sentence(self):
         """Generate a simple sentence in the form of
-        ``The [subject (noun)] [predicate (verb)] [direct object (noun)].``.
+        ``[(article)] [subject (noun)] [predicate (verb)] [direct object (noun)].``.
         For example: ``The cake plays golf``.
 
         Example::
@@ -98,7 +107,7 @@ class RandomSentence:
 
     def bare_bone_with_adjective(self):
         """Generate a bare-bone sentence with an adjective in the form of:
-        ``The [(adjective)] [subject (noun)] [predicate (verb)].``. For
+        ``[(article)] [(adjective)] [subject (noun)] [predicate (verb)].``. For
         example: ``The skinny cat reads.``
 
         Example::
@@ -111,13 +120,13 @@ class RandomSentence:
         """
         the_noun = self.gen.word(include_categories=["noun"])
         the_verb = _present_tense(self.gen.word(include_categories=["verb"]))
-        the_adjective = self.gen.word(include_categories=["adjective"])
+        the_adjective = _with_article(self.gen.word(include_categories=["adjective"]))
 
-        return f"The {the_adjective} {the_noun} {the_verb}."
+        return f"{the_adjective.capitalize()} {the_noun} {the_verb}."
 
     def sentence(self):
         """Generate a simple sentence with an adjective in the form of:
-        ``The [(adjective)] [subject (noun)] [predicate (verb)]
+        ``[(article)] [(adjective)] [subject (noun)] [predicate (verb)]
         [direct object (noun)].``. For example:
         ``The green orange likes food.``
 
