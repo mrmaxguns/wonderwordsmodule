@@ -1,0 +1,54 @@
+[build-system]
+requires = ["setuptools>=64", "setuptools_scm>=8"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+py-modules = []
+
+[tool.setuptools_scm]
+write_to = "wonderwords/_version.py"
+
+[project]
+name = "wonderwords"
+#version = "2.3.0"
+requires-python = ">=3.8"
+authors = [
+    { name="Maxim Rebguns", email="mrmaxguns@gmail.com" },
+]
+license = {file = "LICENSE"}
+keywords = ["random", "English"]
+description = "Generate random english words and phrases."
+readme = "PYPI.md"
+dependencies = []
+classifiers = [
+    "Development Status :: 4 - Stable",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+
+    "Natural Language :: English",
+    "Topic :: Text Processing :: Linguistic",
+
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+]
+dynamic = ["version"]
+
+[project.optional-dependencies]
+test = [
+    "pytest",
+]
+cli = [
+    "rich",
+]
+
+[project.scripts]
+wonderwords = "wonderwords.cmdline_parser:main"
+
+[project.urls]
+Homepage = "https://github.com/mrmaxguns/wonderwordsmodule"
+Issues = "https://github.com/mrmaxguns/wonderwordsmodule/issues"
+Documentation = "https://wonderwords.readthedocs.io"
