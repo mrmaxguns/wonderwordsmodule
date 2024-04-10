@@ -7,7 +7,7 @@ import random
 import re
 import enum
 from types import ModuleType
-from typing import Union, Optional, List, Dict, Any, Type, TextIO, Tuple, IO, Iterable
+from typing import Union, Optional, List, Dict, Any, Type, TextIO, Tuple, IO, Iterable, Set
 
 from . import assets
 from . import _trie
@@ -89,7 +89,7 @@ def _load_default_categories(
 _DEFAULT_CATEGORIES: Dict[Defaults, WordList] = _load_default_categories(Defaults)
 
 
-def filter_profanity(words: Iterable[str]) -> filter:
+def filter_profanity(words: Iterable[str]) -> Iterable[str]:
     """Attempt to filter out profane words from a list. This should be done in all user-facing applications if random
     words are generated to avoid anything that could possibly be offensive. Curse word filtering is currently not done
     by default on the :py:class:`RandomWord` class.
@@ -101,7 +101,7 @@ def filter_profanity(words: Iterable[str]) -> filter:
         ["hello", "world"]
 
     :param words: Iterable of words to filter
-    :return: A python ``filter`` object of the filtered result
+    :return: An iterable of the filtered result
 
     """
     return filter(
@@ -198,7 +198,7 @@ class RandomWord:
         word_max_length: Optional[int] = None,
         regex: Optional[str] = None,
         exclude_with_spaces: bool = False,
-    ) -> list:
+    ) -> WordList:
         """Return all existing words that match the criteria specified by the
         arguments.
 
@@ -325,7 +325,7 @@ class RandomWord:
         regex: Optional[str] = None,
         return_less_if_necessary: bool = False,
         exclude_with_spaces: bool = False,
-    ) -> list:
+    ) -> WordList:
         """Generate a list of n random words specified by the ``amount``
         parameter and fit the criteria specified.
 
@@ -502,7 +502,7 @@ class RandomWord:
 
         return word_min_length, word_max_length
 
-    def _get_word_lists_by_category(self, custom_categories: Dict[str, Any]) -> dict:
+    def _get_word_lists_by_category(self, custom_categories: Dict[str, Any]) -> Dict[str, WordList]:
         """Add custom categories of words"""
         out = {}
         for name, words in custom_categories.items():
@@ -522,10 +522,10 @@ class RandomWord:
 
     def _get_words_of_length(
         self,
-        word_list: list,
+        word_list: WordList,
         min_length: Optional[int] = None,
         max_length: Optional[int] = None,
-    ) -> list:
+    ) -> WordList:
         """Given ``word_list``, get all words that are at least
         ``min_length`` long and at most ``max_length`` long.
         """
@@ -542,7 +542,7 @@ class RandomWord:
 
         return word_list[left_index:right_index]
 
-    def _bisect_by_length(self, words: list, target_length: int) -> int:
+    def _bisect_by_length(self, words: WordList, target_length: int) -> int:
         """Given a list of sorted words by length, get the index of the
         first word that's of the ``target_length``.
         """
@@ -559,7 +559,7 @@ class RandomWord:
 
         return left
 
-    def _perform_long_operations(self, words: set, long_operations: dict) -> set:
+    def _perform_long_operations(self, words: Set[str], long_operations: Dict[str, Any]) -> Set[str]:
         """Return a set of words that do not meet the criteria specified by the long operations."""
         remove_words = set()
         for word in words:
