@@ -391,14 +391,15 @@ class RandomWord:
             exclude_with_spaces=exclude_with_spaces,
         )
 
-        if not return_less_if_necessary and len(choose_from) < amount:
-            raise NoWordsToChoseFrom(
-                "There aren't enough words to choose from. Cannot generate "
-                f"{str(amount)} word(s)"
-            )
-        elif return_less_if_necessary:
-            random.shuffle(choose_from)
-            return choose_from
+        if len(choose_from) < amount:
+            if return_less_if_necessary:
+                random.shuffle(choose_from)
+                return choose_from
+            else:
+                raise NoWordsToChoseFrom(
+                    "There aren't enough words to choose from. Cannot generate "
+                    f"{str(amount)} word(s)"
+                )
 
         words = []
         for _ in range(amount):

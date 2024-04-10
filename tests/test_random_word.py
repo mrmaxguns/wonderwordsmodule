@@ -151,6 +151,12 @@ class TestRandomWord:
             ]
         )
 
+    def test_random_words_enough_with_return_less_if_necessary(self):
+        """Test to see if setting return_less_if_necessary doesn't do anything if there are enough words."""
+        data_1 = self.rw.random_words(5, starts_with="mo", return_less_if_necessary=True)
+        data_2 = self.rw.random_words(5, starts_with="mo", return_less_if_necessary=False)
+        assert len(data_1) == len(data_2) == 5
+
     def test_word(self):
         """Test the word method"""
         data = self.rw.word()
