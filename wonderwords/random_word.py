@@ -56,7 +56,7 @@ def _obtain_resource(
     """Load a file object from a package, ensuring compatibility with supported Python versions."""
     try:
         # Introduced in Python 3.9
-        from importlib.resources import files
+        from importlib.resources import files  # type: ignore
 
         return files(package).joinpath(resource).open("r")
     except ImportError:
@@ -149,12 +149,12 @@ class RandomWord:
         self, enhanced_prefixes: bool = True, **kwargs: Union[WordList, Defaults]
     ):
         # A dictionary where lists of words organized into named categories
-        self._categories: dict[str, WordList]
+        self._categories: Dict[str, WordList]
         # If enhanced prefixes are enabled, these tries represent all the words known to the generator in forward and
         # reverse. If disabled, this is just None.
         self._tries: Union[Tuple[_trie.Trie, _trie.Trie], None]
         # Kept for backwards compatibility. Same as self._categories
-        self.parts_of_speech: dict[str, WordList]
+        self.parts_of_speech: Dict[str, WordList]
 
         if kwargs:
             self._categories = self._get_word_lists_by_category(kwargs)
