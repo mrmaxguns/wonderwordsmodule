@@ -3,7 +3,7 @@ from .random_word import RandomWord, NoWordsToChoseFrom, Defaults, WordList
 from .random_sentence import RandomSentence
 
 __author__ = "Maxim Rebguns"
-__copyright__ = "Copyright 2024, Wonderwords"
+__copyright__ = "Copyright 2024, Maxim Rebguns"
 __credits__ = ["Maxim Rebguns"]
 __license__ = "MIT"
 __maintainer__ = "Maxim Rebguns"
