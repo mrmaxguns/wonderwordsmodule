@@ -89,6 +89,24 @@ def _load_default_categories(
 _DEFAULT_CATEGORIES: Dict[Defaults, WordList] = _load_default_categories(Defaults)
 
 
+def filter_profanity(words: Iterable) -> filter:
+    """Attempt to filter out profane words from a list. This should be done in all user-facing applications if random
+    words are generated to avoid anything that could possibly be offensive. Curse word filtering is currently not done
+    by default on the :py:class:`RandomWord` class.
+
+    Example::
+
+        >>> from wonderwords import filter_profanity
+        >>> list(filter_profanity(["hello", "aSS", "world"]))
+        ["hello", "world"]
+
+    :param words: Iterable of words to filter
+    :return: A python ``filter`` object of the filtered result
+
+    """
+    return filter(lambda w: w.lower().strip() not in _DEFAULT_CATEGORIES[Defaults.PROFANITIES], words)
+
+
 class RandomWord:
     """The RandomWord class encapsulates multiple methods dealing with the
     generation of random words and lists of random words.

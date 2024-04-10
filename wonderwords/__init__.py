@@ -1,5 +1,5 @@
 # flake8: noqa
-from .random_word import RandomWord, NoWordsToChoseFrom, Defaults, WordList
+from .random_word import RandomWord, NoWordsToChoseFrom, Defaults, WordList, filter_profanity
 from .random_sentence import RandomSentence
 
 __author__ = "Maxim Rebguns"

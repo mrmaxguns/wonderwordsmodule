@@ -1,6 +1,18 @@
-from wonderwords import RandomWord, Defaults, NoWordsToChoseFrom
+from wonderwords import RandomWord, Defaults, NoWordsToChoseFrom, filter_profanity
 
 import pytest
+
+
+class TestFilterProfanity:
+    def test_no_profanity(self):
+        words = ["hello", "world", "assassin", "CraZy"]
+        output = list(filter_profanity(words))
+        assert output == words
+
+    def test_profanity(self):
+        words = {"hello", "a55", "world", " aSS  ", "hi", "pIsS "}
+        output = set(filter_profanity(words))
+        assert output == {"hello", "world", "hi"}
 
 
 class TestRandomWord:
