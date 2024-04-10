@@ -58,10 +58,7 @@ def main():
     )
 
     parser.add_argument(
-        "-v",
-        "--version",
-        action="store_true",
-        help="Print the version number and exit"
+        "-v", "--version", action="store_true", help="Print the version number and exit"
     )
 
     #
@@ -123,8 +120,7 @@ def main():
         action="store",
         type=str,
         help=(
-            "specify a python-style regular expression that every word must"
-            " match"
+            "specify a python-style regular expression that every word must" " match"
         ),
     )
 
@@ -134,8 +130,7 @@ def main():
         default=", ",
         type=str,
         help=(
-            "Specify the delimiter to put between a list of words, default is"
-            " ', '"
+            "Specify the delimiter to put between a list of words, default is" " ', '"
         ),
     )
 

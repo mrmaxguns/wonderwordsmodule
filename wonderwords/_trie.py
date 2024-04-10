@@ -6,7 +6,7 @@ or suffix.
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import Dict, Set, Optional
+from typing import Dict, Set, Optional, Iterable
 
 
 @dataclass
@@ -16,7 +16,7 @@ class TrieNode:
 
 
 class Trie:
-    def __init__(self, words=None):
+    def __init__(self, words: Optional[Iterable[str]] = None):
         self.root: TrieNode = self._new_node()
 
         if words is not None:

@@ -38,8 +38,7 @@ class WonderwordsCommandLine:
 
     def version(self):
         console.print(
-            f"Running wonderwords version {__version__}", style="navy_blue on"
-            "white"
+            f"Running wonderwords version {__version__}", style="navy_blue on" "white"
         )
 
     def intro(self):
@@ -57,9 +56,7 @@ class WonderwordsCommandLine:
         console.print(word_text)
 
     def words(self, words, delimiter):
-        word_text = Text(
-            delimiter.join(words), style="bold white on navy_blue"
-        )
+        word_text = Text(delimiter.join(words), style="bold white on navy_blue")
         console.print(word_text)
 
     def sentence(self, sent):
