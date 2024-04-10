@@ -1,5 +1,5 @@
 # flake8: noqa
-from .random_word import RandomWord, NoWordsToChoseFrom, Defaults
+from .random_word import RandomWord, NoWordsToChoseFrom, Defaults, WordList
 from .random_sentence import RandomSentence
 
 __author__ = "Maxim Rebguns"
@@ -11,8 +11,8 @@ __email__ = "mrmaxguns@gmail.com"
 __status__ = "Production"
 
 try:
-    from ._version import version as __version__
-    from ._version import version_tuple
+    from ._version import version as __version__  # type: ignore
+    from ._version import version_tuple  # type: ignore
 except ImportError:
     __version__ = "unknown version"
     version_tuple = (0, 0, "unknown version")
