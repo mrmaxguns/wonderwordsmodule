@@ -1,26 +1,18 @@
-<p align="center">
-  <img width="460" height="300" src="assets/main.gif">
-</p>
+# Wonderwords
 
-<h1 align="center">Wonderwords</h1>
-<p align="center">Generate random words and sentences with ease in python</p>
-<p align="center">
-  <img alt="PyPI - Downloads" src="https://img.shields.io/pypi/dm/wonderwords?style=for-the-badge">
-  <img alt="Libraries.io SourceRank" src="https://img.shields.io/librariesio/sourcerank/pypi/wonderwords?style=for-the-badge">
-  <img alt="PyPI - License" src="https://img.shields.io/pypi/l/wonderwords?style=for-the-badge">
-</p>
-<p align="center">
-  <img alt="Python package build" src="https://github.com/mrmaxguns/wonderwordsmodule/workflows/Python%20package/badge.svg">
-</p>
-<p align="center">
-  <a href="https://github.com/mrmaxguns/wonderwordsmodule">GitHub repository</a>
-  | <a href="https://pypi.org/project/wonderwords">PyPI page</a>
-  | <a href="https://wonderwords.readthedocs.io">Official Documentation</a>
-</p>
+*Generate random words and sentences with ease in python*
+
+<img alt="PyPI - Downloads" src="https://img.shields.io/pypi/dm/wonderwords?style=for-the-badge">
+<img alt="Libraries.io SourceRank" src="https://img.shields.io/librariesio/sourcerank/pypi/wonderwords?style=for-the-badge">
+<img alt="PyPI - License" src="https://img.shields.io/pypi/l/wonderwords?style=for-the-badge">
+
+[GitHub Repository](https://github.com/mrmaxguns/wonderwordsmodule) |
+[PyPI](https://pypi.org/project/wonderwords) |
+[Documentation](https://wonderwords.readthedocs.io)
 
 ***
 
-Wonderwords is a python package useful for generating random words and
+Wonderwords is a Python package useful for generating random words and
 structured random sentences. It also comes with a colorful command line
 interface for quickly generating random words. The latest version is available
 [on GitHub](https://github.com/mrmaxguns/wonderwordsmodule) while the stable
@@ -42,10 +34,12 @@ version is available [on PyPI](https://pypi.org/project/wonderwords).
 
 Here's what Wonderwords is capable of:
 
-- Random word generation
+- Random word generation in English
 - Specify word length, what it starts and ends with, category, and even custom
-  regular expressions!
+  regular expressions
 - Use custom word lists and define custom categories of words
+- Generate structured random sentences
+- Basic profanity filtering
 - Beautiful command line interface
 - Easy-to-use interface and comprehensive documentation
 - Open source!
@@ -103,8 +97,12 @@ r.word(include_parts_of_speech=["nouns", "adjectives"])
 # generate a random word between the length of 3 and 8 characters
 r.word(word_min_length=3, word_max_length=8)
 
-# generate a random word with a custom regular expression
+# generate a random word with a custom Python regular expression
 r.word(regex=".*a")
+
+# some of the words in the default word lists have spaces, such as 'contact lens'
+# this option disables them
+r.word(exclude_with_spaces=True)
 
 # you can combine multiple filtering options
 r.word(starts_with="ru", word_max_length=10, include_parts_of_speech=["verbs"])
@@ -174,34 +172,40 @@ Wonderwords provides a command line interface, too, which can be used with the
 `wonderwords` command. Usage:
 
 ```
-usage: wonderwords [-h] [-w] [-f] [-l LIST] [-s {bb,ss,bba,s}] [-v] [-sw STARTS_WITH] [-ew ENDS_WITH]
-                   [-p {noun,verb,adjective,nouns,verbs,adjectives} [{noun,verb,adjective,nouns,verbs,adjectives} ...]] [-min WORD_MIN_LENGTH]
-                   [-max WORD_MAX_LENGTH] [-r REGEX] [-d DELIMITER]
+usage: wonderwords [-h] [-w] [-f] [-l LIST] [-s {bb,ss,bba,s}] [-v] [-S STARTS_WITH] [-e ENDS_WITH]
+                   [-p {noun,verb,adjective,nouns,verbs,adjectives} [{noun,verb,adjective,nouns,verbs,adjectives} ...]]
+                   [-m WORD_MIN_LENGTH] [-M WORD_MAX_LENGTH] [-r REGEX] [-x] [-d DELIMITER] [-E]
 
-optional arguments:
+Generate random words and sentences from the command line. Here is a full list of available commands. To learn more
+about each command, go to the documentation at https://wonderwords.readthedocs.io
+
+options:
   -h, --help            show this help message and exit
   -w, --word, --random-word
                         generate a random word
-  -f, --filter          filter a list of words matching the criteria specified
-  -l LIST, --list LIST  return a list of words of a certain length
+  -f, --filter          get a list of all known words matching the criteria specified
+  -l LIST, --list LIST  return a list of a certain length of random words
   -s {bb,ss,bba,s}, --sentence {bb,ss,bba,s}
                         return a sentence based on the structure chosen
-  -v, --version         Print the version number and exit
-  -sw STARTS_WITH, --starts-with STARTS_WITH
-                        specify what string the random word(s) should start with
-  -ew ENDS_WITH, --ends-with ENDS_WITH
-                        specify what string the random word(s) should end with
+  -v, --version         print the version number and exit
+  -S STARTS_WITH, --starts-with STARTS_WITH
+                        strings the random word(s) should start with
+  -e ENDS_WITH, --ends-with ENDS_WITH
+                        strings the random word(s) should end with
   -p {noun,verb,adjective,nouns,verbs,adjectives} [{noun,verb,adjective,nouns,verbs,adjectives} ...], --parts-of-speech {noun,verb,adjective,nouns,verbs,adjectives} [{noun,verb,adjective,nouns,verbs,adjectives} ...]
-                        specify to only include certain parts of speech (by default all parts of speech are included)
-  -min WORD_MIN_LENGTH, --word-min-length WORD_MIN_LENGTH
-                        specify the minimum length of the word(s)
-  -max WORD_MAX_LENGTH, --word-max-length WORD_MAX_LENGTH
-                        specify the maximum length of the word(s)
+                        only include certain parts of speech (by default all parts of speech are included)
+  -m WORD_MIN_LENGTH, --word-min-length WORD_MIN_LENGTH
+                        minimum length of the word(s)
+  -M WORD_MAX_LENGTH, --word-max-length WORD_MAX_LENGTH
+                        maximum length of the word(s)
   -r REGEX, --regex REGEX, --re REGEX, --regular-expression REGEX
-                        specify a python-style regular expression that every word must match
+                        a python-style regular expression for the word(s) to match
+  -x, --exclude-with-spaces
+                        exclude open compounds, such as 'contact lens'
   -d DELIMITER, --delimiter DELIMITER
-                        Specify the delimiter to put between a list of words, default is ', '
-
+                        specify the delimiter to put between a list of words, default is ', '
+  -E, --suppress-error-on-less
+                        suppress errors when less words are returned in a list then wanted
 ```
 
 The basic commands are:
@@ -229,7 +233,7 @@ for more details.
 
 # Contributing
 
-All contributions are welcome and we hope Wonderwords will continue growing.
+All contributions are welcome, and we hope Wonderwords will continue growing.
 Start out by reading `CONTRIBUTING.md` for contributing guidelines and how to
 get started.
 
