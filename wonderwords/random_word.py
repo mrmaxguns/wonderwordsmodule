@@ -299,7 +299,7 @@ class RandomWord:
         long_operations: Dict[str, Any] = {}
 
         if regex is not None:
-            long_operations["regex"] = regex
+            long_operations["regex"] = re.compile(regex)
         if exclude_with_spaces:
             long_operations["exclude_with_spaces"] = None
         if self._tries is None:
@@ -565,7 +565,7 @@ class RandomWord:
         remove_words = set()
         for word in words:
             if "regex" in long_operations:
-                if not re.fullmatch(long_operations["regex"], word):
+                if not long_operations["regex"].fullmatch(word):
                     remove_words.add(word)
             if "exclude_with_spaces" in long_operations:
                 if " " in word:
