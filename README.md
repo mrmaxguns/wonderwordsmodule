@@ -162,6 +162,22 @@ s.bare_bone_with_adjective()
 s.sentence()
 ```
 
+Finally, starting with version 2.3, Wonderwords has explicit support for filtering
+out profanities form lists of words. At the moment, this is rudimentary:
+
+```python
+from wonderwords import is_profanity, filter_profanity
+
+# Test against words that could possibly be offensive. Good of user-facing apps.
+is_profanity("apple") # False
+
+# Can be done with a list
+words = [ ... ]
+filter_profanity(words)
+# The function returns a generator, so we convert it to a list
+words_clean = list(words)
+```
+
 More advanced usage (and a tutorial!) is found in the documentation, such as
 adding custom categories of words. The full documentation with all information
 can be found at: https://wonderwords.readthedocs.io

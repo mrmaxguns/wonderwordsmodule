@@ -19,6 +19,7 @@ from typing import (
     IO,
     Iterable,
     Set,
+    Iterator,
 )
 
 from . import assets
@@ -101,7 +102,16 @@ def _load_default_categories(
 _DEFAULT_CATEGORIES: Dict[Defaults, WordList] = _load_default_categories(Defaults)
 
 
-def filter_profanity(words: Iterable[str]) -> Iterable[str]:
+def is_profanity(word: str) -> bool:
+    """See if a word matches one of the words in the profanity list.
+
+    :param word: The word to check
+    :return: Whether the word was found in the profanity list
+    """
+    return word.lower().strip() in _DEFAULT_CATEGORIES[Defaults.PROFANITIES]
+
+
+def filter_profanity(words: Iterable[str]) -> Iterator[str]:
     """Attempt to filter out profane words from a list. This should be done in all user-facing applications if random
     words are generated to avoid anything that could possibly be offensive. Curse word filtering is currently not done
     by default on the :py:class:`RandomWord` class.
@@ -114,10 +124,9 @@ def filter_profanity(words: Iterable[str]) -> Iterable[str]:
 
     :param words: Iterable of words to filter
     :return: An iterable of the filtered result
-
     """
     return filter(
-        lambda w: w.lower().strip() not in _DEFAULT_CATEGORIES[Defaults.PROFANITIES],
+        lambda w: not is_profanity(w),
         words,
     )
 

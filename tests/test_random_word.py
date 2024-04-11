@@ -1,6 +1,14 @@
-from wonderwords import RandomWord, Defaults, NoWordsToChoseFrom, filter_profanity
+from wonderwords import RandomWord, Defaults, NoWordsToChoseFrom, is_profanity, filter_profanity
 
 import pytest
+
+
+class TestIsProfanity:
+    def test_no_profanity(self):
+        assert not is_profanity("apple")
+
+    def test_profanity(self):
+        assert is_profanity("  piSS ")
 
 
 class TestFilterProfanity:
