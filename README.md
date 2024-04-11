@@ -168,6 +168,11 @@ can be found at: https://wonderwords.readthedocs.io
 
 ## The Wonderwords CLI
 
+**NOTE**: Before using the command-line interface (CLI), ensure that you installed
+all required dependencies for the CLI using `pip install wonderwords[cli]`.
+Wonderwords normally requires no dependencies, but uses Rich for colorized
+output in the command line.
+
 Wonderwords provides a command line interface, too, which can be used with the
 `wonderwords` command. Usage:
 
