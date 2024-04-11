@@ -173,9 +173,8 @@ is_profanity("apple") # False
 
 # Can be done with a list
 words = [ ... ]
-filter_profanity(words)
 # The function returns a generator, so we convert it to a list
-words_clean = list(words)
+words_clean = list(filter_profanity(words))
 ```
 
 More advanced usage (and a tutorial!) is found in the documentation, such as
