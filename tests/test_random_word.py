@@ -110,6 +110,11 @@ class TestRandomWord:
             ["guinea", "sea", "tea", "idea", "plea", "area", "pea"]
         )
 
+    def test_exclude_with_spaces(self):
+        """Test exclude_with_spaces parameter."""
+        rw = RandomWord(words=["apple", "contact lens", "car", "dump truck"])
+        assert sorted(rw.filter(exclude_with_spaces=True)) == ["apple", "car"]
+
     def test_random_words(self):
         """Test the random_words method"""
         data = self.rw.random_words(4)
