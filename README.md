@@ -162,8 +162,34 @@ s.bare_bone_with_adjective()
 s.sentence()
 ```
 
+Words are organized in categories, such as "nouns", "verbs", and "adjectives".
+What if you had your own categories of words? You can specify your custom
+categories when instantiating the `RandomWord` class:
+
+```python
+from wonderwords import RandomWord
+
+cars = ["Chevrolet", "Subaru", "Tesla"]
+airplanes = ["Boeing", "Airbus", "Cessna"]
+w = RandomWord(cars=cars, airplanes=airplanes)
+
+# Will return a random car or airplane
+w.word()
+
+# Will return a random car
+w.word(include_categories=["cars"])
+
+# You can also mix and match custom categories with defaults
+from wonderwords import Defaults
+proper_nouns = ["Austin", "Seattle", "New York"]
+w2 = RandomWord(proper_nouns=proper_nouns, common_nouns=Defaults.NOUNS)
+
+# Will return either Seattle or seat
+w.word(regex="[Ss]eat.*")
+```
+
 Finally, starting with version 2.3, Wonderwords has explicit support for filtering
-out profanities form lists of words. At the moment, this is rudimentary:
+out profanities from lists of words. At the moment, this is rudimentary:
 
 ```python
 from wonderwords import is_profanity, filter_profanity

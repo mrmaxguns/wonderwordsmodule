@@ -193,3 +193,9 @@ class TestRandomWord:
         """Test a custom category using default values"""
         gen = RandomWord(my_verb=Defaults.VERBS)
         assert gen.word(starts_with="ab") == "abide"
+
+    def test_custom_category_with_mixing(self):
+        """Test custom categories mixed with default categories."""
+        proper_nouns = ["Austin", "Seattle", "New York"]
+        gen = RandomWord(proper_nouns=proper_nouns, common_nouns=Defaults.NOUNS)
+        assert set(gen.filter(regex="[Ss]eat.*")) == {"Seattle", "seat"}
