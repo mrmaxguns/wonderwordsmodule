@@ -122,9 +122,7 @@ def main():
         "--regular-expression",
         action="store",
         type=str,
-        help=(
-            "a python-style regular expression for the word(s) to match"
-        ),
+        help=("a python-style regular expression for the word(s) to match"),
     )
 
     parser.add_argument(
@@ -140,9 +138,7 @@ def main():
         "--delimiter",
         default=", ",
         type=str,
-        help=(
-            "specify the delimiter to put between a list of words, default is ', '"
-        ),
+        help="specify the delimiter to put between a list of words, default is ', '",
     )
 
     parser.add_argument(
@@ -197,11 +193,15 @@ def run_wonderwords(mode, arguments):  # noqa: C901
     elif mode == "filter":
         words = RandomWord().filter(**kwargs)
         if words:
-            cmdline.display_list(RandomWord().filter(**kwargs), delimiter=arguments.delimiter)
+            cmdline.display_list(
+                RandomWord().filter(**kwargs), delimiter=arguments.delimiter
+            )
         else:
             cmdline.display_word_not_found(one_word=False)
     elif mode == "list":
-        words = RandomWord().random_words(amount=arguments.list, return_less_if_necessary=True, **kwargs)
+        words = RandomWord().random_words(
+            amount=arguments.list, return_less_if_necessary=True, **kwargs
+        )
         if words is not None:
             cmdline.display_list(words, delimiter=arguments.delimiter)
         if not arguments.suppress_error_on_less and len(words) < arguments.list:

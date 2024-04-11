@@ -7,7 +7,19 @@ import random
 import re
 import enum
 from types import ModuleType
-from typing import Union, Optional, List, Dict, Any, Type, TextIO, Tuple, IO, Iterable, Set
+from typing import (
+    Union,
+    Optional,
+    List,
+    Dict,
+    Any,
+    Type,
+    TextIO,
+    Tuple,
+    IO,
+    Iterable,
+    Set,
+)
 
 from . import assets
 from . import _trie
@@ -503,7 +515,9 @@ class RandomWord:
 
         return word_min_length, word_max_length
 
-    def _get_word_lists_by_category(self, custom_categories: Dict[str, Any]) -> Dict[str, WordList]:
+    def _get_word_lists_by_category(
+        self, custom_categories: Dict[str, Any]
+    ) -> Dict[str, WordList]:
         """Add custom categories of words"""
         out = {}
         for name, words in custom_categories.items():
@@ -560,7 +574,9 @@ class RandomWord:
 
         return left
 
-    def _perform_long_operations(self, words: Set[str], long_operations: Dict[str, Any]) -> Set[str]:
+    def _perform_long_operations(
+        self, words: Set[str], long_operations: Dict[str, Any]
+    ) -> Set[str]:
         """Return a set of words that do not meet the criteria specified by the long operations."""
         remove_words = set()
         for word in words:

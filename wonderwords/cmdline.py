@@ -32,11 +32,15 @@ def display_list(words: list, delimiter=",") -> None:
 
 
 def display_word_not_found(one_word=True) -> None:
-    print(f"[red]:exclamation: No word{'' if one_word else 's'} matching the criteria specified could be found.[/red]")
+    print(
+        f"[red]:exclamation: No word{'' if one_word else 's'} matching the criteria specified could be found.[/red]"
+    )
 
 
 def display_not_enough_words() -> None:
-    print(f"[red]:exclamation: Couldn't find enough words matching the criteria specified.[/red]")
+    print(
+        f"[red]:exclamation: Couldn't find enough words matching the criteria specified.[/red]"
+    )
 
 
 def display_sentence(sentence: str) -> None:
