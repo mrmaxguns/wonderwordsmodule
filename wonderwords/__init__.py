@@ -1,11 +1,11 @@
 # flake8: noqa
 from .random_word import (
+    WordList,
+    NoWordsToChooseFrom,
+    Defaults,
     RandomWord,
     is_profanity,
     filter_profanity,
-    NoWordsToChooseFrom,
-    Defaults,
-    WordList,
 )
 from .random_sentence import RandomSentence
 
