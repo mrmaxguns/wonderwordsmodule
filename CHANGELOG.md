@@ -5,7 +5,33 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 since version 2.
 
-## [Unreleased]
+## [3.0.0] - Unreleased
+
+### Breaking Changes
+
+- This version officially supports Python 3.8+
+- The command-line interface has changed. Shell scripts relying on
+  Wonderwords need to be updated
+
+### Added
+
+- Speed improvements when using `starts_with` and `ends_with`
+- More efficient batch operations and regular expression compilation
+- Idiomatic CLI commands
+- Profanity filtering
+- Support for custom ``Random`` objects and determinism when running
+  with a specific seed.
+
+### Fixed
+
+- Fixes and updates to word lists
+- Fixed bug where ``return_less_if_necessary`` would produce result
+  in incorrect filtering
+
+### Removed
+
+- Dropped support for Python 3.6 and 3.7
+- No more dependency on ``importlib_resources``
 
 ## [2.2.0] - 2021-02-17
 

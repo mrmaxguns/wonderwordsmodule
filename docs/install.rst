@@ -50,7 +50,7 @@ You should get an output similar to the following:
 
 .. raw:: html
 
-    <pre>Wonderwords v2.3.0</pre>
+    <pre>Wonderwords v3.0.0</pre>
 
 Upgrade
 -------
