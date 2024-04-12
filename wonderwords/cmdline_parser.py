@@ -1,8 +1,9 @@
 import argparse
+import sys
 
-from .random_word import RandomWord, NoWordsToChoseFrom
+from .random_word import RandomWord, NoWordsToChooseFrom
 from .random_sentence import RandomSentence
-from .cmdline import WonderwordsCommandLine
+from . import cmdline
 
 
 def main():
@@ -20,6 +21,8 @@ def main():
     #
     # Base commands
     #
+
+    # Will be changed to a single positional MODE argument in version 3
     parser.add_argument(
         "-w",
         "--word",
@@ -32,7 +35,7 @@ def main():
         "-f",
         "--filter",
         action="store_true",
-        help="filter a list of words matching the criteria specified",
+        help="get a list of all known words matching the criteria specified",
     )
 
     parser.add_argument(
@@ -40,7 +43,7 @@ def main():
         "--list",
         action="store",
         type=int,
-        help="return a list of words of a certain length",
+        help="return a list of a certain length of random words",
     )
 
     parser.add_argument(
@@ -58,31 +61,28 @@ def main():
     )
 
     parser.add_argument(
-        "-v",
-        "--version",
-        action="store_true",
-        help="Print the version number and exit"
+        "-v", "--version", action="store_true", help="print the version number and exit"
     )
 
     #
     # Settings and modifiers
     #
     parser.add_argument(
-        "-sw",
+        "-S",
         "--starts-with",
         action="store",
         default="",
         type=str,
-        help="specify what string the random word(s) should start with",
+        help="strings the random word(s) should start with",
     )
 
     parser.add_argument(
-        "-ew",
+        "-e",
         "--ends-with",
         action="store",
         default="",
         type=str,
-        help="specify what string the random word(s) should end with",
+        help="strings the random word(s) should end with",
     )
 
     parser.add_argument(
@@ -94,25 +94,25 @@ def main():
         # The plural forms will be removed in version 3
         choices=["noun", "verb", "adjective", "nouns", "verbs", "adjectives"],
         help=(
-            "specify to only include certain parts of speech (by default all"
+            "only include certain parts of speech (by default all"
             " parts of speech are included)"
         ),
     )
 
     parser.add_argument(
-        "-min",
+        "-m",
         "--word-min-length",
         action="store",
         type=int,
-        help="specify the minimum length of the word(s)",
+        help="minimum length of the word(s)",
     )
 
     parser.add_argument(
-        "-max",
+        "-M",
         "--word-max-length",
         action="store",
         type=int,
-        help="specify the maximum length of the word(s)",
+        help="maximum length of the word(s)",
     )
 
     parser.add_argument(
@@ -122,10 +122,15 @@ def main():
         "--regular-expression",
         action="store",
         type=str,
-        help=(
-            "specify a python-style regular expression that every word must"
-            " match"
-        ),
+        help=("a python-style regular expression for the word(s) to match"),
+    )
+
+    parser.add_argument(
+        "-x",
+        "--exclude-with-spaces",
+        action="store_true",
+        default=False,
+        help="exclude open compounds, such as 'contact lens'",
     )
 
     parser.add_argument(
@@ -133,110 +138,89 @@ def main():
         "--delimiter",
         default=", ",
         type=str,
-        help=(
-            "Specify the delimiter to put between a list of words, default is"
-            " ', '"
-        ),
+        help="specify the delimiter to put between a list of words, default is ', '",
+    )
+
+    parser.add_argument(
+        "-E",
+        "--suppress-error-on-less",
+        action="store_true",
+        default=False,
+        help="suppress errors when less words are returned in a list then wanted",
     )
 
     args = parser.parse_args()
     mode = get_mode(args)
-    handle_mode(mode, args)
+    sys.exit(run_wonderwords(mode, args))
 
 
 def get_mode(arguments):
     if arguments.version:
-        MODE = "version"
+        return "version"
     elif arguments.word:
-        MODE = "word"
+        return "word"
     elif arguments.filter:
-        MODE = "filter"
+        return "filter"
     elif arguments.list is not None:
-        MODE = "list"
+        return "list"
     elif arguments.sentence is not None:
-        MODE = "sentence"
+        return "sentence"
     else:
-        MODE = None
-
-    return MODE
+        return None
 
 
-def handle_mode(mode, arguments):  # noqa: C901
-    command_line = WonderwordsCommandLine()
-
+def run_wonderwords(mode, arguments):  # noqa: C901
     if mode == "version":
-        command_line.version()
-        quit()
+        cmdline.display_version()
+        return 0
 
-    if mode == "word" or mode == "filter" or mode == "list":
-        word_parser = RandomWord()
-
-    if mode == "sentence":
-        sent_parser = RandomSentence()
+    kwargs = {
+        "starts_with": arguments.starts_with,
+        "ends_with": arguments.ends_with,
+        "include_categories": arguments.parts_of_speech,
+        "word_min_length": arguments.word_min_length,
+        "word_max_length": arguments.word_max_length,
+        "regex": arguments.regex,
+        "exclude_with_spaces": arguments.exclude_with_spaces,
+    }
 
     if mode == "word":
         try:
-            word = word_parser.word(
-                starts_with=arguments.starts_with,
-                ends_with=arguments.ends_with,
-                include_categories=arguments.parts_of_speech,
-                word_min_length=arguments.word_min_length,
-                word_max_length=arguments.word_max_length,
-                regex=arguments.regex,
-            )
-        except NoWordsToChoseFrom:
-            command_line.no_word()
-            quit()
-
-        command_line.word(word)
+            cmdline.display_word(RandomWord().word(**kwargs))
+        except NoWordsToChooseFrom:
+            cmdline.display_word_not_found(one_word=True)
+            return 1
     elif mode == "filter":
-        words = word_parser.filter(
-            starts_with=arguments.starts_with,
-            ends_with=arguments.ends_with,
-            include_categories=arguments.parts_of_speech,
-            word_min_length=arguments.word_min_length,
-            word_max_length=arguments.word_max_length,
-            regex=arguments.regex,
-        )
-
-        command_line.words(words, delimiter=arguments.delimiter)
-
-    elif mode == "list":
-        try:
-            words = word_parser.random_words(
-                amount=arguments.list,
-                starts_with=arguments.starts_with,
-                ends_with=arguments.ends_with,
-                include_categories=arguments.parts_of_speech,
-                word_min_length=arguments.word_min_length,
-                word_max_length=arguments.word_max_length,
-                regex=arguments.regex,
+        words = RandomWord().filter(**kwargs)
+        if words:
+            cmdline.display_list(
+                RandomWord().filter(**kwargs), delimiter=arguments.delimiter
             )
-        except NoWordsToChoseFrom:
-            command_line.no_words()
-            words = word_parser.random_words(
-                amount=arguments.list,
-                starts_with=arguments.starts_with,
-                ends_with=arguments.ends_with,
-                include_categories=arguments.parts_of_speech,
-                word_min_length=arguments.word_min_length,
-                word_max_length=arguments.word_max_length,
-                return_less_if_necessary=True,
-                regex=arguments.regex,
-            )
-
-        command_line.words(words, delimiter=arguments.delimiter)
-    elif mode == "sentence":
-        if arguments.sentence == "bb":
-            command_line.sentence(sent_parser.bare_bone_sentence())
-        elif arguments.sentence == "ss":
-            command_line.sentence(sent_parser.simple_sentence())
-        elif arguments.sentence == "bba":
-            command_line.sentence(sent_parser.bare_bone_with_adjective())
         else:
-            command_line.sentence(sent_parser.sentence())
+            cmdline.display_word_not_found(one_word=False)
+    elif mode == "list":
+        words = RandomWord().random_words(
+            amount=arguments.list, return_less_if_necessary=True, **kwargs
+        )
+        if words is not None:
+            cmdline.display_list(words, delimiter=arguments.delimiter)
+        if not arguments.suppress_error_on_less and len(words) < arguments.list:
+            cmdline.display_not_enough_words()
+            return 1
+    elif mode == "sentence":
+        generator = RandomSentence()
+        if arguments.sentence == "bb":
+            cmdline.display_sentence(generator.bare_bone_sentence())
+        elif arguments.sentence == "ss":
+            cmdline.display_sentence(generator.simple_sentence())
+        elif arguments.sentence == "bba":
+            cmdline.display_sentence(generator.bare_bone_with_adjective())
+        else:
+            cmdline.display_sentence(generator.sentence())
     else:
-        command_line.intro()
+        cmdline.display_hello()
+
+    return 0
 
 
 if __name__ == "__main__":

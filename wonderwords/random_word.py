@@ -3,22 +3,34 @@ The ``random_word`` module houses all classes and functions relating to the
 generation of single random words.
 """
 
-import random
+from random import Random
 import re
 import enum
-from typing import Optional, List
+from types import ModuleType
+from typing import (
+    Union,
+    Optional,
+    List,
+    Dict,
+    Any,
+    Type,
+    TextIO,
+    Tuple,
+    IO,
+    Iterable,
+    Set,
+    Iterator,
+)
 
 from . import assets
-
-try:
-    import importlib.resources as pkg_resources
-except ImportError:
-    # Try backported to PY<37 `importlib_resources`.
-    import importlib_resources as pkg_resources
+from . import _trie
 
 
-class NoWordsToChoseFrom(Exception):
-    """NoWordsToChoseFrom is raised when there is an attempt to access more
+WordList = List[str]
+
+
+class NoWordsToChooseFrom(Exception):
+    """NoWordsToChooseFrom is raised when there is an attempt to access more
     words than exist. This exception may be raised if the amount of random
     words to generate is larger than the amount of words that exist.
     """
@@ -51,7 +63,34 @@ class Defaults(enum.Enum):
     PROFANITIES = "profanitylist.txt"
 
 
-def _load_default_categories(default_categories):
+def _obtain_resource(
+    package: Union[str, ModuleType], resource: str
+) -> Union[IO[str], TextIO]:
+    """Load a file object from a package, ensuring compatibility with supported Python versions."""
+    try:
+        # Introduced in Python 3.9
+        from importlib.resources import files  # type: ignore
+
+        return files(package).joinpath(resource).open("r")
+    except ImportError:
+        # Required for Python 3.8, but emits a DeprecationWarning on Python 3.11
+        from importlib.resources import open_text
+
+        return open_text(package, resource)
+
+
+def _get_words_from_text_file(word_file: str) -> WordList:
+    """Read a file found in static/ where each line has a word, and return
+    all words as a list
+    """
+    with _obtain_resource(assets, word_file) as f:
+        words = f.readlines()
+    return [word.rstrip() for word in words]
+
+
+def _load_default_categories(
+    default_categories: Type[Defaults],
+) -> Dict[Defaults, WordList]:
     """Load all the default word lists"""
     out = {}
     for category in default_categories:
@@ -59,15 +98,37 @@ def _load_default_categories(default_categories):
     return out
 
 
-def _get_words_from_text_file(word_file):
-    """Read a file found in static/ where each line has a word, and return
-    all words as a list
+# A dictionary where each key representing a category like 'nouns' corresponds to a list of words.
+_DEFAULT_CATEGORIES: Dict[Defaults, WordList] = _load_default_categories(Defaults)
+
+
+def is_profanity(word: str) -> bool:
+    """See if a word matches one of the words in the profanity list.
+
+    :param word: The word to check
+    :return: Whether the word was found in the profanity list
     """
-    words = pkg_resources.open_text(assets, word_file).readlines()
-    return [word.rstrip() for word in words]
+    return word.lower().strip() in _DEFAULT_CATEGORIES[Defaults.PROFANITIES]
 
 
-_default_categories = _load_default_categories(Defaults)
+def filter_profanity(words: Iterable[str]) -> Iterator[str]:
+    """Attempt to filter out profane words from a list. This should be done in all user-facing applications if random
+    words are generated to avoid anything that could possibly be offensive. Curse word filtering is currently not done
+    by default on the :py:class:`RandomWord` class.
+
+    Example::
+
+        >>> from wonderwords import filter_profanity
+        >>> list(filter_profanity(["hello", "aSS", "world"]))
+        ["hello", "world"]
+
+    :param words: Iterable of words to filter
+    :return: An iterable of the filtered result
+    """
+    return filter(
+        lambda w: not is_profanity(w),
+        words,
+    )
 
 
 class RandomWord:
@@ -92,18 +153,38 @@ class RandomWord:
        version ``3``. Please note that the ``parts_of_speech`` attribute will
        soon be deprecated, along with other method-specific features.
 
-    :param \*\*kwargs: keyword arguments where each key is a category of words
+    :param enhanced_prefixes: whether to internally use a trie data
+        structure to speed up ``starts_with`` and ``ends_with``. If enabled,
+        the class takes longer to instantiate, but calls to the generation
+        functions will be significantly (up to 4x) faster when using the
+        ``starts_with`` and ``ends_with`` arguments. Defaults to True.
+    :type enhanced_prefixes: bool, optional
+    :param rng: an instance of a ``random.Random`` used for randomization
+    :type rng: random.Random, optional
+    :param kwargs: keyword arguments where each key is a category of words
         and value is a list of words in that category. You can also use a
-        default list of words by using the `Default` enum instead.
-    :type nouns: list, optional
+        default list of words by using a value from the `Default` enum instead.
+    :type kwargs: list, optional
 
     """
 
-    def __init__(self, **kwargs):
+    def __init__(
+        self, enhanced_prefixes: bool = True, rng=None, **kwargs: Union[WordList, Defaults]
+    ):
+        # A dictionary where lists of words organized into named categories
+        self._categories: Dict[str, WordList]
+        # If enhanced prefixes are enabled, these tries represent all the words known to the generator in forward and
+        # reverse. If disabled, this is just None.
+        self._tries: Union[Tuple[_trie.Trie, _trie.Trie], None]
+        # Random number generator.
+        self._generator: Random = rng or Random()
+        # Kept for backwards compatibility. Same as self._categories
+        self.parts_of_speech: Dict[str, WordList]
+
         if kwargs:
-            self._categories = self._custom_categories(kwargs)
+            self._categories = self._get_word_lists_by_category(kwargs)
         else:
-            self._categories = self._custom_categories(
+            self._categories = self._get_word_lists_by_category(
                 {
                     "noun": Defaults.NOUNS,
                     "verb": Defaults.VERBS,
@@ -116,21 +197,35 @@ class RandomWord:
                     "adjectives": Defaults.ADJECTIVES,
                 }
             )
-        # Kept for backwards compatibility
+
+        if enhanced_prefixes:
+            # Two tries. One trie data structure is generated from
+            # the words, while the second one is generated from the
+            # words in reverse to deal with starts_with and ends_with
+            # respectively.
+            self._tries = (_trie.Trie(), _trie.Trie())
+            for _, category in self._categories.items():
+                for word in category:
+                    self._tries[0].insert(word)
+                    self._tries[1].insert(word[::-1])
+        else:
+            self._tries = None
+
         self.parts_of_speech = self._categories
 
     def filter(  # noqa: C901
         self,
         starts_with: str = "",
         ends_with: str = "",
-        include_categories: Optional[List[str]] = None,
-        include_parts_of_speech: Optional[List[str]] = None,
+        include_categories: Optional[Iterable[str]] = None,
+        include_parts_of_speech: Optional[Iterable[str]] = None,
         word_min_length: Optional[int] = None,
         word_max_length: Optional[int] = None,
         regex: Optional[str] = None,
-    ):
-        """Return all existing words that match the criteria specified by the
-        arguments.
+        exclude_with_spaces: bool = False,
+    ) -> WordList:
+        """Return a sorted list of all existing words that match the criteria
+        specified by the arguments.
 
         Example::
 
@@ -163,6 +258,8 @@ class RandomWord:
         :param regex: a custom regular expression which each word must fully
             match (re.fullmatch). Defaults to None.
         :type regex: str, optional
+        :param exclude_with_spaces: exclude words that may have spaces in them
+        :type exclude_with_spaces: bool, optional
 
         :return: a list of unique words that match each of the criteria
             specified
@@ -177,57 +274,83 @@ class RandomWord:
             if include_parts_of_speech:
                 include_categories = include_parts_of_speech
             else:
-                include_categories = self._categories.keys()
+                include_categories = list(self._categories.keys())
 
-        # filter parts of speech
-        words = []
+        # Filter by part of speech and length. Both of these things
+        # are done at once since categories are specifically ordered
+        # in order to make filtering by length an efficient process.
+        # See issue #14 for details.
+        words = set()
+
         for category in include_categories:
             try:
-                words.extend(self._categories[category])
+                words_in_category = self._categories[category]
             except KeyError:
-                raise ValueError(
-                    f"'{category}' is an invalid category"
-                ) from None
+                raise ValueError(f"'{category}' is an invalid category") from None
 
-        # starts/ends
-        if starts_with != "" or ends_with != "":
-            for word in words[:]:
-                if not word.startswith(starts_with):
-                    words.remove(word)
-                elif not word.endswith(ends_with):
-                    words.remove(word)
+            words_to_add = self._get_words_of_length(
+                words_in_category, word_min_length, word_max_length
+            )
+            words.update(words_to_add)
 
-        # length
-        if word_min_length is not None or word_max_length is not None:
-            for word in words[:]:
-                if word_min_length is not None and len(word) < word_min_length:
-                    words.remove(word)
-                elif (
-                    word_max_length is not None
-                    and len(word) > word_max_length
-                ):
-                    words.remove(word)
+        if self._tries is not None:
+            if starts_with:
+                words = words & self._tries[0].get_words_that_start_with(starts_with)
+            if ends_with:
+                # Since the ends_with trie is in reverse, the
+                # ends_with variable must also be reversed.
+                # Example (apple):
+                # - Backwards: elppa
+                # - ends_with: el
+                # Currently this is very clunky, since all words
+                # that match then need to be reversed to their
+                # original forms. Currently, I have no idea how
+                # to improve this. But, even with the extra overhead
+                # of iteration, this system still significantly
+                # shortens the amount of time to filter the words.
+                ends_with = ends_with[::-1]
+                words = words & set(
+                    [
+                        i[::-1]
+                        for i in self._tries[1].get_words_that_start_with(ends_with)
+                    ]
+                )
 
-        # regex
+        # Long operations that require looping over every word
+        # (O(n)). Since they are so time-consuming, the arguments
+        # passed to the function are first checked if the user
+        # actually specified any time-consuming arguments. If they
+        # are, all long filters are checked at once for every word.
+        long_operations: Dict[str, Any] = {}
+
         if regex is not None:
-            words = [
-                word for word in words if re.fullmatch(regex, word) is not None
-            ]
+            long_operations["regex"] = re.compile(regex)
+        if exclude_with_spaces:
+            long_operations["exclude_with_spaces"] = None
+        if self._tries is None:
+            if starts_with:
+                long_operations["starts_with"] = starts_with
+            if ends_with:
+                long_operations["ends_with"] = ends_with
 
-        return list(set(words))
+        if long_operations:
+            words -= self._perform_long_operations(words, long_operations)
+
+        return sorted(list(words))
 
     def random_words(
         self,
         amount: int = 1,
         starts_with: str = "",
         ends_with: str = "",
-        include_categories: Optional[List[str]] = None,
-        include_parts_of_speech: Optional[List[str]] = None,
+        include_categories: Optional[Iterable[str]] = None,
+        include_parts_of_speech: Optional[Iterable[str]] = None,
         word_min_length: Optional[int] = None,
         word_max_length: Optional[int] = None,
         regex: Optional[str] = None,
         return_less_if_necessary: bool = False,
-    ):
+        exclude_with_spaces: bool = False,
+    ) -> WordList:
         """Generate a list of n random words specified by the ``amount``
         parameter and fit the criteria specified.
 
@@ -272,8 +395,10 @@ class RandomWord:
             NoWordsToChoseFrom exception, return all words that did statisfy
             the original query.
         :type return_less_if_necessary: bool, optional
+        :param exclude_with_spaces: exclude words that may have spaces in them
+        :type exclude_with_spaces: bool, optional
 
-        :raises NoWordsToChoseFrom: if there are less words to choose from than
+        :raises NoWordsToChoseFrom: if there are fewer words to choose from than
             the amount that was requested, a NoWordsToChoseFrom exception is
             raised, **unless** return_less_if_necessary is set to True.
 
@@ -288,20 +413,22 @@ class RandomWord:
             word_min_length=word_min_length,
             word_max_length=word_max_length,
             regex=regex,
+            exclude_with_spaces=exclude_with_spaces,
         )
 
-        if not return_less_if_necessary and len(choose_from) < amount:
-            raise NoWordsToChoseFrom(
-                "There aren't enough words to choose from. Cannot generate "
-                f"{str(amount)} word(s)"
-            )
-        elif return_less_if_necessary:
-            random.shuffle(choose_from)
-            return choose_from
+        if len(choose_from) < amount:
+            if return_less_if_necessary:
+                self._generator.shuffle(choose_from)
+                return choose_from
+            else:
+                raise NoWordsToChooseFrom(
+                    "There aren't enough words to choose from. Cannot generate "
+                    f"{str(amount)} word(s)"
+                )
 
         words = []
         for _ in range(amount):
-            new_word = random.choice(choose_from)
+            new_word = self._generator.choice(choose_from)
             choose_from.remove(new_word)
             words.append(new_word)
 
@@ -311,12 +438,13 @@ class RandomWord:
         self,
         starts_with: str = "",
         ends_with: str = "",
-        include_categories: Optional[List[str]] = None,
-        include_parts_of_speech: Optional[List[str]] = None,
+        include_categories: Optional[Iterable[str]] = None,
+        include_parts_of_speech: Optional[Iterable[str]] = None,
         word_min_length: Optional[int] = None,
         word_max_length: Optional[int] = None,
         regex: Optional[str] = None,
-    ):
+        exclude_with_spaces: bool = False,
+    ) -> str:
         """Returns a random word that fits the criteria specified by the
         arguments.
 
@@ -347,6 +475,8 @@ class RandomWord:
         :param regex: a custom regular expression which each word must fully
             match (re.fullmatch). Defaults to None.
         :type regex: str, optional
+        :param exclude_with_spaces: exclude words that may have spaces in them
+        :type exclude_with_spaces: bool, optional
 
         :raises NoWordsToChoseFrom: if a word fitting the criteria doesn't
             exist
@@ -363,19 +493,21 @@ class RandomWord:
             word_min_length=word_min_length,
             word_max_length=word_max_length,
             regex=regex,
+            exclude_with_spaces=exclude_with_spaces,
         )[0]
 
     @staticmethod
-    def read_words(word_file):
+    def read_words(word_file: str) -> WordList:
         """Will soon be deprecated. This method isn't meant to be public, but
         will remain for backwards compatibility. Developers: use
         _get_words_from_text_file internally instead.
         """
         return _get_words_from_text_file(word_file)
 
-    def _validate_lengths(self, word_min_length, word_max_length):
-        """Validate the values and types of word_min_length and word_max_length
-        """
+    def _validate_lengths(
+        self, word_min_length: Any, word_max_length: Any
+    ) -> Tuple[Union[int, None], Union[int, None]]:
+        """Validate the values and types of word_min_length and word_max_length"""
         if not isinstance(word_min_length, (int, type(None))):
             raise TypeError("word_min_length must be type int or None")
 
@@ -383,7 +515,7 @@ class RandomWord:
             raise TypeError("word_max_length must be type int or None")
 
         if word_min_length is not None and word_max_length is not None:
-            if word_min_length > word_max_length and word_max_length != 0:
+            if word_min_length > word_max_length != 0:
                 raise ValueError(
                     "word_min_length cannot be greater than word_max_length"
                 )
@@ -394,14 +526,83 @@ class RandomWord:
         if word_max_length is not None and word_max_length < 0:
             word_max_length = None
 
-        return (word_min_length, word_max_length)
+        return word_min_length, word_max_length
 
-    def _custom_categories(self, custom_categories):
-        """Add custom categries of words"""
+    def _get_word_lists_by_category(
+        self, custom_categories: Dict[str, Any]
+    ) -> Dict[str, WordList]:
+        """Add custom categories of words"""
         out = {}
         for name, words in custom_categories.items():
             if isinstance(words, Defaults):
-                out[name] = _default_categories[words]
+                word_list = _DEFAULT_CATEGORIES[words]
             else:
-                out[name] = words
+                word_list = words
+
+            # All the words in each category are sorted. This is so
+            # that they can be bisected by length later on for more
+            # efficient word length retrieval. See issue #14 for
+            # details.
+            word_list.sort(key=len)
+            out[name] = word_list
+
         return out
+
+    def _get_words_of_length(
+        self,
+        word_list: WordList,
+        min_length: Optional[int] = None,
+        max_length: Optional[int] = None,
+    ) -> WordList:
+        """Given ``word_list``, get all words that are at least
+        ``min_length`` long and at most ``max_length`` long.
+        """
+
+        if min_length is None:
+            left_index = 0
+        else:
+            left_index = self._bisect_by_length(word_list, min_length)
+
+        if max_length is None:
+            right_index = None
+        else:
+            right_index = self._bisect_by_length(word_list, max_length + 1)
+
+        return word_list[left_index:right_index]
+
+    def _bisect_by_length(self, words: WordList, target_length: int) -> int:
+        """Given a list of sorted words by length, get the index of the
+        first word that's of the ``target_length``.
+        """
+
+        left = 0
+        right = len(words) - 1
+
+        while left <= right:
+            middle = left + (right - left) // 2
+            if len(words[middle]) < target_length:
+                left = middle + 1
+            else:
+                right = middle - 1
+
+        return left
+
+    def _perform_long_operations(
+        self, words: Set[str], long_operations: Dict[str, Any]
+    ) -> Set[str]:
+        """Return a set of words that do not meet the criteria specified by the long operations."""
+        remove_words = set()
+        for word in words:
+            if "regex" in long_operations:
+                if not long_operations["regex"].fullmatch(word):
+                    remove_words.add(word)
+            if "exclude_with_spaces" in long_operations:
+                if " " in word:
+                    remove_words.add(word)
+            if "starts_with" in long_operations:
+                if not word.startswith(long_operations["starts_with"]):
+                    remove_words.add(word)
+            if "ends_with" in long_operations:
+                if not word.endswith(long_operations["ends_with"]):
+                    remove_words.add(word)
+        return remove_words

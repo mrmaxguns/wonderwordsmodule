@@ -18,8 +18,8 @@
 # -- Project information -----------------------------------------------------
 
 project = "Wonderwords"
-copyright = "2020, Maxim R (mrmaxguns)"
-author = "Maxim R (mrmaxguns)"
+copyright = "2020, Maxim Rebguns (mrmaxguns)"
+author = "Maxim Rebguns (mrmaxguns)"
 
 
 # -- General configuration ---------------------------------------------------

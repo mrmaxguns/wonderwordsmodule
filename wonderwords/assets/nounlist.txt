@@ -730,7 +730,6 @@ broad
 broadcast
 broccoli
 brochure
-brocolli
 broiler
 broker
 bronchitis
@@ -4644,7 +4643,6 @@ practice
 practitioner
 prairie
 praise
-pray
 prayer
 precedence
 precedent
