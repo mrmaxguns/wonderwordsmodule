@@ -29,8 +29,8 @@ from . import _trie
 WordList = List[str]
 
 
-class NoWordsToChoseFrom(Exception):
-    """NoWordsToChoseFrom is raised when there is an attempt to access more
+class NoWordsToChooseFrom(Exception):
+    """NoWordsToChooseFrom is raised when there is an attempt to access more
     words than exist. This exception may be raised if the amount of random
     words to generate is larger than the amount of words that exist.
     """
@@ -417,7 +417,7 @@ class RandomWord:
                 random.shuffle(choose_from)
                 return choose_from
             else:
-                raise NoWordsToChoseFrom(
+                raise NoWordsToChooseFrom(
                     "There aren't enough words to choose from. Cannot generate "
                     f"{str(amount)} word(s)"
                 )

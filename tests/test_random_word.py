@@ -1,4 +1,4 @@
-from wonderwords import RandomWord, Defaults, NoWordsToChoseFrom, is_profanity, filter_profanity
+from wonderwords import RandomWord, Defaults, NoWordsToChooseFrom, is_profanity, filter_profanity
 
 import pytest
 
@@ -132,7 +132,7 @@ class TestRandomWord:
         """Test the random_words method in which the query returns less results
         than expected
         """
-        with pytest.raises(NoWordsToChoseFrom):
+        with pytest.raises(NoWordsToChooseFrom):
             self.rw.random_words(20, starts_with="ag")
 
     def test_random_words_not_enough_with_return_less_if_necessary(self):

@@ -1,7 +1,7 @@
 import argparse
 import sys
 
-from .random_word import RandomWord, NoWordsToChoseFrom
+from .random_word import RandomWord, NoWordsToChooseFrom
 from .random_sentence import RandomSentence
 from . import cmdline
 
@@ -187,7 +187,7 @@ def run_wonderwords(mode, arguments):  # noqa: C901
     if mode == "word":
         try:
             cmdline.display_word(RandomWord().word(**kwargs))
-        except NoWordsToChoseFrom:
+        except NoWordsToChooseFrom:
             cmdline.display_word_not_found(one_word=True)
             return 1
     elif mode == "filter":

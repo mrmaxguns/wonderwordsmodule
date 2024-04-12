@@ -3,11 +3,14 @@ from .random_word import (
     RandomWord,
     is_profanity,
     filter_profanity,
-    NoWordsToChoseFrom,
+    NoWordsToChooseFrom,
     Defaults,
     WordList,
 )
 from .random_sentence import RandomSentence
+
+# Misspelling (kept for backwards compatibility)
+NoWordsToChoseFrom = NoWordsToChooseFrom
 
 __author__ = "Maxim Rebguns"
 __copyright__ = "Copyright 2024, Maxim Rebguns"

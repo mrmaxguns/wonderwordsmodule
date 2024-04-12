@@ -2,7 +2,7 @@
 API Documentation
 =================
 
-.. autoexception:: wonderwords.NoWordsToChoseFrom
+.. autoexception:: wonderwords.NoWordsToChooseFrom
 
 .. autoclass:: wonderwords.Defaults
     :members:

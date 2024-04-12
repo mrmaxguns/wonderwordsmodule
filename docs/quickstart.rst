@@ -132,7 +132,7 @@ two differences:
 
 * You can limit the amount of words fitting the criteria
 * The returned words are randomly chosen and ordered
-* If there aren't enough words to reach the limit, a ``NoWordsToChoseFrom``
+* If there aren't enough words to reach the limit, a ``NoWordsToChooseFrom``
   exception is raised **unless** ``return_less_if_necessary`` is set to
   ``True``.
 
@@ -144,7 +144,7 @@ This method is useful if you want to get a random list of words::
     ['abrogation', 'animal', 'appropriation', 'angry']
     >>> w.random_words(3, word_min_length=5, starts_with="alg") # The exception is
     ...                                                         # raised as 3 words cannot be generated
-    NoWordsToChoseFrom: There aren't enough words to choose from. Cannot generate 3 word(s)
+    NoWordsToChooseFrom: There aren't enough words to choose from. Cannot generate 3 word(s)
     >>> w.random_words(3, word_min_length=5, starts_with="alg", return_less_if_necessary=True)
     ['algebra', 'algorithm']
 
