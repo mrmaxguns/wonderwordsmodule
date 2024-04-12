@@ -38,8 +38,15 @@ classifiers = [
 dynamic = ["version"]
 
 [project.optional-dependencies]
-test = [
+dev = [
     "pytest",
+    "black",
+    "mypy",
+    "flake8",
+    "setuptools",
+    "setuptools-scm",
+    "sphinx",
+    "sphinx-copybutton",
 ]
 cli = [
     "rich",
