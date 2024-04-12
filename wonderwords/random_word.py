@@ -159,8 +159,8 @@ class RandomWord:
         functions will be significantly (up to 4x) faster when using the
         ``starts_with`` and ``ends_with`` arguments. Defaults to True.
     :type enhanced_prefixes: bool, optional
-    :param gen: an instance of a ``random.Random`` used for randomization
-    :type gen: random.Random, optional
+    :param rng: an instance of a ``random.Random`` used for randomization
+    :type rng: random.Random, optional
     :param kwargs: keyword arguments where each key is a category of words
         and value is a list of words in that category. You can also use a
         default list of words by using a value from the `Default` enum instead.
@@ -169,7 +169,7 @@ class RandomWord:
     """
 
     def __init__(
-        self, enhanced_prefixes: bool = True, gen=None, **kwargs: Union[WordList, Defaults]
+        self, enhanced_prefixes: bool = True, rng=None, **kwargs: Union[WordList, Defaults]
     ):
         # A dictionary where lists of words organized into named categories
         self._categories: Dict[str, WordList]
@@ -177,7 +177,7 @@ class RandomWord:
         # reverse. If disabled, this is just None.
         self._tries: Union[Tuple[_trie.Trie, _trie.Trie], None]
         # Random number generator.
-        self._generator: Random = gen or Random()
+        self._generator: Random = rng or Random()
         # Kept for backwards compatibility. Same as self._categories
         self.parts_of_speech: Dict[str, WordList]
 
