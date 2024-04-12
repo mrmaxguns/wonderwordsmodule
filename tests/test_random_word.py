@@ -1,4 +1,5 @@
 from wonderwords import RandomWord, Defaults, NoWordsToChooseFrom, is_profanity, filter_profanity
+from random import Random
 
 import pytest
 
@@ -203,3 +204,10 @@ class TestRandomWord:
         proper_nouns = ["Austin", "Seattle", "New York"]
         gen = RandomWord(proper_nouns=proper_nouns, common_nouns=Defaults.NOUNS)
         assert set(gen.filter(regex="[Ss]eat.*")) == {"Seattle", "seat"}
+
+    def test_custom_generator_determinism(self, gen):
+        """Test a custom random generator and ensure that seeded output is deterministic."""
+        gen = RandomWord(rng=Random(10))
+        # Should return the same thing in all supported versions of CPython. Will need to update this test if the random
+        # implementation is ever changed.
+        assert gen.word() == "mortal"
