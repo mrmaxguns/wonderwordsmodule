@@ -3,7 +3,7 @@ The ``random_word`` module houses all classes and functions relating to the
 generation of single random words.
 """
 
-import random
+from random import Random
 import re
 import enum
 from types import ModuleType
@@ -159,6 +159,8 @@ class RandomWord:
         functions will be significantly (up to 4x) faster when using the
         ``starts_with`` and ``ends_with`` arguments. Defaults to True.
     :type enhanced_prefixes: bool, optional
+    :param gen: an instance of a ``random.Random`` used for randomization
+    :type gen: random.Random, optional
     :param kwargs: keyword arguments where each key is a category of words
         and value is a list of words in that category. You can also use a
         default list of words by using a value from the `Default` enum instead.
@@ -167,13 +169,15 @@ class RandomWord:
     """
 
     def __init__(
-        self, enhanced_prefixes: bool = True, **kwargs: Union[WordList, Defaults]
+        self, enhanced_prefixes: bool = True, gen=None, **kwargs: Union[WordList, Defaults]
     ):
         # A dictionary where lists of words organized into named categories
         self._categories: Dict[str, WordList]
         # If enhanced prefixes are enabled, these tries represent all the words known to the generator in forward and
         # reverse. If disabled, this is just None.
         self._tries: Union[Tuple[_trie.Trie, _trie.Trie], None]
+        # Random number generator.
+        self._generator: Random = gen or Random()
         # Kept for backwards compatibility. Same as self._categories
         self.parts_of_speech: Dict[str, WordList]
 
@@ -414,7 +418,7 @@ class RandomWord:
 
         if len(choose_from) < amount:
             if return_less_if_necessary:
-                random.shuffle(choose_from)
+                self._generator.shuffle(choose_from)
                 return choose_from
             else:
                 raise NoWordsToChooseFrom(
@@ -424,7 +428,7 @@ class RandomWord:
 
         words = []
         for _ in range(amount):
-            new_word = random.choice(choose_from)
+            new_word = self._generator.choice(choose_from)
             choose_from.remove(new_word)
             words.append(new_word)
 
