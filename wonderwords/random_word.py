@@ -220,8 +220,8 @@ class RandomWord:
         regex: Optional[str] = None,
         exclude_with_spaces: bool = False,
     ) -> WordList:
-        """Return all existing words that match the criteria specified by the
-        arguments.
+        """Return a sorted list of all existing words that match the criteria
+        specified by the arguments.
 
         Example::
 
@@ -332,7 +332,7 @@ class RandomWord:
         if long_operations:
             words -= self._perform_long_operations(words, long_operations)
 
-        return list(words)
+        return sorted(list(words))
 
     def random_words(
         self,

@@ -31,6 +31,11 @@ class TestRandomWord:
         data = self.rw.filter()
         assert isinstance(data, list) and len(data) == 8166
 
+    def test_filter_sorting(self):
+        """Test that the filter method returns a sorted list."""
+        gen = RandomWord(words=["november", "uniform", "alpha", "delta", "bravo"])
+        assert gen.filter() == ["alpha", "bravo", "delta", "november", "uniform"]
+
     def test_filter_starts_with(self):
         """Test the filter method with a custom starts_with parameter"""
         data = self.rw.filter(starts_with="mana")
