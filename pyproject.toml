@@ -2,8 +2,8 @@
 requires = ["setuptools>=64", "setuptools_scm>=8"]
 build-backend = "setuptools.build_meta"
 
-[tool.setuptools]
-py-modules = []
+[tool.setuptools.packages.find]
+where = ["wonderwords"]
 
 [tool.setuptools_scm]
 write_to = "wonderwords/_version.py"

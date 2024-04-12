@@ -4,29 +4,30 @@ Wonderwords Official Documentation
 ==================================
 
 Wonderwords is a python package with a command line interface with the purpose
-of generating random words and sentences. Wonderwords is **free** and **open
-source**, meaning anyone can contribute to its repository.
+of generating random words and sentences. Wonderwords is free software under
+the MIT license. Contributions to the library are welcome.
+
+While Wonderwords supports English by default, custom word lists can be
+used to generate and filter words in other languages as well.
 
 Here is a simple example::
 
-  >>> from wonderwords import RandomWord
-  >>>
-  >>> generator = RandomWord()
-  >>> generator.word()
-  'stomach'
+    >>> from wonderwords import RandomWord
+    >>> generator = RandomWord()
+    >>> generator.word()
+    'stomach'
 
 The random words can also be further customized::
 
-  >>> generator.word(starts_with="ap", include_categories=["adjective"])
-  'apathetic'
+    >>> generator.word(starts_with="ap", include_categories=["adjectives"])
+    'apathetic'
 
-With Wonderwords you can also generate lists of words and sentences, though
-the sentence feature is in its early development. To install, head over to the
-:ref:`install <install_uninstall_upgrade>` page. The :ref:`quickstart <quickstart>` is a great
-place to get started with Wonderwords.
+With Wonderwords you can also generate lists of words and sentences.
+To install, head over to the :ref:`install <install_uninstall_upgrade>` page.
+The :ref:`quickstart <quickstart>` is a great place to get started with Wonderwords.
 
-A full reference of all modules (the API documentation) can be found
-:ref:`here <docs>`.
+A full reference of all modules can be found at the :ref:`API documentation <docs>`
+page.
 
 Documentation
 -------------

@@ -11,6 +11,5 @@ start with :ref:`the quickstart <quickstart>`.
 .. toctree::
   :maxdepth: 2
 
-  random_word
-  random_sentence
+  api
   cli

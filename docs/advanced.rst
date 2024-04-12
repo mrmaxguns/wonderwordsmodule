@@ -26,20 +26,19 @@ of words in those categories.
 
 Here's an example::
 
-  from wonderwords import RandomWord
+    from wonderwords import RandomWord
 
-  fruits = ["apple", "orange", "banana", "strawberry"]
-  generator = RandomWord(fruit=fruits)
+    fruits = ["apple", "orange", "banana", "strawberry"]
+    generator = RandomWord(fruits=fruits)
 
-  print(generator.word()) # ex: apple
+    print(generator.word()) # ex: apple
 
 Let's break this down:
 
 1. First, we import the ``RandomWord`` class from ``wonderwords``.
 2. We then define a list of fruits.
 3. After that, we create a new instance of ``RandomWord``, where we create a
-   category called ``fruit``. Normally, we define category names in the singular
-   form, so ``fruit`` instead of ``fruits``.
+   category called ``fruits``.
 4. We print a random word from all the available categories.
 
 All of the arguments we had when generating random words from the default word
@@ -49,37 +48,37 @@ custom categories.
 
 We can add as many word lists as we want::
 
-  animals = ["cow", "cat", "dog", "elephant"]
-  plants = ["tree", "grass", "sunflower"]
-  generator2 = RandomWord(animal=animals, plant=plants)
+    animals = ["cow", "cat", "dog", "elephant"]
+    plants = ["tree", "grass", "sunflower"]
+    generator2 = RandomWord(animals=animals, plants=plants)
 
-  print(generator2.word()) # ex: grass (all categories are enabled by default)
-  print(generator2.word()) # ex: cat
-  print(generator2.word(include_categories=["animal"])) # ex: dog
+    print(generator2.word()) # ex: grass (all categories are enabled by default)
+    print(generator2.word()) # ex: cat
+    print(generator2.word(include_categories=["animals"])) # ex: dog
 
 As illustrated in the example above, we can include only specific categories
 with ``include_categories``. We have already seen this argument before, when
-specifying parts of speech, such as "noun" and "verb". But now, we can no longer
+specifying parts of speech, such as "nouns" and "verbs". But now, we can no longer
 generate random nouns, verbs, and adjectives. The following code won't work::
 
-  generator2.word(include_categories=["noun"])
-  # ValueError: 'noun' is an invalid category
-  # :(
+    generator2.word(include_categories=["nouns"])
+    # ValueError: 'noun' is an invalid category
+    # :(
 
 This is because when we specify custom categories, the default configuration is
 overwritten. What if we want both a custom category, and one of the default
 categories as well? This can be done with ``Defaults``::
 
-  from wonderwords import RandomWord, Defaults
+    from wonderwords import RandomWord, Defaults
 
-  writing_utensils = ["graphite pencil", "pen", "marker", "colored pencil"]
-  generator = RandomWord(
-      utensil=writing_utensils,
-      adjective=Defaults.ADJECTIVES
-  )
-  print(generator.word()) # ex: angry
-  print(generator.word(include_categories=["utensil"])) # ex: marker
-  print(generator.word(include_categories=["adjective"])) # ex: sparkling
+    writing_utensils = ["graphite pencil", "pen", "marker", "colored pencil"]
+    generator = RandomWord(
+        utensils=writing_utensils,
+        adjectives=Defaults.ADJECTIVES
+    )
+    print(generator.word()) # ex: angry
+    print(generator.word(include_categories=["utensils"])) # ex: marker
+    print(generator.word(include_categories=["adjectives"])) # ex: sparkling
 
 ``Defaults`` is a python object that has a number of constants representing
 various default categories. We can specify one of these categories instead of
@@ -100,24 +99,24 @@ With all of that, let's get back to our random name generator. First, we'll do
 some initial setup. Put the following lines at the top of
 ``random_name_generator.py``::
 
-  from wonderwords import RandomWord
+    from wonderwords import RandomWord
 
-  # Note: here, we put the names in a list, but when you're writing code with
-  # large lists, you typically put them in a file, and read from there.
-  FIRST_NAMES = ["Jane", "Bob", "Anne", "Max", "Jake"]
-  LAST_NAMES = ["Jacobson", "Johnson", "Miller", "Rodriguez", "Davis"]
+    # Note: here, we put the names in a list, but when you're writing code with
+    # large lists, you typically put them in a file, and read from there.
+    FIRST_NAMES = ["Jane", "Bob", "Anne", "Max", "Jake"]
+    LAST_NAMES = ["Jacobson", "Johnson", "Miller", "Rodriguez", "Davis"]
 
 Here we import ``RandomWord`` and create a list of first names, and a list of
 surnames. Now, let's create an instance of the ``RandomWord`` class::
 
-  generator = RandomWord(name=FIRST_NAMES, surname=LAST_NAMES)
+    generator = RandomWord(names=FIRST_NAMES, surnames=LAST_NAMES)
 
 Here we create a random word generator with two categories: ``name`` and
 ``surname``. We pass the lists we defined earlier to the categories. Now it's
 time to write our ``main`` function, where the bulk of our code will reside::
 
-  def main():
-      while True:
+    def main():
+        while True:
           # We put this here, so that the user can chose to generate another
           # word or quit.
           action = input("Generate (enter) or quit (q) ").strip()
@@ -125,8 +124,8 @@ time to write our ``main`` function, where the bulk of our code will reside::
           if action.lower() == "q":
               break
 
-          first_name = generator.word(include_categories=["name"])
-          last_name = generator.word(include_categories=["surname"])
+          first_name = generator.word(include_categories=["names"])
+          last_name = generator.word(include_categories=["surnames"])
           print(first_name, last_name)
       print("Thanks for using the generator!")
 
@@ -141,11 +140,32 @@ specify the categories used. Finally, we print the generated full name.
 
 The only thing left is to call our main function::
 
-  if __name__ == "__main__":
-      main()
+    if __name__ == "__main__":
+        main()
 
 In the code above, we call the ``main`` function as long as we run the code
 directly. If someone imports our code, the ``main`` function won't run.
+
+Filtering Profanity
+^^^^^^^^^^^^^^^^^^^
+
+Wonderwords supports a basic way to filter words that may be unsafe or profane
+for applications using the word list represented by ``Defaults.PROFANITIES``. There
+are two main functions to deal with profanity detection and removal.
+
+The first function, ``is_profanity`` returns ``True`` if the word was found in
+the Wonderwords profanity list. The second, ``filter_profanity``, takes an iterator
+of words and returns a generator with the same words, but with any possible curse
+words filtered out::
+
+    from wonderwords import is_profanity, filter_profanity
+
+    is_profanity("apple") # False
+    is_profanity("piss") # True
+
+    words = ["apple", "PiSS ", " orange"]
+    # Convert the generator into a list
+    list(filter_profanity(words)) # ["apple", " orange"]
 
 That's it! If you've read this far, you have completely mastered Wonderwords.
 Go on, and put your newly learned skills to practice.
