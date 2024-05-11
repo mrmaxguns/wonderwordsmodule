@@ -1,3 +1,5 @@
+from typing import List
+
 from rich import print
 from rich.markdown import Markdown
 
@@ -26,12 +28,12 @@ def display_word(word: str) -> None:
     print(f"[cyan]{word}[/cyan]")
 
 
-def display_list(words: list, delimiter=",") -> None:
+def display_list(words: List[str], delimiter: str = ",") -> None:
     delimiter_colorized = f"[grey50]{delimiter}[/grey50]"
     print(delimiter_colorized.join([f"[cyan]{word}[/cyan]" for word in words]))
 
 
-def display_word_not_found(one_word=True) -> None:
+def display_word_not_found(one_word: bool = True) -> None:
     print(
         f"[red]:exclamation: No word{'' if one_word else 's'} matching the criteria specified could be found.[/red]"
     )
@@ -39,7 +41,7 @@ def display_word_not_found(one_word=True) -> None:
 
 def display_not_enough_words() -> None:
     print(
-        f"[red]:exclamation: Couldn't find enough words matching the criteria specified.[/red]"
+        "[red]:exclamation: Couldn't find enough words matching the criteria specified.[/red]"
     )
 
 
