@@ -21,7 +21,7 @@ platformdirs==4.2.0
 pluggy==1.4.0
 Pygments==2.17.2
 pytest==8.1.1
-requests==2.31.0
+requests==2.32.0
 rich==13.7.1
 setuptools-scm==8.0.4
 snowballstemmer==2.2.0
