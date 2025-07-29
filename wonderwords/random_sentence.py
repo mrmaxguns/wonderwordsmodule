@@ -26,8 +26,11 @@ def _present_tense(verb: str) -> str:
     return verb
 
 
-def _with_article(word: str) -> str:
-    (article,) = random.choices(["the", "a", ""], weights=[5, 3, 2])
+def _with_article(word: str, rng: random.Random = None) -> str:
+    if rng:
+        (article,) = rng.choices(["the", "a", ""], weights=[5, 3, 2])
+    else:
+        (article,) = random.choices(["the", "a", ""], weights=[5, 3, 2])
     if article == "a" and word[0] in VOWELS:
         article = "an"
     if article:
@@ -54,6 +57,8 @@ class RandomSentence:
     :param adjectives: a list of adjectives that will be used to generate
         random adjectives. Defaults to None.
     :type adjectives: list, optional
+    :param rng: an instance of a ``random.Random`` used for randomization
+    :type rng: random.Random, optional
     """
 
     def __init__(
@@ -61,11 +66,14 @@ class RandomSentence:
         nouns: Optional[List[str]] = None,
         verbs: Optional[List[str]] = None,
         adjectives: Optional[List[str]] = None,
+        rng: Optional[random.Random] = None
     ):
         noun = nouns or Defaults.NOUNS
         verb = verbs or Defaults.VERBS
         adjective = adjectives or Defaults.ADJECTIVES
-        self.gen = RandomWord(noun=noun, verb=verb, adjective=adjective)
+        self.gen = RandomWord(noun=noun, verb=verb, rng=rng,
+                              adjective=adjective)
+        self._generator = self.gen._generator
 
     # Randomly generate bare bone sentences
     def bare_bone_sentence(self) -> str:
@@ -81,7 +89,8 @@ class RandomSentence:
             randomly generated
         :rtype: str
         """
-        the_noun = _with_article(self.gen.word(include_categories=["noun"]))
+        the_noun = _with_article(self.gen.word(include_categories=["noun"]),
+                                 self._generator)
         the_verb = _present_tense(self.gen.word(include_categories=["verb"]))
 
         return f"{the_noun.capitalize()} {the_verb}."
@@ -119,7 +128,8 @@ class RandomSentence:
         """
         the_noun = self.gen.word(include_categories=["noun"])
         the_verb = _present_tense(self.gen.word(include_categories=["verb"]))
-        the_adjective = _with_article(self.gen.word(include_categories=["adjective"]))
+        the_adjective = _with_article(
+            self.gen.word(include_categories=["adjective"]), self._generator)
 
         return f"{the_adjective.capitalize()} {the_noun} {the_verb}."
 
