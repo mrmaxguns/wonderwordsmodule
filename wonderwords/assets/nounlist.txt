@@ -681,14 +681,10 @@ bowler
 bowling
 bowtie
 box
-boxer
 boxspring
-boy
 boycott
-boyfriend
 boyhood
 boysenberry
-bra
 brace
 bracelet
 bracket
@@ -699,7 +695,6 @@ branch
 brand
 brandy
 brass
-brassiere
 bratwurst
 bread
 breadcrumb
@@ -709,7 +704,6 @@ breakdown
 breakfast
 breakpoint
 breakthrough
-breast
 breastplate
 breath
 breeze
@@ -740,7 +734,6 @@ brood
 brook
 broom
 brother
-brother-in-law
 brow
 brown
 brownie
@@ -1207,7 +1200,6 @@ coil
 coin
 coincidence
 coinsurance
-coke
 cold
 coleslaw
 coliseum
@@ -1756,7 +1748,6 @@ diaphragm
 diarist
 diary
 dibble
-dickey
 dictaphone
 dictator
 diction
@@ -2279,7 +2270,6 @@ fashion
 fat
 fate
 father
-father-in-law
 fatigue
 fatigues
 faucet
@@ -2612,8 +2602,6 @@ gingerbread
 ginseng
 giraffe
 girdle
-girl
-girlfriend
 git
 glacier
 gladiolus
@@ -2890,7 +2878,6 @@ heroine
 heron
 herring
 hesitation
-heterosexual
 hexagon
 heyday
 hiccups
@@ -2931,8 +2918,6 @@ homework
 homicide
 homogenate
 homonym
-homosexual
-homosexuality
 honesty
 honey
 honeybee
@@ -3075,7 +3060,6 @@ improvement
 impudence
 impulse
 in-joke
-in-laws
 inability
 inauguration
 inbox
@@ -3364,7 +3348,6 @@ lacquerware
 lad
 ladder
 ladle
-lady
 ladybug
 lag
 lake
@@ -3637,7 +3620,6 @@ malnutrition
 mama
 mambo
 mammoth
-man
 manacle
 management
 manager
@@ -3924,7 +3906,6 @@ most
 motel
 moth
 mother
-mother-in-law
 motion
 motivation
 motive
@@ -4265,7 +4246,6 @@ panel
 panic
 pannier
 panpipe
-pansy
 panther
 panties
 pantologist
@@ -4273,8 +4253,6 @@ pantology
 pantry
 pants
 pantsuit
-panty
-pantyhose
 papa
 papaya
 paper
@@ -5367,7 +5345,6 @@ settlement
 settler
 severity
 sewer
-sexuality
 shack
 shackle
 shade
@@ -5474,7 +5451,6 @@ similarity
 simple
 simplicity
 simplification
-simvastatin
 sin
 singer
 singing
@@ -5484,7 +5460,6 @@ sinuosity
 sip
 sir
 sister
-sister-in-law
 sitar
 site
 situation
@@ -6370,22 +6345,16 @@ umbrella
 unblinking
 uncertainty
 uncle
-underclothes
 underestimate
 underground
 underneath
-underpants
 underpass
-undershirt
 understanding
 understatement
 undertaker
-underwear
 underweight
-underwire
 underwriting
 unemployment
-unibody
 uniform
 uniformity
 union
@@ -6692,7 +6661,6 @@ withdrawal
 witness
 wok
 wolf
-woman
 wombat
 wonder
 wont

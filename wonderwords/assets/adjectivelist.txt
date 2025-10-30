@@ -857,7 +857,6 @@ average
 panicky
 detailed
 juvenile
-scandalous
 steady
 wealthy
 deep
@@ -882,7 +881,6 @@ aromatic
 successful
 zany
 evasive
-wet 
 naive
 nice
 uttermost
