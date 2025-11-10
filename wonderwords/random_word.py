@@ -92,7 +92,7 @@ def _load_default_categories(
     default_categories: Type[Defaults],
 ) -> Dict[Defaults, WordList]:
     """Load all the default word lists"""
-    out = {}
+    out: Dict[Defaults, WordList] = {}
     for category in default_categories:
         out[category] = _get_words_from_text_file(category.value)
     return out
@@ -169,7 +169,7 @@ class RandomWord:
     """
 
     def __init__(
-        self, enhanced_prefixes: bool = True, rng=None, **kwargs: Union[WordList, Defaults]
+        self, enhanced_prefixes: bool = True, rng: Optional[Random] = None, **kwargs: Union[WordList, Defaults]
     ):
         # A dictionary where lists of words organized into named categories
         self._categories: Dict[str, WordList]
@@ -280,7 +280,7 @@ class RandomWord:
         # are done at once since categories are specifically ordered
         # in order to make filtering by length an efficient process.
         # See issue #14 for details.
-        words = set()
+        words: Set[str] = set()
 
         for category in include_categories:
             try:
@@ -426,7 +426,7 @@ class RandomWord:
                     f"{str(amount)} word(s)"
                 )
 
-        words = []
+        words: WordList = []
         for _ in range(amount):
             new_word = self._generator.choice(choose_from)
             choose_from.remove(new_word)
@@ -532,7 +532,7 @@ class RandomWord:
         self, custom_categories: Dict[str, Any]
     ) -> Dict[str, WordList]:
         """Add custom categories of words"""
-        out = {}
+        out: dict[str, WordList] = {}
         for name, words in custom_categories.items():
             if isinstance(words, Defaults):
                 word_list = _DEFAULT_CATEGORIES[words]
@@ -591,7 +591,7 @@ class RandomWord:
         self, words: Set[str], long_operations: Dict[str, Any]
     ) -> Set[str]:
         """Return a set of words that do not meet the criteria specified by the long operations."""
-        remove_words = set()
+        remove_words: Set[str] = set()
         for word in words:
             if "regex" in long_operations:
                 if not long_operations["regex"].fullmatch(word):

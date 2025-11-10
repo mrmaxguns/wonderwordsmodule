@@ -169,7 +169,7 @@ def get_mode(arguments):
         return None
 
 
-def run_wonderwords(mode, arguments):  # noqa: C901
+def run_wonderwords(mode: str, arguments):  # noqa: C901
     if mode == "version":
         cmdline.display_version()
         return 0

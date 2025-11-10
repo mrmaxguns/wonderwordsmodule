@@ -53,7 +53,7 @@ class Trie:
 
     def get_words_from_branch(self, branch: TrieNode, word_fragment: str) -> Set[str]:
         """Get all words that start with ``word_fragment`` starting from the node ``branch``."""
-        words = set()
+        words: Set[str] = set()
 
         if branch.end_of_word:
             words.add(word_fragment)
