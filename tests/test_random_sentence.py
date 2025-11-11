@@ -1,3 +1,4 @@
+from random import Random
 from wonderwords import RandomSentence
 
 
@@ -77,3 +78,19 @@ class TestRandomSentence:
             and data[-1][:-1] in DEFAULT_NOUNS
             and data[-1].endswith(".")
         )
+
+    def test_custom_generator_determinism(self):
+        """Test a custom random generator and ensure that seeded output is deterministic."""
+        rng = Random()
+        gen = RandomSentence(
+            nouns=DEFAULT_NOUNS,
+            verbs=DEFAULT_VERBS,
+            adjectives=DEFAULT_ADJECTIVES,
+            rng=rng
+        )
+        sentences = set()
+        for _ in range(100):
+            rng.seed(10)
+            sentences.add(gen.sentence())
+        
+        assert len(sentences) == 1

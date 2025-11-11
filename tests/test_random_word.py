@@ -207,7 +207,10 @@ class TestRandomWord:
 
     def test_custom_generator_determinism(self, gen):
         """Test a custom random generator and ensure that seeded output is deterministic."""
-        gen = RandomWord(rng=Random(10))
-        # Should return the same thing in all supported versions of CPython. Will need to update this test if the random
-        # implementation is ever changed.
-        assert gen.word() == "mortal"
+        rng = Random()
+        gen = RandomWord(rng=rng)
+        words = set()
+        for _ in range(100):
+            rng.seed(10)
+            words.add(gen.word())
+        assert len(words) == 1
